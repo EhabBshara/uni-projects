@@ -16,6 +16,8 @@ import plagiarism.IDAO.IGenericDAO;
 
 public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
+    
+    
     private Logger LOGGER;
     private SessionFactory sessionFactory;
 
