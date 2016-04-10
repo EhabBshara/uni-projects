@@ -42,7 +42,9 @@ public class Phrase implements Serializable {
     }
 
     /**
-     * Overloaded constructor with parameters 
+     * Overloaded constructor with parameters.
+     * Does not take <b>id</b> parameter.
+     * 
      * @param pathname the path where 
      * @param filename
      * @param original
