@@ -47,10 +47,10 @@ public class Phrase implements Serializable {
      * Overloaded constructor with parameters. Does not take <b>id</b>
      * parameter.
      *
-     * @param pathname the path where
-     * @param filename
-     * @param original
-     * @param tokens
+     * @param pathname the path where the file containing the phrase is located
+     * @param filename the file containing the phrase.
+     * @param original the phrase as it was extracted from the file.
+     * @param tokens the tokens contained in the phrase.
      */
     public Phrase(String pathname, String filename, String original, String tokens) {
 
@@ -64,10 +64,10 @@ public class Phrase implements Serializable {
      * Overloaded constructor with parameters.
      *
      * @param id
-     * @param pathname
-     * @param filename
-     * @param original
-     * @param tokens
+     * @param pathname the path where the file containing the phrase is located
+     * @param filename the file containing the phrase.
+     * @param original the phrase as it was extracted from the file.
+     * @param tokens the tokens contained in the phrase.
      */
     public Phrase(int id, String pathname, String filename, String original, String tokens) {
         this.id = id;
@@ -143,6 +143,7 @@ public class Phrase implements Serializable {
 
     /**
      * Getter of the <b>id</b> parameter
+     *
      * @return int id
      */
     @Id
@@ -154,6 +155,7 @@ public class Phrase implements Serializable {
 
     /**
      * Getter of the <b>pathname</b> parameter
+     *
      * @return String pathname.
      */
     @Column(name = "PATHNAME")
@@ -163,6 +165,7 @@ public class Phrase implements Serializable {
 
     /**
      * Getter of the <b>filename</b> parameter
+     *
      * @return String filename.
      */
     @Column(name = "FILENAME")
@@ -172,8 +175,9 @@ public class Phrase implements Serializable {
 
     /**
      * Getter of the <b>original</b> parameter
+     *
      * @return String original
-     */ 
+     */
     @Column(name = "ORIGINAL")
     public String getOriginal() {
         return original;
@@ -181,6 +185,7 @@ public class Phrase implements Serializable {
 
     /**
      * Getter of the <b>tokens</b> parameter
+     *
      * @return String original
      */
     @Column(name = "TOKENS")
@@ -190,7 +195,8 @@ public class Phrase implements Serializable {
 
     /**
      * Getter of the <b>associations</b> parameter
-     * @return Set of Assoc associations 
+     *
+     * @return Set of Assoc associations
      */
     @OneToMany(mappedBy = "phrase")
     public Set<Assoc> getAssociations() {
