@@ -17,14 +17,14 @@ import java.util.Map;
  * of making it generic is to avoid duplication of code.
  *
  * @author Ali-Wassouf
- * @param <T>
+ * @param <T> generic Java type.
  * @since 2016 - 04 - 11
  * @version 1.0
  */
 public interface IGenericService<T> extends IGenericDAO<T> {
 
     /**
-     * Incapsulate <i>SELECT *</i>
+     * Incapsulate <i>SELECT *</i> query
      *
      * @return List of all the records in the table of type T.
      */

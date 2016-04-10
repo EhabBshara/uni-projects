@@ -1,4 +1,3 @@
-
 package plagiarism.DAOImpl;
 
 import java.util.List;
@@ -13,19 +12,18 @@ import plagiarism.IDAO.IGenericDAO;
 /**
  *
  * @author Ali-Wassouf
- * @param <T>
+ * @param <T> generic Java type
  */
 public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
-    
-    
     private Logger LOGGER;
     private SessionFactory sessionFactory;
 
     /**
      *
-     * @param cl
-     * @param sessionFactory
+     * @param cl class of generic type T
+     * @param sessionFactory from <b>Hibernate</b> to create a session or
+     * getting the current session.
      */
     public GenericDAOImpl(Class<T> cl, SessionFactory sessionFactory) {
         this.LOGGER = Logger.getLogger(cl.getName() + "GenericDAO");
@@ -37,9 +35,10 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
     /**
      *
-     * @param cl
-     * @param id
-     * @return
+     * @param cl class of generic type T
+     * @param id id of the record in the database of the entity class of type
+     * <i>cl</i>
+     * @return object of type T who's id matches the id passed to this method.
      */
     @Override
     public T get(Class<T> cl, Integer id) {
@@ -55,8 +54,8 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
     /**
      *
-     * @param object
-     * @return
+     * @param object Object of generic type T
+     * @return An object of type T which has been persisted to database.
      */
     @Override
     public T save(T object) {
@@ -71,7 +70,7 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
     /**
      *
-     * @param object
+     * @param object Object of generic type T
      */
     @Override
     public void update(T object) {
@@ -85,7 +84,7 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
     /**
      *
-     * @param object
+     * @param object Object of generic type T
      */
     @Override
     public void delete(T object) {
@@ -99,10 +98,13 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
     /**
      *
-     * @param hsql
-     * @param where
-     * @param params
-     * @return
+     * @param hsql Hibernate query
+     * @param where parameterized <i>WHERE</i> clause if there is no such clause
+     * in the query it is passed with null value and the function will not
+     * append it to the HSQL.
+     * @param params Map of parameters to set into the parameterized where
+     * @return List of all records matching the condition in the <i>WHERE</i>
+     * clause.
      */
     @SuppressWarnings("unchecked")
     @Override

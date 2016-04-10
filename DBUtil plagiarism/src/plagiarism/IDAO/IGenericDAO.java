@@ -21,7 +21,7 @@ import plagiarism.DAOImpl.GenericDAOImpl;
  * incapsulates the CRUD operations.
  *
  * @author Ali-Wassouf
- * @param <T>
+ * @param <T> generic Java type
  * @since 2016 - 04 - 10
  * @version 1.0
  */
@@ -66,7 +66,7 @@ public interface IGenericDAO<T> {
      * @param where parameterized where clause
      * @param params Map of parameters to set into the parameterized where
      * clause.
-     * @return {@link List} of the generic objects returned by the
+     * @return List of the generic objects returned by the
      * query.
      */
     public List<T> query(String hsql, String where, Map<String, Object> params);
