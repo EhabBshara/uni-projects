@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package plagiarism.DAOImpl;
 
 import java.util.List;
@@ -14,6 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import plagiarism.IDAO.IGenericDAO;
 
+/**
+ *
+ * @author Ali-Wassouf
+ * @param <T>
+ */
 public class GenericDAOImpl<T> implements IGenericDAO<T> {
 
     
@@ -21,6 +22,11 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
     private Logger LOGGER;
     private SessionFactory sessionFactory;
 
+    /**
+     *
+     * @param cl
+     * @param sessionFactory
+     */
     public GenericDAOImpl(Class<T> cl, SessionFactory sessionFactory) {
         this.LOGGER = Logger.getLogger(cl.getName() + "GenericDAO");
         this.sessionFactory = sessionFactory;
@@ -29,6 +35,12 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
         }
     }
 
+    /**
+     *
+     * @param cl
+     * @param id
+     * @return
+     */
     @Override
     public T get(Class<T> cl, Integer id) {
         LOGGER.info("STARTED - get");
@@ -41,6 +53,11 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
         return element;
     }
 
+    /**
+     *
+     * @param object
+     * @return
+     */
     @Override
     public T save(T object) {
         LOGGER.info("STARTED - save");
@@ -52,6 +69,10 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
         return object;
     }
 
+    /**
+     *
+     * @param object
+     */
     @Override
     public void update(T object) {
         LOGGER.info("STARTED - update");
@@ -62,6 +83,10 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
         LOGGER.info("FINISHED - update");
     }
 
+    /**
+     *
+     * @param object
+     */
     @Override
     public void delete(T object) {
         LOGGER.info("STARTED - delete");
@@ -72,6 +97,13 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
         LOGGER.info("FINISHED - delete");
     }
 
+    /**
+     *
+     * @param hsql
+     * @param where
+     * @param params
+     * @return
+     */
     @SuppressWarnings("unchecked")
     @Override
     public List<T> query(String hsql, String where, Map<String, Object> params) {
