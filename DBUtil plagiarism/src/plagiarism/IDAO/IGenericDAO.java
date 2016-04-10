@@ -66,7 +66,7 @@ public interface IGenericDAO<T> {
      * @param where parameterized where clause
      * @param params Map of parameters to set into the parameterized where
      * clause.
-     * @return {@link List}<T> list of the generic objects returned by the
+     * @return {@link List} of the generic objects returned by the
      * query.
      */
     public List<T> query(String hsql, String where, Map<String, Object> params);
