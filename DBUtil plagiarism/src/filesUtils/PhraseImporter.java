@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
-import plagiarism.util.HibernateUtil;
-import plagiarism.util.Phrase;
+import plagiarism.util.pojos.HibernateUtil;
+import plagiarism.util.pojos.Phrase;
 
 /**
  *

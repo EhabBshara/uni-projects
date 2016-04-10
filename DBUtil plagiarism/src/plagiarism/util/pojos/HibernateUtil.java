@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package plagiarism.util;
+package plagiarism.util.pojos;
 
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
@@ -41,6 +41,10 @@ public class HibernateUtil {
         }
     }
 
+    /**
+     * Gets a <b>SessionFactory</b>
+     * @return sessionFactory instance.
+     */
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
