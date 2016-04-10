@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package filesUtils;
 
 import java.io.File;
@@ -18,6 +14,8 @@ import plagiarism.util.pojos.Phrase;
 /**
  *
  * @author Ehab Bshara
+ * @since 2016 - 04 - 11
+ * @version 1.0
  */
 public class PhraseImporter implements Importer {
     
@@ -25,26 +23,52 @@ public class PhraseImporter implements Importer {
     String path = null ;
 
     IGenericService<Phrase> phraseService ;
+
+    /**
+     * Default constructor.
+     */
     public PhraseImporter() {
        phraseService = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
     }
+
+    /**
+     * 
+     * @param path the path where files are located. 
+     */
     public PhraseImporter(String path)
     {
         phraseService = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
         setPath(path);
     }
+
+    /**
+     * 
+     * @return  List of HashMaps containing files from the specified directory.
+     */
     public List<Map<String, String>> getFiles() {
         return files;
     }
 
+    /**
+     *
+     * @param files List of HashMaps containing files from the specified directory.
+     */
     public void setFiles(List<Map<String, String>> files) {
         this.files = files;
     }
 
+    /**
+     *
+     * @return the path where the files are located.
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     *
+     * @param path the path where the files are located.
+     */
     public void setPath(String path) {
         this.path = path;
     }

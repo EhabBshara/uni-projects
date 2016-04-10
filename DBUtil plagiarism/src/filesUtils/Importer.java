@@ -1,17 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package filesUtils;
 
 /**
+ * The main purpose of this interface is to persist phrases from files in a
+ * specific directory to the database in order to perform processing on them.
  *
  * @author Ehab Bshara
+ * @since 2016 - 04 - 11
+ * @version 1.0
  */
 public interface Importer {
-    
+
+    /**
+     * For each file in the specified directory, this function fills a List of
+     * HashMaps. A HashMap for each file, with keys (filename, path, content)
+     *
+     */
     public void import_();
+
+    /**
+     * Persist phrases to database after pre-processing each phrase. The
+     * pre-processing phase includes splitting the phrases using
+     * {@link splitter} and then extracting tokens.
+     */
     public void save();
-    public String [] splitter (String content);
+
+    /**
+     * Splits a phrase using a regular expression.
+     * @param content content of file to be split into phrases using the reg-ex.
+     * @return an array of String each element is a phrase.
+     */
+    public String[] splitter(String content);
 }

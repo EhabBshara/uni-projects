@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package filesUtils;
 
 import java.io.File;
@@ -18,38 +13,64 @@ import plagiarism.util.pojos.TestPhrase;
 /**
  *
  * @author Ehab Bshara
+ * @since 2016 - 04 - 11
+ * @version 1.0
  */
-public class TestPhraseImporter implements Importer{    
+public class TestPhraseImporter implements Importer {
 
-    List<Map <String,String>> files = null ;
-    String path = null ;
-    IGenericService<TestPhrase> testphraseService ;
-    public TestPhraseImporter()
-    {
-         testphraseService = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
+    List<Map<String, String>> files = null;
+    String path = null;
+    IGenericService<TestPhrase> testphraseService;
+
+    /**
+     * Default constructor.
+     */
+    public TestPhraseImporter() {
+        testphraseService = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
     }
-    public TestPhraseImporter(String path)
-    {
+
+    /**
+     *
+     * @param path the path where files are located.
+     */
+    public TestPhraseImporter(String path) {
         setPath(path);
         testphraseService = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
     }
 
+    /**
+     *
+     * @return List of HashMaps containing files from the specified directory.
+     */
     public List<Map<String, String>> getFiles() {
         return files;
     }
 
+    /**
+     *
+     * @param files List of HashMaps containing files from the specified
+     * directory.
+     */
     public void setFiles(List<Map<String, String>> files) {
         this.files = files;
     }
 
+    /**
+     *
+     * @return the path where the files are located.
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     *
+     * @param path the path where the files are located.
+     */
     public void setPath(String path) {
         this.path = path;
     }
-    
+
     @Override
     public void import_() {
         String text = null;
@@ -73,7 +94,7 @@ public class TestPhraseImporter implements Importer{
 
     @Override
     public void save() {
-       TestPhrase tp = null;
+        TestPhrase tp = null;
         for (Map file : files) {
             String[] phrases = splitter((String) file.get("content"));
             for (String phrase : phrases) {
