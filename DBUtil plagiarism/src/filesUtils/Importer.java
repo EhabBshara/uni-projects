@@ -1,5 +1,7 @@
 package filesUtils;
 
+import java.util.List;
+
 /**
  * The main purpose of this interface is to persist phrases from files in a
  * specific directory to the database in order to perform processing on them.
@@ -30,4 +32,5 @@ public interface Importer {
      * @return an array of String each element is a phrase.
      */
     public String[] splitter(String content);
+    public List<String> getTokens(String sentence);
 }

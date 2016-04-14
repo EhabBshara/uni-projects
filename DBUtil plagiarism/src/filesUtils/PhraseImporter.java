@@ -4,8 +4,14 @@ package filesUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.analysis.ar.ArabicStemFilter;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.HibernateUtil;
@@ -106,10 +112,10 @@ public class PhraseImporter implements Importer {
            
            for(String phrase :phrases)
            {
-            String tokens = null; 
+           // String tokens = null; 
              //TODO Tokens = tokensize every phrase
-            
-            p = new Phrase(path,(String)file.get("filename"),phrase,tokens);
+            List<String> tokens = getTokens(phrase);
+            p = new Phrase(path,(String)file.get("filename"),phrase,null);
             phraseService.save(p);           
            }
            
@@ -119,6 +125,24 @@ public class PhraseImporter implements Importer {
     public String[] splitter(String content)
     {
         return content.split("\\.|\\?|!");
+    }
+
+    @Override
+    public List<String> getTokens(String sentence) {
+        ArabicAnalyzer analyzer = new ArabicAnalyzer();
+        TokenStream stream = analyzer.tokenStream("contents", new StringReader(sentence));
+        stream = new ArabicStemFilter(stream);
+        List<String> tokenizedTerms = new ArrayList<String>();
+        try {
+            stream.reset();
+            while (stream.incrementToken()) {
+                tokenizedTerms.add(stream.getAttribute(CharTermAttribute.class).toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        analyzer.close();
+        return tokenizedTerms;
     }
     
 }
