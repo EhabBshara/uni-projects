@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.lucene.analysis.TokenStream;
@@ -43,6 +44,7 @@ public class PhraseImporter implements Importer {
      */
     public PhraseImporter(String path)
     {
+        files = new ArrayList<Map<String, String>>();
         phraseService = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
         setPath(path);
     }
@@ -84,7 +86,7 @@ public class PhraseImporter implements Importer {
     public void import_()
     {
         String text = null;
-        Map<String, String> file = null;
+        Map<String, String> file = new HashMap<>();
         File folder = new File(path);
         for (File f : folder.listFiles()) {
             try {

@@ -51,6 +51,8 @@ public class TestPhraseImporter implements Importer {
      */
     public TestPhraseImporter(String path) {
         setPath(path);
+        tdocFreq = new HashMap();
+        file = new HashMap();
         testphraseService = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
     }
 
