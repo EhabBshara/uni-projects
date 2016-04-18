@@ -94,7 +94,8 @@ public class Phrase implements Serializable {
         this.pathname = pathname;
         this.filename = filename;
         this.original = original;
-        //  this.tokens = tokens;
+       //  this.tokens = tokens; zabo6 el push 
+        
     }
 
     /**
