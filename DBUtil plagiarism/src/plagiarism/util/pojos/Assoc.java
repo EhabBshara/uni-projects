@@ -26,10 +26,20 @@ import javax.persistence.Table;
 @Table(name = "ASSOC")
 public class Assoc implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ASSOC_ID", nullable = false, unique = true)
     private int assoc_id;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PHRASE_ID")
     private Phrase phrase;
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "TESTPHRASE_ID")
     private TestPhrase testphrase;
 
+    @Column(name = "SCORE")
     private Double score;
 
     /**
@@ -70,9 +80,7 @@ public class Assoc implements Serializable {
      * The getter method of the <b>id</b> of the Association table.
      * @return int assoc_id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ASSOC_ID", nullable = false, unique = true)
+    
     public int getAssoc_id() {
         return assoc_id;
     }
@@ -91,8 +99,7 @@ public class Assoc implements Serializable {
      * 
      * @return Phrase phrase
      */
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PHRASE_ID")
+    
     public Phrase getPhrase() {
         return phrase;
     }
@@ -111,8 +118,7 @@ public class Assoc implements Serializable {
      * The getter method of the <b>testphrase</b> attribute of the Association table.
      * @return TestPhrase testphrase 
      */
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "TESTPHRASE_ID")
+    
     public TestPhrase getTestphrase() {
         return testphrase;
     }
@@ -129,7 +135,7 @@ public class Assoc implements Serializable {
      * the getter of the <b>score</b> attribute of the Association table.
      * @return Double <b>score</b>
      */
-    @Column(name = "SCORE")
+    
     public Double getScore() {
         return score;
     }

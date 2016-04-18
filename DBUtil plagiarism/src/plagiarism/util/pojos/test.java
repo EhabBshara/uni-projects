@@ -5,6 +5,7 @@
  */
 package plagiarism.util.pojos;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -32,43 +33,25 @@ public class test {
 
 //        Phrase phrase = null;
 //        TestPhrase tp = null;
-
         factory = HibernateUtil.getSessionFactory();
 
-        IGenericService<Phrase> phraseService = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
-        IGenericService<TestPhrase> testphraseService = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
-        IGenericService<Assoc> assocService = new GenericServiceImpl<>(Assoc.class, HibernateUtil.getSessionFactory());
-
-//        phrase = new Phrase();
-//        phrase.setPathname("Ali wassouf");
-//        phrase.setFilename("Aliano Paco");
-//        phrase.setOriginal("I hat you ");
-//        phrase.setTokens("jj jj jj ");
-//        
-//        tp = new TestPhrase();
-//        tp.setFilename("Aliano");
-//        tp.setPathname("Georgina");
-//        tp.setPhrase("I love you");
-//        
-//        Assoc ass = new Assoc();
-//        ass.setPhrase(phrase);
-//        ass.setTestphrase(tp);
-//        ass.setScore(99.0);
-//        assocService.save(ass);
-////        Map<String , Object> params = new HashMap<>();
-////        params.put("scoreId", 99.0);
-////        String where = "where score=:scoreId";
-////        assocService.deleteByWhere(where, params);
-        Phrase p = phraseService.get(Phrase.class, 17);
-        TestPhrase tp = testphraseService.get(TestPhrase.class, 2);
-        
-        Assoc assoc = new Assoc();
-        assoc.setPhrase(p);
-        assoc.setTestphrase(tp);
-        assoc.setScore(8.0);
-        
-        assocService.save(assoc);
-        
+        IGenericService<Phrase> phraseService
+                = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
+        IGenericService<TestPhrase> testphraseService
+                = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
+        IGenericService<Assoc> assocService
+                = new GenericServiceImpl<>(Assoc.class, HibernateUtil.getSessionFactory());
+        IGenericService<Token> tokenService = 
+                new GenericServiceImpl<>(Token.class, HibernateUtil.getSessionFactory());
+        Phrase p = new Phrase();
+        List<Token> tokens = new ArrayList<Token>();
+        tokens.add(new Token("Ali"));
+        tokens.add(new Token("sam"));
+        tokens.add(new Token("Ehab"));
+        for(Token T : tokens){
+            T.setPhrase(p);
+            tokenService.save(T);
+        }
 
     }
 

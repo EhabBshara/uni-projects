@@ -30,6 +30,7 @@ public class HibernateUtil {
             config.addAnnotatedClass(Assoc.class);
             config.addAnnotatedClass(TestPhrase.class);
             config.addAnnotatedClass(Phrase.class);
+            config.addAnnotatedClass(Token.class);
             ServiceRegistry registry = new StandardServiceRegistryBuilder()
                     .applySettings(config.getProperties())
                     .build();

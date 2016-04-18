@@ -5,15 +5,20 @@
 package plagiarism.util.pojos;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.IndexColumn;
 
 /**
  * <h2>Phrase POJO</h2>
@@ -29,13 +34,28 @@ import javax.persistence.Table;
 @Table(name = "PHRASE")
 public class Phrase implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false, unique = true)
     private int id;
-    private String pathname;
-    private String filename;
-    private String original;
-    private String tokens;
 
+    @Column(name = "PATHNAME")
+    private String pathname;
+
+    @Column(name = "FILENAME")
+    private String filename;
+
+    @Column(name = "ORIGINAL")
+    private String original;
+    //private String tokens;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "phrase")
     private Set<Assoc> associations = new HashSet<Assoc>(0);
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id")
+    @IndexColumn(name = "idx")
+    private List<Token> tokens = new ArrayList<Token>(0);
 
     /**
      * Default constructor.
@@ -57,7 +77,7 @@ public class Phrase implements Serializable {
         this.pathname = pathname;
         this.filename = filename;
         this.original = original;
-        this.tokens = tokens;
+        // this.tokens = tokens;
     }
 
     /**
@@ -74,7 +94,7 @@ public class Phrase implements Serializable {
         this.pathname = pathname;
         this.filename = filename;
         this.original = original;
-        this.tokens = tokens;
+        //  this.tokens = tokens;
     }
 
     /**
@@ -127,8 +147,8 @@ public class Phrase implements Serializable {
      *
      * @param tokens
      */
-    public void setTokens(String tokens) {
-        this.tokens = tokens;
+    public void setTokens(List<Token> tokens) {
+           this.tokens = tokens;
     }
 
     /**
@@ -146,9 +166,6 @@ public class Phrase implements Serializable {
      *
      * @return int id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false, unique = true)
     public int getId() {
         return id;
     }
@@ -158,7 +175,6 @@ public class Phrase implements Serializable {
      *
      * @return String pathname.
      */
-    @Column(name = "PATHNAME")
     public String getPathname() {
         return pathname;
     }
@@ -168,7 +184,6 @@ public class Phrase implements Serializable {
      *
      * @return String filename.
      */
-    @Column(name = "FILENAME")
     public String getFilename() {
         return filename;
     }
@@ -178,7 +193,6 @@ public class Phrase implements Serializable {
      *
      * @return String original
      */
-    @Column(name = "ORIGINAL")
     public String getOriginal() {
         return original;
     }
@@ -186,19 +200,17 @@ public class Phrase implements Serializable {
     /**
      * Getter of the <b>tokens</b> parameter
      *
-     * @return String original
+     * @return List<Token>
      */
-    @Column(name = "TOKENS")
-    public String getTokens() {
+    
+    public List<Token> getTokens(){
         return tokens;
     }
-
     /**
      * Getter of the <b>associations</b> parameter
      *
      * @return Set of Assoc associations
      */
-    @OneToMany(mappedBy = "phrase")
     public Set<Assoc> getAssociations() {
         return associations;
     }

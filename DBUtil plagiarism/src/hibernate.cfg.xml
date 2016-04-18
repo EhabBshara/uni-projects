@@ -9,8 +9,9 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.internal.ast.ASTQueryTranslatorFactory</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping class="plagiarism.util.Assoc"/>
-    <mapping class="plagiarism.util.Phrase"/>
-    <mapping class="plagiarism.util.TestPhrase"/>
+    <mapping class="plagiarism.util.pojos.Assoc"/>
+    <mapping class="plagiarism.util.pojos.Phrase"/>
+    <mapping class="plagiarism.util.pojos.TestPhrase"/>
+    <mapping class="plagiarism.util.pojos.Token" />
   </session-factory>
 </hibernate-configuration>
