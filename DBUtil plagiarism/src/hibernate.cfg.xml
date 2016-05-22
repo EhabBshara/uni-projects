@@ -12,6 +12,8 @@
     <mapping class="plagiarism.util.pojos.Assoc"/>
     <mapping class="plagiarism.util.pojos.Phrase"/>
     <mapping class="plagiarism.util.pojos.TestPhrase"/>
-    <mapping class="plagiarism.util.pojos.Token" />
+    <mapping class="plagiarism.util.pojos.Source_docs"/>
+    <mapping class="plagiarism.util.pojos.Annotation"/>
+  <!--  <mapping class="plagiarism.util.pojos.Token" />-->
   </session-factory>
 </hibernate-configuration>

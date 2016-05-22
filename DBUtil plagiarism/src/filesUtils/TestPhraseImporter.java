@@ -111,9 +111,10 @@ public class TestPhraseImporter implements Importer {
         TestPhrase tp = null;
         String[] phrases = splitter((String) file.get("content"));
         for (String phrase : phrases) {
-            tp = new TestPhrase(path, (String) file.get("filename"), phrase);
-            testphraseService.save(tp);
-            calculateTF(phrase);
+            //TODO tokenise testphrases
+//            tp = new TestPhrase(path, (String) file.get("filename"), phrase);
+//            testphraseService.save(tp);
+//            calculateTF(phrase);
         }
     }
     private void calculateTF(String phrase)

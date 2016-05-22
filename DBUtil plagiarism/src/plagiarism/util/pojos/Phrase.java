@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.IndexColumn;
@@ -47,15 +48,21 @@ public class Phrase implements Serializable {
 
     @Column(name = "ORIGINAL")
     private String original;
-    //private String tokens;
+    
+    @Column(name = "TOKENS")
+    private String tokens;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "phrase")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phrase")
     private Set<Assoc> associations = new HashSet<Assoc>(0);
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "SOURCE_DOC_ID")
+    private Source_doc source_doc;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    @IndexColumn(name = "idx")
-    private List<Token> tokens = new ArrayList<Token>(0);
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "id")
+//    @IndexColumn(name = "idx")
+//    private List<Token> tokens = new ArrayList<Token>(0);
 
     /**
      * Default constructor.
@@ -72,12 +79,13 @@ public class Phrase implements Serializable {
      * @param original the phrase as it was extracted from the file.
      * @param tokens the tokens contained in the phrase.
      */
-    public Phrase(String pathname, String filename, String original, String tokens) {
+    public Phrase(String pathname, String filename, String original, String tokens, Source_doc source_doc) {
 
         this.pathname = pathname;
         this.filename = filename;
         this.original = original;
-        // this.tokens = tokens;
+        this.tokens = tokens;
+        this.source_doc = source_doc;
     }
 
     /**
@@ -89,12 +97,13 @@ public class Phrase implements Serializable {
      * @param original the phrase as it was extracted from the file.
      * @param tokens the tokens contained in the phrase.
      */
-    public Phrase(int id, String pathname, String filename, String original, String tokens) {
+    public Phrase(int id, String pathname, String filename, String original, String tokens, Source_doc source_doc) {
         this.id = id;
         this.pathname = pathname;
         this.filename = filename;
         this.original = original;
-       //  this.tokens = tokens; zabo6 el push 
+        this.tokens = tokens; 
+        this.source_doc = source_doc;
         
     }
 
@@ -148,7 +157,7 @@ public class Phrase implements Serializable {
      *
      * @param tokens
      */
-    public void setTokens(List<Token> tokens) {
+    public void setTokens(String tokens) {
            this.tokens = tokens;
     }
 
@@ -204,7 +213,7 @@ public class Phrase implements Serializable {
      * @return List<Token>
      */
     
-    public List<Token> getTokens(){
+    public String getTokens(){
         return tokens;
     }
     /**
@@ -215,5 +224,15 @@ public class Phrase implements Serializable {
     public Set<Assoc> getAssociations() {
         return associations;
     }
+
+    public Source_doc getSource_doc() {
+        return source_doc;
+    }
+
+    public void setSource_doc(Source_doc source_doc) {
+        this.source_doc = source_doc;
+    }
+    
+    
 
 }

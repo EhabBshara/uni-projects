@@ -3,11 +3,14 @@ package plagiarism.util.pojos;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,12 +29,26 @@ import javax.persistence.Table;
 @Table(name = "testphrase")
 public class TestPhrase implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false, unique = true)
     private int id;
+    
+    @Column(name = "PATHNAME")
     private String pathname;
+    
+    @Column(name = "FILENAME")
     private String filename;
+    
+    @Column(name = "PHRASE")
     private String phrase;
 
+    @OneToMany(mappedBy = "testphrase")
     private Set<Assoc> associations = new HashSet<Assoc>(0);
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "SUSPICIUOS_DOC_ID")
+    private Suspiciuos_doc suspiciuos_doc;
 
     /**
      * Default constructor.
@@ -47,14 +64,17 @@ public class TestPhrase implements Serializable {
      * @param pathname the path where the file containing the phrase is located
      * @param filename the file containing the phrase.
      * @param phrase the phrase as it was extracted from the file.
+     * @param suspiciuos_doc
      */
-    public TestPhrase(String pathname, String filename, String phrase) {
+    public TestPhrase(String pathname, String filename, String phrase, Suspiciuos_doc suspiciuos_doc) {
 
         this.pathname = pathname;
         this.filename = filename;
         this.phrase = phrase;
+        this.suspiciuos_doc = suspiciuos_doc;
     }
 
+    
     /**
      * Overloaded constructor with parameters.
      *
@@ -62,12 +82,14 @@ public class TestPhrase implements Serializable {
      * @param pathname the path where the file containing the phrase is located
      * @param filename the file containing the phrase.
      * @param phrase the phrase as it was extracted from the file.
+     * @param suspiciuos_doc
      */
-    public TestPhrase(int id, String pathname, String filename, String phrase) {
+    public TestPhrase(int id, String pathname, String filename, String phrase,  Suspiciuos_doc suspiciuos_doc) {
         this.id = id;
         this.pathname = pathname;
         this.filename = filename;
         this.phrase = phrase;
+        this.suspiciuos_doc = suspiciuos_doc;
     }
 
     /**
@@ -75,9 +97,7 @@ public class TestPhrase implements Serializable {
      *
      * @return int id
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false, unique = true)
+    
     public int getId() {
         return id;
     }
@@ -96,7 +116,7 @@ public class TestPhrase implements Serializable {
      *
      * @return String pathname.
      */
-    @Column(name = "PATHNAME")
+    
     public String getPathname() {
         return pathname;
     }
@@ -124,7 +144,7 @@ public class TestPhrase implements Serializable {
      *
      * @return String filename.
      */
-    @Column(name = "FILENAME")
+    
     public String getFilename() {
         return filename;
     }
@@ -143,7 +163,7 @@ public class TestPhrase implements Serializable {
      *
      * @return String phrase
      */
-    @Column(name = "PHRASE")
+    
     public String getPhrase() {
         return phrase;
     }
@@ -162,7 +182,7 @@ public class TestPhrase implements Serializable {
      *
      * @return Set of Assoc associations
      */
-    @OneToMany(mappedBy = "testphrase")
+    
     public Set<Assoc> getAssociations() {
         return associations;
     }
@@ -176,5 +196,15 @@ public class TestPhrase implements Serializable {
     public void setAssociations(Set<Assoc> associations) {
         this.associations = associations;
     }
+
+    public Suspiciuos_doc getSuspiciuos_doc() {
+        return suspiciuos_doc;
+    }
+
+    public void setSuspiciuos_doc(Suspiciuos_doc suspiciuos_doc) {
+        this.suspiciuos_doc = suspiciuos_doc;
+    }
+    
+    
 
 }

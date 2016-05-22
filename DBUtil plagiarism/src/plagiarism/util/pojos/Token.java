@@ -20,7 +20,7 @@ import javax.persistence.Table;
  *
  * @author Ali-Wassouf
  */
-@Entity
+/*@Entity
 @Table(name = "TOKEN")
 public class Token implements Serializable {
 
@@ -79,3 +79,4 @@ public class Token implements Serializable {
     }
 
 }
+*/

@@ -115,10 +115,11 @@ public class PhraseImporter implements Importer {
            for(String phrase :phrases)
            {
            // String tokens = null; 
-             //TODO Tokens = tokensize every phrase
-            List<String> tokens = getTokens(phrase);
-            p = new Phrase(path,(String)file.get("filename"),phrase,null);
-            phraseService.save(p);           
+             //TODO Tokens = tokensize every phrase 
+               //TODO tokens now are not objects
+//            List<String> tokens = getTokens(phrase);
+//            p = new Phrase(path,(String)file.get("filename"),phrase,null);
+//            phraseService.save(p);           
            }
            
         }
