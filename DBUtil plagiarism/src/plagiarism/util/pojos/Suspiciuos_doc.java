@@ -37,10 +37,10 @@ public class Suspiciuos_doc implements Serializable {
     @Column(name = "SUSPICIUOS_DOC_NAME")
     private String suspiciuos_doc_name;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "SUSPICIUOS_DOC")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspiciuos_doc")
     private Set<TestPhrase> testPhrases = new HashSet<TestPhrase>(0);
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "SUSPICIUOS_DOC")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspiciuos_doc")
     private Set<Annotation> annotations = new HashSet<Annotation>(0);
 
     public Suspiciuos_doc() {

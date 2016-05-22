@@ -121,7 +121,7 @@ public class PhraseImporter implements Importer {
 
         for (String phrase : phrases) {
             tokens = getTokens(phrase);
-            p = new Phrase(file.get("pathname"), file.get("filename"),phrase, tokens, source);
+            p = new Phrase(file.get("pathname"), file.get("filename"),phrase, source ,tokens);
             phraseService.save(p);
            // String tokens = null; 
             //TODO Tokens = tokensize every phrase 

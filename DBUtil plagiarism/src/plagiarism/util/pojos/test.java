@@ -41,18 +41,11 @@ public class test {
                 = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
         IGenericService<Assoc> assocService
                 = new GenericServiceImpl<>(Assoc.class, HibernateUtil.getSessionFactory());
-        IGenericService<Token> tokenService = 
-                new GenericServiceImpl<>(Token.class, HibernateUtil.getSessionFactory());
-        Phrase p = new Phrase();
-        List<Token> tokens = new ArrayList<Token>();
-        tokens.add(new Token("Ali"));
-        tokens.add(new Token("sam"));
-        tokens.add(new Token("Ehab"));
-        for(Token T : tokens){
-            T.setPhrase(p);
-            tokenService.save(T);
-        }
-
+        IGenericService<Source_doc> sourceDocService = 
+                new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
+        Source_doc source = new Source_doc();
+       Suspiciuos_doc sus = new Suspiciuos_doc();
+       
     }
 
 }

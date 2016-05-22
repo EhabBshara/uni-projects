@@ -79,7 +79,7 @@ public class Phrase implements Serializable {
      * @param original the phrase as it was extracted from the file.
      * @param tokens the tokens contained in the phrase.
      */
-    public Phrase(String pathname, String filename, String original, String tokens, Source_doc source_doc) {
+    public Phrase(String pathname, String filename, String original, Source_doc source_doc,String tokens) {
 
         this.pathname = pathname;
         this.filename = filename;

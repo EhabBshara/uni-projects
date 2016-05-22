@@ -10,9 +10,11 @@ package filesUtils;
  * @author Ehab Bshara
  */
 public class test {
-    
-    public static void main(String[] args)
-    {
-  //  PhraseImporter p = new PhraseImporter("D://files");
+
+    public static void main(String[] args) {
+        Source_docImporter p = new Source_docImporter("D://files");
+        p.import_();
+        p.save();
+
     }
 }

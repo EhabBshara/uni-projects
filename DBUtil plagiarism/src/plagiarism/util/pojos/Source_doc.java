@@ -42,10 +42,10 @@ public class Source_doc implements Serializable{
     @Column(name = "SOURCE_DOC_NAME")
     private String source_doc_name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "SOURCE_DOC")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
     private Set<Phrase> phrases = new HashSet<Phrase>(0);
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "SOURCE_DOC")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
     private Set<Annotation> annotations = new HashSet<Annotation>(0);
 
     public Source_doc() {
