@@ -32,5 +32,4 @@ public interface Importer {
      * @return an array of String each element is a phrase.
      */
     public String[] splitter(String content);
-    public List<String> getTokens(String sentence);
 }

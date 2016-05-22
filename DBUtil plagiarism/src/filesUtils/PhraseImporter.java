@@ -17,6 +17,7 @@ import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.HibernateUtil;
 import plagiarism.util.pojos.Phrase;
+import plagiarism.util.pojos.Source_doc;
 
 /**
  *
@@ -26,8 +27,9 @@ import plagiarism.util.pojos.Phrase;
  */
 public class PhraseImporter implements Importer {
     
-    List<Map <String,String>> files = null ;
-    String path = null ;
+    Map <String,String>file = null ;
+    //String path = null ;
+    Source_doc source = null ;
 
     IGenericService<Phrase> phraseService ;
 
@@ -42,49 +44,53 @@ public class PhraseImporter implements Importer {
      * 
      * @param path the path where files are located. 
      */
-    public PhraseImporter(String path)
+    public PhraseImporter(Source_doc source)
     {
-        files = new ArrayList<Map<String, String>>();
+        file = new HashMap<String, String>();
         phraseService = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
-        setPath(path);
+        setSource_doc(source);
     }
 
     /**
      * 
      * @return  List of HashMaps containing files from the specified directory.
      */
-    public List<Map<String, String>> getFiles() {
-        return files;
+    public Map<String, String> getFiles() {
+        return file;
     }
 
     /**
      *
      * @param files List of HashMaps containing files from the specified directory.
      */
-    public void setFiles(List<Map<String, String>> files) {
-        this.files = files;
+    public void setFiles(Map<String, String> file) {
+        this.file = file;
     }
 
     /**
      *
      * @return the path where the files are located.
      */
-    public String getPath() {
-        return path;
+    public Source_doc getPath() {
+        return source;
     }
 
     /**
      *
      * @param path the path where the files are located.
      */
-    public void setPath(String path) {
-        this.path = path;
+    public void setSource_doc(Source_doc source) {
+        this.source = source;
     }
     
     
     @Override
     public void import_()
     {
+        file.put("filename", source.getSource_doc_name());
+        file.put("content", source.getSource_doc_text());
+        file.put("pathname", null); //TODO delete pathname from table phrase
+        /*
         String text = null;
         Map<String, String> file = new HashMap<>();
         File folder = new File(path);
@@ -103,43 +109,43 @@ public class PhraseImporter implements Importer {
             }
             
         }
+                */
     }
     @Override
     public void save()
     {
-        Phrase p = null ;
-        for(Map file : files)
-        {
-           String[] phrases = splitter((String)file.get("content"));
-           
-           for(String phrase :phrases)
-           {
+        Phrase p = null;
+        String tokens;
+
+        String[] phrases = splitter((String) file.get("content"));
+
+        for (String phrase : phrases) {
+            tokens = getTokens(phrase);
+            p = new Phrase(file.get("pathname"), file.get("filename"),phrase, tokens, source);
+            phraseService.save(p);
            // String tokens = null; 
-             //TODO Tokens = tokensize every phrase 
-               //TODO tokens now are not objects
+            //TODO Tokens = tokensize every phrase 
+            //TODO tokens now are not objects
 //            List<String> tokens = getTokens(phrase);
 //            p = new Phrase(path,(String)file.get("filename"),phrase,null);
 //            phraseService.save(p);           
-           }
-           
         }
+
     }
     @Override
     public String[] splitter(String content)
     {
         return content.split("\\.|\\?|!");
     }
-
-    @Override
-    public List<String> getTokens(String sentence) {
+    public String getTokens(String sentence) {
         ArabicAnalyzer analyzer = new ArabicAnalyzer();
         TokenStream stream = analyzer.tokenStream("contents", new StringReader(sentence));
         stream = new ArabicStemFilter(stream);
-        List<String> tokenizedTerms = new ArrayList<String>();
+        String tokenizedTerms = "";
         try {
             stream.reset();
             while (stream.incrementToken()) {
-                tokenizedTerms.add(stream.getAttribute(CharTermAttribute.class).toString());
+                tokenizedTerms+=stream.getAttribute(CharTermAttribute.class).toString()+" ";
             }
         } catch (Exception e) {
             e.printStackTrace();

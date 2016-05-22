@@ -119,7 +119,7 @@ public class TestPhraseImporter implements Importer {
     }
     private void calculateTF(String phrase)
     {
-         List<String> tokens = getTokens(phrase);
+         String[] tokens = splitter(getTokens(phrase));
          for (String token : tokens) {
                 if (tdocFreq.containsKey(token)) {
                     int freq = ((Integer) tdocFreq.get(token)) + 1;
@@ -137,16 +137,15 @@ public class TestPhraseImporter implements Importer {
         return content.split("\\.|\\?|!");
     }
 
-    @Override
-    public List<String> getTokens(String sentence) {
+    public String getTokens(String sentence) {
         ArabicAnalyzer analyzer = new ArabicAnalyzer();
         TokenStream stream = analyzer.tokenStream("contents", new StringReader(sentence));
         stream = new ArabicStemFilter(stream);
-        List<String> tokenizedTerms = new ArrayList<String>();
+        String tokenizedTerms = "";
         try {
             stream.reset();
             while (stream.incrementToken()) {
-                tokenizedTerms.add(stream.getAttribute(CharTermAttribute.class).toString());
+                tokenizedTerms +=stream.getAttribute(CharTermAttribute.class).toString()+" ";
             }
         } catch (Exception e) {
             e.printStackTrace();
