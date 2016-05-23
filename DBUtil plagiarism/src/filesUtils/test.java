@@ -12,7 +12,7 @@ package filesUtils;
 public class test {
 
     public static void main(String[] args) {
-        Source_docImporter p = new Source_docImporter("D://files");
+        Suspiciuos_docImporter p = new Suspiciuos_docImporter("D://files//Second.txt");
         p.import_();
         p.save();
 

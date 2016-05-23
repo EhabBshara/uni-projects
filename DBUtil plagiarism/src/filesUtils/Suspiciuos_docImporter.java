@@ -8,72 +8,64 @@ package filesUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.HibernateUtil;
-import plagiarism.util.pojos.Source_doc;
+import plagiarism.util.pojos.Suspiciuos_doc;
 
 /**
  *
  * @author Ehab Bshara
  */
-public class Source_docImporter implements Importer {
-
-    String path ;
-    IGenericService<Source_doc> source_docService ;
-    List<Map<String,String>> files = null ;
-    public Source_docImporter(String path)
-    {
-        this.path = path ;
-        source_docService = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
-        files = new ArrayList<Map<String,String>>();
-    }
-    public String getPath ()
-    {
-        return path ;
-    }
+public class Suspiciuos_docImporter implements Importer {
+     String path = null;
+     IGenericService<Suspiciuos_doc> suspicious_docService = null ;
+     Map<String,String> file = null ;
+     public Suspiciuos_docImporter(String path)
+     {
+         suspicious_docService = new GenericServiceImpl<>(Suspiciuos_doc.class, HibernateUtil.getSessionFactory());
+         file = new HashMap<>();
+         setPath(path);
+     }
+     public void setPath(String path)
+     {
+         this.path = path ;
+     }
+     public String getPath()
+     {
+         return path ;
+     }
     @Override
     public void import_() {
-        
-        File folder = new File(path);
         String text = null;
-        for (File f : folder.listFiles()) {
+        File f = new File(path);
             try {
-                Map<String, String> file = new HashMap<>();
                 FileInputStream fin = new FileInputStream(f);
                 byte[] fileBytes = new byte[(int) f.length()];
                 fin.read(fileBytes);
                 text = new String(fileBytes);
                 file.put("filename", f.getName());
                 file.put("content", text);
-                files.add(file);
-                
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
     }
 
     @Override
     public void save() {
-        PhraseImporter p = null;
-        for(Map file :files)
-        {
-            Source_doc s = new Source_doc((String)file.get("content"),(String)file.get("filename")) ;
-            source_docService.save(s);
-            p = new PhraseImporter(s);
-            p.import_();
-            p.save();
-        }
+        TestPhraseImporter t = null;
+        Suspiciuos_doc suspicious = new Suspiciuos_doc((String)file.get("content"), (String)file.get("filename"));
+        suspicious_docService.save(suspicious);
+            t = new TestPhraseImporter(suspicious);
+            t.import_();
+            t.save();
     }
 
     @Override
     public String[] splitter(String content) {
-        return content.split(" ");
+      return content.split(" ");
     }
     
     

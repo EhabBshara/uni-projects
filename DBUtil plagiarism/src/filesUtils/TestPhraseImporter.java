@@ -15,6 +15,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.HibernateUtil;
+import plagiarism.util.pojos.Suspiciuos_doc;
 import plagiarism.util.pojos.TestPhrase;
 
 /**
@@ -26,8 +27,8 @@ import plagiarism.util.pojos.TestPhrase;
 public class TestPhraseImporter implements Importer {
 
     Map<String, String> file = null;
-    String path = null;
     HashMap tdocFreq = null;
+    Suspiciuos_doc suspicious = null ;
 
     public HashMap getTdocFreq() {
         return tdocFreq;
@@ -49,8 +50,8 @@ public class TestPhraseImporter implements Importer {
      *
      * @param path the path where files are located.
      */
-    public TestPhraseImporter(String path) {
-        setPath(path);
+    public TestPhraseImporter(Suspiciuos_doc suspiciuos) {
+        setSuspicious_doc(suspiciuos);
         tdocFreq = new HashMap();
         file = new HashMap();
         testphraseService = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
@@ -77,44 +78,36 @@ public class TestPhraseImporter implements Importer {
      *
      * @return the path where the files are located.
      */
-    public String getPath() {
-        return path;
+    public Suspiciuos_doc getSuspiciuos_doc() {
+        return suspicious;
     }
 
     /**
      *
      * @param path the path where the files are located.
      */
-    public void setPath(String path) {
-        this.path = path;
+    public void setSuspicious_doc(Suspiciuos_doc suspicious) {
+        this.suspicious = suspicious;
     }
 
     @Override
     public void import_() {
-        String text = null;
-        File f = new File(path);
-            try {
-                FileInputStream fin = new FileInputStream(f);
-                byte[] fileBytes = new byte[(int) f.length()];
-                fin.read(fileBytes);
-                text = new String(fileBytes);
-                file.put("filename", f.getName());
-                file.put("pathname", path);
-                file.put("content", text);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+       file.put("filename", suspicious.getSuspiciuos_doc_name());
+        file.put("content", suspicious.getSuspiciuos_doc_text());
+        file.put("pathname", null); //TODO delete pathname from table phrase
     }
 
     @Override
     public void save() {
+         String tokens;
         TestPhrase tp = null;
         String[] phrases = splitter((String) file.get("content"));
         for (String phrase : phrases) {
-            //TODO tokenise testphrases
-//            tp = new TestPhrase(path, (String) file.get("filename"), phrase);
-//            testphraseService.save(tp);
-//            calculateTF(phrase);
+           tokens = getTokens(phrase);
+           calculateTF(phrase);
+           tp = new TestPhrase((String)file.get("pathname"), (String)file.get("filename"), phrase, suspicious);
+           testphraseService.save(tp);
+           
         }
     }
     private void calculateTF(String phrase)
