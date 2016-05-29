@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `plagiarism`.`testphrase` (
   PRIMARY KEY (`id`),
   INDEX `fk_testphrase_suspicious_doc1_idx` (`suspicious_doc_id` ASC),
   CONSTRAINT `fk_testphrase_suspicious_doc1`
-    FOREIGN KEY (`suspicious_doc_id`)
+    FOREIGN KEY (`suspiciuos_doc_id`)
     REFERENCES `plagiarism`.`suspiciuos_doc` (`suspiciuos_doc_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
