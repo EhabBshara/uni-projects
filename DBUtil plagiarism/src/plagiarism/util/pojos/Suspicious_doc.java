@@ -22,57 +22,57 @@ import javax.persistence.Table;
  * @author AliWAA
  */
 @Entity
-@Table(name = "SUSPICIUOS_DOC")
-public class Suspiciuos_doc implements Serializable {
+@Table(name = "SUSPICIOUS_DOC")
+public class Suspicious_doc implements Serializable {
 
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "SUSPICIUOS_DOC_ID", nullable = false, unique = true)
-    private int suspiciuos_doc_id;
+    @Column(name = "SUSPICIOUS_DOC_ID", nullable = false, unique = true)
+    private int suspicious_doc_id;
     
-    @Column(name = "SUSPICIUOS_DOC_TEXT")
-    private String suspiciuos_doc_text;
+    @Column(name = "SUSPICIOUS_DOC_TEXT")
+    private String suspicious_doc_text;
     
-    @Column(name = "SUSPICIUOS_DOC_NAME")
-    private String suspiciuos_doc_name;
+    @Column(name = "SUSPICIOUS_DOC_NAME")
+    private String suspicious_doc_name;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspiciuos_doc")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
     private Set<TestPhrase> testPhrases = new HashSet<TestPhrase>(0);
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspiciuos_doc")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
     private Set<Annotation> annotations = new HashSet<Annotation>(0);
 
-    public Suspiciuos_doc() {
+    public Suspicious_doc() {
     }
 
-    public Suspiciuos_doc(String suspiciuos_doc_text, String suspiciuos_doc_name) {
-        this.suspiciuos_doc_text = suspiciuos_doc_text;
-        this.suspiciuos_doc_name = suspiciuos_doc_name;
+    public Suspicious_doc(String suspicious_doc_text, String suspicious_doc_name) {
+        this.suspicious_doc_text = suspicious_doc_text;
+        this.suspicious_doc_name = suspicious_doc_name;
     }
 
-    public int getSuspiciuos_doc_id() {
-        return suspiciuos_doc_id;
+    public int getSuspicious_doc_id() {
+        return suspicious_doc_id;
     }
 
-    public void setSuspiciuos_doc_id(int suspiciuos_doc_id) {
-        this.suspiciuos_doc_id = suspiciuos_doc_id;
+    public void setSuspicious_doc_id(int suspicious_doc_id) {
+        this.suspicious_doc_id = suspicious_doc_id;
     }
 
-    public String getSuspiciuos_doc_text() {
-        return suspiciuos_doc_text;
+    public String getSuspicious_doc_text() {
+        return suspicious_doc_text;
     }
 
-    public void setSuspiciuos_doc_text(String suspiciuos_doc_text) {
-        this.suspiciuos_doc_text = suspiciuos_doc_text;
+    public void setSuspicious_doc_text(String suspicious_doc_text) {
+        this.suspicious_doc_text = suspicious_doc_text;
     }
 
-    public String getSuspiciuos_doc_name() {
-        return suspiciuos_doc_name;
+    public String getSuspicious_doc_name() {
+        return suspicious_doc_name;
     }
 
-    public void setSuspiciuos_doc_name(String suspiciuos_doc_name) {
-        this.suspiciuos_doc_name = suspiciuos_doc_name;
+    public void setSuspicious_doc_name(String suspicious_doc_name) {
+        this.suspicious_doc_name = suspicious_doc_name;
     }
 
     public Set<TestPhrase> getTestPhrases() {

@@ -44,7 +44,7 @@ public class test {
         IGenericService<Source_doc> sourceDocService = 
                 new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
         Source_doc source = new Source_doc();
-       Suspiciuos_doc sus = new Suspiciuos_doc();
+       Suspicious_doc sus = new Suspicious_doc();
        
        
     }

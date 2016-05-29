@@ -29,7 +29,7 @@ import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.Annotation;
 import plagiarism.util.pojos.HibernateUtil;
 import plagiarism.util.pojos.Source_doc;
-import plagiarism.util.pojos.Suspiciuos_doc;
+import plagiarism.util.pojos.Suspicious_doc;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 
@@ -82,14 +82,14 @@ public class AnnotationImporter implements Importer {
         IGenericService<Source_doc> sourceDocService
                 = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
         String Obfuscation = "", SourceDocName = "", Type = "";
-        long SuspiciuosOffset = 0, SuspiciuosLength = 0, SourceOffset = 0, SourceLength = 0;
+        long SuspiciousOffset = 0, SuspiciousLength = 0, SourceOffset = 0, SourceLength = 0;
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document document = db.parse(file);
             NodeList nodeList = document.getElementsByTagName("*");
-            String SuspiciuosDocName = null;
-            Suspiciuos_doc suspiciuos_doc = null;
+            String SuspiciousDocName = null;
+            Suspicious_doc suspicious_doc = null;
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
 
@@ -97,24 +97,24 @@ public class AnnotationImporter implements Importer {
 
                     // do something with the current element
                     if (node.getNodeName().equals("document")) {
-                        SuspiciuosDocName = node.getAttributes().item(0).getNodeValue();
-                        IGenericService<Suspiciuos_doc> suspiciuosDocService
-                                = new GenericServiceImpl<>(Suspiciuos_doc.class, HibernateUtil.getSessionFactory());
+                        SuspiciousDocName = node.getAttributes().item(0).getNodeValue();
+                        IGenericService<Suspicious_doc> suspiciousDocService
+                                = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
 
                         Map<String, Object> params = new HashMap<String, Object>();
-                        params.put("SUSPICIUOS_DOC_NAME", SuspiciuosDocName);
-                        List<Suspiciuos_doc> suspiciuos_docs = suspiciuosDocService.getByWhere("where", params);
+                        params.put("SUSPICIOUS_DOC_NAME", SuspiciousDocName);
+                        List<Suspicious_doc> suspicious_docs = suspiciousDocService.getByWhere("where", params);
 
-                        if (!suspiciuos_docs.equals(null)) {
-                            suspiciuos_doc = suspiciuos_docs.get(0);
+                        if (!suspicious_docs.equals(null)) {
+                            suspicious_doc = suspicious_docs.get(0);
                         } else {
-                            System.out.println("the query to get the suspiciuos doc returned a null object");
+                            System.out.println("the query to get the suspicious doc returned a null object");
                         }
 
                     } else if (node.getNodeName().equals("feature")) {
-                        if (suspiciuos_doc == null) // not defined.
+                        if (suspicious_doc == null) // not defined.
                         {
-                            throw new Exception("suspiciuos doc is not found in the databse");
+                            throw new Exception("suspicious doc is not found in the databse");
                         }
                         NamedNodeMap attributes = node.getAttributes();
 
@@ -122,10 +122,10 @@ public class AnnotationImporter implements Importer {
                             Node att = attributes.item(j);
                             switch (att.getNodeName()) {
                                 case "this_offset":
-                                    SuspiciuosOffset = Long.parseLong(att.getNodeValue());
+                                    SuspiciousOffset = Long.parseLong(att.getNodeValue());
                                     break;
                                 case "this_length":
-                                    SuspiciuosLength = Long.parseLong(att.getNodeValue());
+                                    SuspiciousLength = Long.parseLong(att.getNodeValue());
                                     break;
                                 case "source_reference":
                                     SourceDocName = att.getNodeValue();
@@ -155,7 +155,7 @@ public class AnnotationImporter implements Importer {
                         } else {
                             System.out.println("the query to get the source doc returned a null object");
                         }
-                        Annotation annotation = new Annotation(SourceOffset, SourceLength, SuspiciuosOffset, SuspiciuosLength, Obfuscation, Type, source_doc, suspiciuos_doc);
+                        Annotation annotation = new Annotation(SourceOffset, SourceLength, SuspiciousOffset, SuspiciousLength, Obfuscation, Type, source_doc, suspicious_doc);
                         System.out.println(annotation);
                         annotations.add(annotation);
                     }

@@ -5,6 +5,8 @@
  */
 package filesUtils;
 
+
+
 /**
  *
  * @author Ehab Bshara
@@ -12,9 +14,10 @@ package filesUtils;
 public class test {
 
     public static void main(String[] args) {
-        Suspiciuos_docImporter p = new Suspiciuos_docImporter("D://files//Second.txt");
-        p.import_();
-        p.save();
+        
+        FilesImporter filesImporter=new FilesImporter("D:\\plagiarism data\\Ara\\ExAraPlagDet-10-08-2015\\ExAraPlagDet-10-08-2015");
+        filesImporter.importSuspicious();
 
     }
+    
 }

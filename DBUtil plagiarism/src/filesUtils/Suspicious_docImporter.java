@@ -13,19 +13,19 @@ import java.util.Map;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.HibernateUtil;
-import plagiarism.util.pojos.Suspiciuos_doc;
+import plagiarism.util.pojos.Suspicious_doc;
 
 /**
  *
  * @author Ehab Bshara
  */
-public class Suspiciuos_docImporter implements Importer {
+public class Suspicious_docImporter implements Importer {
      String path = null;
-     IGenericService<Suspiciuos_doc> suspicious_docService = null ;
+     IGenericService<Suspicious_doc> suspicious_docService = null ;
      Map<String,String> file = null ;
-     public Suspiciuos_docImporter(String path)
+     public Suspicious_docImporter(String path)
      {
-         suspicious_docService = new GenericServiceImpl<>(Suspiciuos_doc.class, HibernateUtil.getSessionFactory());
+         suspicious_docService = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
          file = new HashMap<>();
          setPath(path);
      }
@@ -56,7 +56,7 @@ public class Suspiciuos_docImporter implements Importer {
     @Override
     public void save() {
         TestPhraseImporter t = null;
-        Suspiciuos_doc suspicious = new Suspiciuos_doc((String)file.get("content"), (String)file.get("filename"));
+        Suspicious_doc suspicious = new Suspicious_doc((String)file.get("content"), (String)file.get("filename"));
         suspicious_docService.save(suspicious);
             t = new TestPhraseImporter(suspicious);
             t.import_();

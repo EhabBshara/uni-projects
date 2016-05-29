@@ -41,11 +41,11 @@ public class Annotation implements Serializable {
     @Column(name = "SOURCE_LENGTH")
     private long source_length;
     
-    @Column(name = "SUSPICIUOS_OFFSET")
-    private long suspiciuos_offset;
+    @Column(name = "SUSPICIOUS_OFFSET")
+    private long suspicious_offset;
     
-    @Column(name = "SUSPICIUOS_LENGTH")
-    private long suspiciuos_length;
+    @Column(name = "SUSPICIOUS_LENGTH")
+    private long suspicious_length;
     
     @Column(name = "OBFUSCATION")
     private String obfuscation;
@@ -58,23 +58,23 @@ public class Annotation implements Serializable {
     private Source_doc source_doc;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "SUSPICIUOS_DOC_ID")
-    private Suspiciuos_doc suspiciuos_doc;
+    @JoinColumn(name = "SUSPICIOUS_DOC_ID")
+    private Suspicious_doc suspicious_doc;
 
     public Annotation() {
     }
 
     public Annotation(long source_offset, long source_length, 
-            long suspiciuos_offset, long suspiciuos_length, String obfuscation, 
-            String type, Source_doc source_doc, Suspiciuos_doc suspiciuos_doc) {
+            long suspicious_offset, long suspicious_length, String obfuscation, 
+            String type, Source_doc source_doc, Suspicious_doc suspicious_doc) {
         this.source_offset = source_offset;
         this.source_length = source_length;
-        this.suspiciuos_offset = suspiciuos_offset;
-        this.suspiciuos_length = suspiciuos_length;
+        this.suspicious_offset = suspicious_offset;
+        this.suspicious_length = suspicious_length;
         this.obfuscation = obfuscation;
         this.type = type;
         this.source_doc = source_doc;
-        this.suspiciuos_doc = suspiciuos_doc;
+        this.suspicious_doc = suspicious_doc;
     }
 
     public int getAnnotation_id() {
@@ -103,20 +103,20 @@ public class Annotation implements Serializable {
         this.source_length = source_length;
     }
 
-    public long getSuspiciuos_offset() {
-        return suspiciuos_offset;
+    public long getSuspicious_offset() {
+        return suspicious_offset;
     }
 
-    public void setSuspiciuos_offset(long suspiciuos_offset) {
-        this.suspiciuos_offset = suspiciuos_offset;
+    public void setSuspicious_offset(long suspicious_offset) {
+        this.suspicious_offset = suspicious_offset;
     }
 
-    public long getSuspiciuos_length() {
-        return suspiciuos_length;
+    public long getSuspicious_length() {
+        return suspicious_length;
     }
 
-    public void setSuspiciuos_length(long suspiciuos_length) {
-        this.suspiciuos_length = suspiciuos_length;
+    public void setSuspicious_length(long suspicious_length) {
+        this.suspicious_length = suspicious_length;
     }
 
     public String getObfuscation() {
@@ -143,12 +143,12 @@ public class Annotation implements Serializable {
         this.source_doc = source_doc;
     }
 
-    public Suspiciuos_doc getSuspiciuos_doc() {
-        return suspiciuos_doc;
+    public Suspicious_doc getSuspicious_doc() {
+        return suspicious_doc;
     }
 
-    public void setSuspiciuos_doc(Suspiciuos_doc suspiciuos_doc) {
-        this.suspiciuos_doc = suspiciuos_doc;
+    public void setSuspicious_doc(Suspicious_doc suspicious_doc) {
+        this.suspicious_doc = suspicious_doc;
     }
     
     

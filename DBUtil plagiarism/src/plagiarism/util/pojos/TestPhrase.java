@@ -47,8 +47,8 @@ public class TestPhrase implements Serializable {
     private Set<Assoc> associations = new HashSet<Assoc>(0);
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "SUSPICIUOS_DOC_ID")
-    private Suspiciuos_doc suspiciuos_doc;
+    @JoinColumn(name = "SUSPICIOUS_DOC_ID")
+    private Suspicious_doc suspicious_doc;
 
     /**
      * Default constructor.
@@ -64,14 +64,14 @@ public class TestPhrase implements Serializable {
      * @param pathname the path where the file containing the phrase is located
      * @param filename the file containing the phrase.
      * @param phrase the phrase as it was extracted from the file.
-     * @param suspiciuos_doc
+     * @param suspicious_doc
      */
-    public TestPhrase(String pathname, String filename, String phrase, Suspiciuos_doc suspiciuos_doc) {
+    public TestPhrase(String pathname, String filename, String phrase, Suspicious_doc suspicious_doc) {
 
         this.pathname = pathname;
         this.filename = filename;
         this.phrase = phrase;
-        this.suspiciuos_doc = suspiciuos_doc;
+        this.suspicious_doc = suspicious_doc;
     }
 
     
@@ -82,14 +82,14 @@ public class TestPhrase implements Serializable {
      * @param pathname the path where the file containing the phrase is located
      * @param filename the file containing the phrase.
      * @param phrase the phrase as it was extracted from the file.
-     * @param suspiciuos_doc
+     * @param suspicious_doc
      */
-    public TestPhrase(int id, String pathname, String filename, String phrase,  Suspiciuos_doc suspiciuos_doc) {
+    public TestPhrase(int id, String pathname, String filename, String phrase,  Suspicious_doc suspicious_doc) {
         this.id = id;
         this.pathname = pathname;
         this.filename = filename;
         this.phrase = phrase;
-        this.suspiciuos_doc = suspiciuos_doc;
+        this.suspicious_doc = suspicious_doc;
     }
 
     /**
@@ -197,12 +197,12 @@ public class TestPhrase implements Serializable {
         this.associations = associations;
     }
 
-    public Suspiciuos_doc getSuspiciuos_doc() {
-        return suspiciuos_doc;
+    public Suspicious_doc getSuspicious_doc() {
+        return suspicious_doc;
     }
 
-    public void setSuspiciuos_doc(Suspiciuos_doc suspiciuos_doc) {
-        this.suspiciuos_doc = suspiciuos_doc;
+    public void setSuspicious_doc(Suspicious_doc suspicious_doc) {
+        this.suspicious_doc = suspicious_doc;
     }
     
     

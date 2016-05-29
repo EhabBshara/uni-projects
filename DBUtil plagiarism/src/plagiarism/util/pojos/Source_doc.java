@@ -28,18 +28,18 @@ import javax.persistence.Table;
  * @since 2016-04-10
  */
 @Entity
-@Table(name = "SOURCE_DOC")
+@Table(name = "source_doc")
 public class Source_doc implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "SOURCE_DOC_ID", nullable = false, unique = true)
+    @Column(name = "source_doc_id", nullable = false, unique = true)
     private int source_doc_id;
 
-    @Column(name = "SOURCE_DOC_TEXT")
+    @Column(name = "source_doc_text")
     private String source_doc_text;
 
-    @Column(name = "SOURCE_DOC_NAME")
+    @Column(name = "source_doc_name")
     private String source_doc_name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
@@ -94,6 +94,11 @@ public class Source_doc implements Serializable{
 
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
+    }
+
+    @Override
+    public String toString() {
+        return "Source_doc{" + "source_doc_id=" + source_doc_id + ", source_doc_text=" + source_doc_text + ", source_doc_name=" + source_doc_name + '}';
     }
     
     

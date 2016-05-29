@@ -15,7 +15,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.HibernateUtil;
-import plagiarism.util.pojos.Suspiciuos_doc;
+import plagiarism.util.pojos.Suspicious_doc;
 import plagiarism.util.pojos.TestPhrase;
 
 /**
@@ -28,7 +28,7 @@ public class TestPhraseImporter implements Importer {
 
     Map<String, String> file = null;
     HashMap tdocFreq = null;
-    Suspiciuos_doc suspicious = null ;
+    Suspicious_doc suspicious = null ;
 
     public HashMap getTdocFreq() {
         return tdocFreq;
@@ -50,8 +50,8 @@ public class TestPhraseImporter implements Importer {
      *
      * @param path the path where files are located.
      */
-    public TestPhraseImporter(Suspiciuos_doc suspiciuos) {
-        setSuspicious_doc(suspiciuos);
+    public TestPhraseImporter(Suspicious_doc suspicious) {
+        setSuspicious_doc(suspicious);
         tdocFreq = new HashMap();
         file = new HashMap();
         testphraseService = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
@@ -78,7 +78,7 @@ public class TestPhraseImporter implements Importer {
      *
      * @return the path where the files are located.
      */
-    public Suspiciuos_doc getSuspiciuos_doc() {
+    public Suspicious_doc getSuspicious_doc() {
         return suspicious;
     }
 
@@ -86,14 +86,14 @@ public class TestPhraseImporter implements Importer {
      *
      * @param path the path where the files are located.
      */
-    public void setSuspicious_doc(Suspiciuos_doc suspicious) {
+    public void setSuspicious_doc(Suspicious_doc suspicious) {
         this.suspicious = suspicious;
     }
 
     @Override
     public void import_() {
-       file.put("filename", suspicious.getSuspiciuos_doc_name());
-        file.put("content", suspicious.getSuspiciuos_doc_text());
+       file.put("filename", suspicious.getSuspicious_doc_name());
+        file.put("content", suspicious.getSuspicious_doc_text());
         file.put("pathname", null); //TODO delete pathname from table phrase
     }
 

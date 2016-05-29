@@ -32,7 +32,7 @@ public class HibernateUtil {
             config.addAnnotatedClass(Phrase.class);
             //config.addAnnotatedClass(Token.class);
             config.addAnnotatedClass(Source_doc.class);
-            config.addAnnotatedClass(Suspiciuos_doc.class);
+            config.addAnnotatedClass(Suspicious_doc.class);
             config.addAnnotatedClass(Annotation.class);
             ServiceRegistry registry = new StandardServiceRegistryBuilder()
                     .applySettings(config.getProperties())

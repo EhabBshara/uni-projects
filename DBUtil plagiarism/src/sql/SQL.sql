@@ -41,15 +41,15 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `plagiarism`.`suspiciuos_doc`
+-- Table `plagiarism`.`suspicious_doc`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `plagiarism`.`suspiciuos_doc` ;
+DROP TABLE IF EXISTS `plagiarism`.`suspicious_doc` ;
 
-CREATE TABLE IF NOT EXISTS `plagiarism`.`suspiciuos_doc` (
-  `suspiciuos_doc_id` INT NOT NULL AUTO_INCREMENT,
-  `suspiciuos_doc_text` TEXT NULL,
-  `suspiciuos_doc_name` VARCHAR(45) NULL,
-  PRIMARY KEY (`suspiciuos_doc_id`))
+CREATE TABLE IF NOT EXISTS `plagiarism`.`suspicious_doc` (
+  `suspicious_doc_id` INT NOT NULL AUTO_INCREMENT,
+  `suspicious_doc_text` TEXT NULL,
+  `suspicious_doc_name` VARCHAR(45) NULL,
+  PRIMARY KEY (`suspicious_doc_id`))
 ENGINE = InnoDB;
 
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `plagiarism`.`annotation` (
   `source_offset` MEDIUMTEXT NULL,
   `source_length` MEDIUMTEXT NULL,
   `suspicious_offset` MEDIUMTEXT NULL,
-  `suspiciuos_length` MEDIUMTEXT NULL,
+  `suspicious_length` MEDIUMTEXT NULL,
   `obfuscation` VARCHAR(45) NULL,
   `type` VARCHAR(45) NULL,
   `source_doc_id` INT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `plagiarism`.`annotation` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_annotation_suspicious_doc1`
     FOREIGN KEY (`suspicious_doc_id`)
-    REFERENCES `plagiarism`.`suspiciuos_doc` (`suspiciuos_doc_id`)
+    REFERENCES `plagiarism`.`suspicious_doc` (`suspicious_doc_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -118,13 +118,13 @@ CREATE TABLE IF NOT EXISTS `plagiarism`.`testphrase` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `filename` VARCHAR(200) NULL DEFAULT NULL,
   `pathname` VARCHAR(200) NULL DEFAULT NULL,
-  `phrase` VARCHAR(200) NULL DEFAULT NULL,
+  `phrase` TEXT NULL DEFAULT NULL,
   `suspicious_doc_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_testphrase_suspicious_doc1_idx` (`suspicious_doc_id` ASC),
   CONSTRAINT `fk_testphrase_suspicious_doc1`
-    FOREIGN KEY (`suspiciuos_doc_id`)
-    REFERENCES `plagiarism`.`suspiciuos_doc` (`suspiciuos_doc_id`)
+    FOREIGN KEY (`suspicious_doc_id`)
+    REFERENCES `plagiarism`.`suspicious_doc` (`suspicious_doc_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
