@@ -156,7 +156,6 @@ public class AnnotationImporter implements Importer {
                             System.out.println("the query to get the source doc returned a null object");
                         }
                         Annotation annotation = new Annotation(SourceOffset, SourceLength, SuspiciousOffset, SuspiciousLength, Obfuscation, Type, source_doc, suspicious_doc);
-                        System.out.println(annotation);
                         annotations.add(annotation);
                     }
                 }

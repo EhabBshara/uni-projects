@@ -43,10 +43,16 @@ public class test {
                 = new GenericServiceImpl<>(Assoc.class, HibernateUtil.getSessionFactory());
         IGenericService<Source_doc> sourceDocService = 
                 new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
-        Source_doc source = new Source_doc();
-       Suspicious_doc sus = new Suspicious_doc();
+        IGenericService<Suspicious_doc> suspiciousDocService = 
+                new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
+       IGenericService<Annotation> annotationService = 
+                new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
        
-       
+       Map<String, Object> params = new HashMap<String, Object>();
+                        params.put("ANNOTATION_ID", 3450);
+       Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
+        System.out.println(annotation.getSource_doc().getSource_doc_text().substring((int)annotation.getSource_offset(),(int)annotation.getSource_offset()+(int) annotation.getSource_length()));
+         System.out.println(annotation.getSuspicious_doc().getSuspicious_doc_text().substring((int)annotation.getSuspicious_offset(),(int)annotation.getSuspicious_offset()+(int) annotation.getSuspicious_length()));
     }
 
 }

@@ -32,7 +32,7 @@ public class Annotation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ANNOTATION", nullable = false, unique = true)
+    @Column(name = "ANNOTATION_ID", nullable = false, unique = true)
     private int annotation_id;
 
     @Column(name = "SOURCE_OFFSET")
@@ -150,6 +150,12 @@ public class Annotation implements Serializable {
     public void setSuspicious_doc(Suspicious_doc suspicious_doc) {
         this.suspicious_doc = suspicious_doc;
     }
+
+    @Override
+    public String toString() {
+        return "Annotation{" + "annotation_id=" + annotation_id + ", source_offset=" + source_offset + ", source_length=" + source_length + ", suspicious_offset=" + suspicious_offset + ", suspicious_length=" + suspicious_length + ", obfuscation=" + obfuscation + ", type=" + type + ", source_doc=" + source_doc + ", suspicious_doc=" + suspicious_doc + '}';
+    }
+    
     
     
     

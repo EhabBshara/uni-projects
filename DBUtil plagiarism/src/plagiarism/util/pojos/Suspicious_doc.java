@@ -90,6 +90,11 @@ public class Suspicious_doc implements Serializable {
     public void setAnnotations(Set<Annotation> annotations) {
         this.annotations = annotations;
     }
+
+    @Override
+    public String toString() {
+        return "Suspicious_doc{" + "suspicious_doc_id=" + suspicious_doc_id + ", suspicious_doc_text=" + suspicious_doc_text + ", suspicious_doc_name=" + suspicious_doc_name + '}';
+    }
     
     
     
