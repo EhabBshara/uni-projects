@@ -16,7 +16,10 @@ public class test {
     public static void main(String[] args) {
         
         FilesImporter filesImporter=new FilesImporter("D:\\plagiarism data\\Ara\\ExAraPlagDet-10-08-2015\\ExAraPlagDet-10-08-2015");
+        
+        filesImporter.importSources();
         filesImporter.importSuspicious();
+        filesImporter.importAnnotations();
 
     }
     

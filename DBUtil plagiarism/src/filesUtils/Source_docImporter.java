@@ -65,9 +65,9 @@ public class Source_docImporter implements Importer {
         {
             Source_doc s = new Source_doc((String)file.get("content"),(String)file.get("filename")) ;
             source_docService.save(s);
-            p = new PhraseImporter(s);
-            p.import_();
-            p.save();
+//            p = new PhraseImporter(s);
+//            p.import_();
+//            p.save();
         }
     }
 

@@ -15,7 +15,7 @@ DROP SCHEMA IF EXISTS `plagiarism` ;
 -- -----------------------------------------------------
 -- Schema plagiarism
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `plagiarism` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `plagiarism` DEFAULT CHARACTER SET utf8mb4 ;
 -- -----------------------------------------------------
 -- Schema plagiarism
 -- -----------------------------------------------------
@@ -24,7 +24,7 @@ DROP SCHEMA IF EXISTS `plagiarism` ;
 -- -----------------------------------------------------
 -- Schema plagiarism
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `plagiarism` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA IF NOT EXISTS `plagiarism` DEFAULT CHARACTER SET utf8mb4 ;
 USE `plagiarism` ;
 
 -- -----------------------------------------------------
@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS `plagiarism`.`source_doc` ;
 
 CREATE TABLE IF NOT EXISTS `plagiarism`.`source_doc` (
   `source_doc_id` INT NOT NULL AUTO_INCREMENT,
-  `source_doc_text` TEXT NULL,
+  `source_doc_text` MEDIUMTEXT NULL,
   `source_doc_name` VARCHAR(45) NULL,
   PRIMARY KEY (`source_doc_id`))
 ENGINE = InnoDB;
@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `plagiarism`.`suspicious_doc` ;
 
 CREATE TABLE IF NOT EXISTS `plagiarism`.`suspicious_doc` (
   `suspicious_doc_id` INT NOT NULL AUTO_INCREMENT,
-  `suspicious_doc_text` TEXT NULL,
+  `suspicious_doc_text` MEDIUMTEXT NULL,
   `suspicious_doc_name` VARCHAR(45) NULL,
   PRIMARY KEY (`suspicious_doc_id`))
 ENGINE = InnoDB;
@@ -60,10 +60,10 @@ DROP TABLE IF EXISTS `plagiarism`.`annotation` ;
 
 CREATE TABLE IF NOT EXISTS `plagiarism`.`annotation` (
   `annotation_id` INT NOT NULL AUTO_INCREMENT,
-  `source_offset` MEDIUMTEXT NULL,
-  `source_length` MEDIUMTEXT NULL,
-  `suspicious_offset` MEDIUMTEXT NULL,
-  `suspicious_length` MEDIUMTEXT NULL,
+  `source_offset` BIGINT NULL,
+  `source_length` BIGINT NULL,
+  `suspicious_offset` BIGINT NULL,
+  `suspicious_length` BIGINT NULL,
   `obfuscation` VARCHAR(45) NULL,
   `type` VARCHAR(45) NULL,
   `source_doc_id` INT NULL,
@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS `plagiarism`.`phrase` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 16
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `plagiarism`.`testphrase` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 -- -----------------------------------------------------
@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `plagiarism`.`assoc` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = utf8;
+DEFAULT CHARACTER SET = utf8mb4;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

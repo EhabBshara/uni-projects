@@ -103,7 +103,7 @@ public class AnnotationImporter implements Importer {
 
                         Map<String, Object> params = new HashMap<String, Object>();
                         params.put("SUSPICIOUS_DOC_NAME", SuspiciousDocName);
-                        List<Suspicious_doc> suspicious_docs = suspiciousDocService.getByWhere("where", params);
+                        List<Suspicious_doc> suspicious_docs = suspiciousDocService.getByWhere("where suspicious_doc_name = :SUSPICIOUS_DOC_NAME", params);
 
                         if (!suspicious_docs.equals(null)) {
                             suspicious_doc = suspicious_docs.get(0);
@@ -148,7 +148,7 @@ public class AnnotationImporter implements Importer {
                         }
                         Map<String, Object> params = new HashMap<String, Object>();
                         params.put("SOURCE_DOC_NAME", SourceDocName);
-                        List<Source_doc> source_docs = sourceDocService.getByWhere("where", params);
+                        List<Source_doc> source_docs = sourceDocService.getByWhere("where source_doc_name=:SOURCE_DOC_NAME", params);
                         Source_doc source_doc=null;
                         if (!source_docs.equals(null)) {
                             source_doc = source_docs.get(0);
