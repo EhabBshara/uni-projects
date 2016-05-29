@@ -64,7 +64,9 @@ public class Annotation implements Serializable {
     public Annotation() {
     }
 
-    public Annotation(long source_offset, long source_length, long suspiciuos_offset, long suspiciuos_length, String obfuscation, String type, Source_doc source_doc, Suspiciuos_doc suspiciuos_doc) {
+    public Annotation(long source_offset, long source_length, 
+            long suspiciuos_offset, long suspiciuos_length, String obfuscation, 
+            String type, Source_doc source_doc, Suspiciuos_doc suspiciuos_doc) {
         this.source_offset = source_offset;
         this.source_length = source_length;
         this.suspiciuos_offset = suspiciuos_offset;
