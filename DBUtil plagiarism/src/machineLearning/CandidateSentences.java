@@ -5,13 +5,14 @@
  */
 package machineLearning;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author dali
  */
-public class CandidateSentences {
+public class CandidateSentences implements Serializable {
 
     String source;
     String suspicious;

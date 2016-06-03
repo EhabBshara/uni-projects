@@ -106,7 +106,7 @@ public class LCSwords {
     }
 
     public static void main(String[] args) {
-        LCSwords l = new LCSwords("fuck you school go to study idiot", "fuck you shit garry shit go to study idiot");
+        LCSwords l = new LCSwords("إيهاب الشرير", "انا إيهاب الشرير");
         l.allCS();
         System.out.println(l.lcsFeature()+" "+Arrays.toString(l.getLcs()));
     }

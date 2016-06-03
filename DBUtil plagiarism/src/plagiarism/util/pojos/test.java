@@ -23,6 +23,10 @@ import arabicTools.*;
 import features.BLEU;
 import features.LCSwords;
 import features.SkipGram;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Arrays;
 import javafx.util.Pair;
 import machineLearning.CandidateSentences;
@@ -65,16 +69,31 @@ public class test {
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
 
-        List<Annotation> a = annotationService.getAll();
-        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
+//        List<Annotation> a = annotationService.getAll();
+//        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
         List<CandidateSentences> candidateSentences = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            candidateSentences.addAll(PhaseI.getCandidateSentences(annotationService, a.get(i).getSource_doc(), a.get(i).getSuspicious_doc(), stemmer));
+//        for (int i = 0; i < 2; i++) {
+//            candidateSentences.addAll(PhaseI.getCandidateSentences(annotationService, a.get(i).getSource_doc(), a.get(i).getSuspicious_doc(), stemmer));
+//        }
+//        System.out.println("-----------------");
+//        candidateSentences = Helpers.cleanCandidateList(candidateSentences);
+//        System.out.println("-----------------");
+//        try {
+//            FileOutputStream out = new FileOutputStream("D://candidateSentences.out");
+//            ObjectOutputStream oos = new ObjectOutputStream(out);
+//            oos.writeObject(candidateSentences);
+//            oos.flush();
+//        } catch (Exception e) {
+//            System.out.println("Problem serializing: " + e);
+//        }
+        
+        try {
+            FileInputStream in = new FileInputStream("D://candidateSentences.out");
+            ObjectInputStream ois = new ObjectInputStream(in);
+            candidateSentences =  (List<CandidateSentences>) (ois.readObject());
+        } catch (Exception e) {
+            System.out.println("Problem serializing: " + e);
         }
-        System.out.println("-----------------");
-        candidateSentences = Helpers.cleanCandidateList(candidateSentences);
-        System.out.println("-----------------");
-
         List<Features> features = new ArrayList<>();
         for (CandidateSentences candidatesentences : candidateSentences) {
             BLEU bl = new BLEU(candidatesentences.getSource(), candidatesentences.getSuspicious(), 1);
