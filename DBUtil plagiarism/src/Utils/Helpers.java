@@ -6,11 +6,13 @@
 package Utils;
 
 import arabicTools.ArabicStemmerDefault;
+import features.NGram;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import machineLearning.CandidateSentences;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.Annotation;
 import plagiarism.util.pojos.Source_doc;
@@ -74,6 +76,8 @@ public class Helpers {
         String[] results=new String[sss.size()];
         return sss.toArray(results);
     }
+    
+
     
     public static String[] getNonPlagiraisedSentecesFromSource(IGenericService<Annotation> annotationService,long sourceId,long susId)
     {
@@ -171,12 +175,46 @@ public class Helpers {
                 resSentence+= stemmer.stemWord(word)+" ";
                 }catch(Exception e)
                 {
-                    System.out.println(word);
-                    e.printStackTrace();
+//                    System.out.println(word);
+//                    e.printStackTrace();
+                    resSentence+= word+" ";
                 }
             }
             resultSentences[i]=resSentence.substring(0,resSentence.length()-1);
         }
         return resultSentences;
     }
+    
+    public static float getOverlabValue(String sentence1,String sentence2)
+    {
+        float result=0;
+        String[] wordsOfs1=sentence1.split(" ");
+        String[] wordsOfs2=sentence2.split(" ");
+        for(int i=0;i<wordsOfs1.length;i++)
+        {
+            for(int j=0;j<wordsOfs2.length;j++)
+                if(wordsOfs1[i].equals(wordsOfs2[j]))
+                    result++;
+        }
+        return result;
+    }
+    public static List<CandidateSentences>  cleanCandidateList(List<CandidateSentences> candidateSentenceses)
+    {
+        for(int i=0;i<candidateSentenceses.size()-1;i++)
+            for(int j=i+1;j<candidateSentenceses.size();j++){
+                int cand=candidateSentenceses.get(i).equalsWithWrongResult(candidateSentenceses.get(j));
+                if(cand==1)
+                {
+                    candidateSentenceses.remove(i);
+                    i--;
+                }else if(cand==2||cand==0)
+                {
+                    candidateSentenceses.remove(j);
+                    j--;
+                }
+            }
+
+        return candidateSentenceses;
+    }
+    
 }

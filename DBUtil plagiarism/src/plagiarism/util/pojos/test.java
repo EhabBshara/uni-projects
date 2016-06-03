@@ -20,7 +20,14 @@ import org.hibernate.Transaction;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import arabicTools.*;
+import features.BLEU;
+import features.LCSwords;
+import features.SkipGram;
 import java.util.Arrays;
+import javafx.util.Pair;
+import machineLearning.CandidateSentences;
+import machineLearning.Features;
+import machineLearning.PhaseI;
 
 /**
  *
@@ -54,17 +61,57 @@ public class test {
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("source_doc_id", 291);
-       //Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
+        //Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
 
-        ArabicStemmerDefault stemmer=new ArabicStemmerDefault();
-        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSource(annotationService, 312, 176), stemmer)  ));
-        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSuspicous(annotationService, 312, 176), stemmer) ));
+        List<Annotation> a = annotationService.getAll();
+        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
+        List<CandidateSentences> candidateSentences = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            candidateSentences.addAll(PhaseI.getCandidateSentences(annotationService, a.get(i).getSource_doc(), a.get(i).getSuspicious_doc(), stemmer));
+        }
+        System.out.println("-----------------");
+        candidateSentences = Helpers.cleanCandidateList(candidateSentences);
+        System.out.println("-----------------");
 
-        System.out.println(Arrays.asList(Helpers.getNonPlagiraisedSentecesFromSource(annotationService, 312, 176)));
-        System.out.println(Arrays.asList(Helpers.getNonPlagiraisedSentecesFromSuspicous(annotationService, 312, 176)));
+        List<Features> features = new ArrayList<>();
+        for (CandidateSentences candidatesentences : candidateSentences) {
+            BLEU bl = new BLEU(candidatesentences.getSource(), candidatesentences.getSuspicious(), 1);
+            Pair<Double, Double> bluepair = bl.bleuMeasure();
+            LCSwords lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious());
+            SkipGram skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4);
+            SkipGram skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4);
+            features.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2.skipGramFeature(), skipGram3.skipGramFeature(), lCSwords.lcsFeature(), candidatesentences.isIsPlagirised()));
+        }
 
+//        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSource(annotationService, 312, 176), stemmer)  ));
+//        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSuspicous(annotationService, 312, 176), stemmer) ));
+//
+//        System.out.println(Arrays.asList(Helpers.getNonPlagiraisedSentecesFromSource(annotationService, 312, 176)));
+//        System.out.println(Arrays.asList(Helpers.getNonPlagiraisedSentecesFromSuspicous(annotationService, 312, 176)));
+//System.out.println("-----------------");
+//        String []source=Helpers.stemCleanedSentences(Helpers.CleanFileContent(a.get(3).getSource_doc().getSource_doc_text()), stemmer);
+//      System.out.println("-----------------");
+//        String []sus=Helpers.stemCleanedSentences(Helpers.CleanFileContent(a.get(3).getSuspicious_doc().getSuspicious_doc_text()), stemmer);
+//        System.out.println("-----------------");
+//        List<Pair<String,String>> myList=new ArrayList<>();
+//        for (String sour : source) {
+//            float maxValue=0;
+//              String susp="";
+//            for (String su : sus) {
+//                float overlap=Helpers.getOverlabValue(sour, su);
+//                if(overlap>maxValue)
+//                {
+//                    maxValue=overlap;
+//                    susp=su;
+//                }
+//            }
+//            if(maxValue!=0)
+//                myList.add(new Pair<>(sour,susp));
+//            System.out.println("-----------------");
+//        }
+//        System.out.println(myList);
 //        System.out.println(s.get(5).getSource_doc_text());
 //        ArabicStemmerDefault stemmer=new ArabicStemmerDefault();
 //        String[] sentences=Helpers.CleanFileContent(s.get(5).getSource_doc_text());
