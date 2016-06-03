@@ -28,6 +28,7 @@ public class LCSwords {
         this.sen1 = sen1.split(" ");
         this.sen2 = sen2.split(" ");
         commonSubsequence  = new ArrayList<>();
+        allCS();
     }
 
     private void allCS() {

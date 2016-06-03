@@ -65,44 +65,31 @@ public class test {
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("source_doc_id", 291);
-        //Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
+//        Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
 
-//        List<Annotation> a = annotationService.getAll();
-//        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
+        List<Annotation> a = annotationService.getAll();
+        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
         List<CandidateSentences> candidateSentences = new ArrayList<>();
-//        for (int i = 0; i < 2; i++) {
-//            candidateSentences.addAll(PhaseI.getCandidateSentences(annotationService, a.get(i).getSource_doc(), a.get(i).getSuspicious_doc(), stemmer));
-//        }
-//        System.out.println("-----------------");
-//        candidateSentences = Helpers.cleanCandidateList(candidateSentences);
-//        System.out.println("-----------------");
-//        try {
-//            FileOutputStream out = new FileOutputStream("D://candidateSentences.out");
-//            ObjectOutputStream oos = new ObjectOutputStream(out);
-//            oos.writeObject(candidateSentences);
-//            oos.flush();
-//        } catch (Exception e) {
-//            System.out.println("Problem serializing: " + e);
-//        }
-        
-        try {
-            FileInputStream in = new FileInputStream("D://candidateSentences.out");
-            ObjectInputStream ois = new ObjectInputStream(in);
-            candidateSentences =  (List<CandidateSentences>) (ois.readObject());
-        } catch (Exception e) {
-            System.out.println("Problem serializing: " + e);
+        for (int i = 0; i < 2; i++) {
+            candidateSentences.addAll(PhaseI.getCandidateSentences(annotationService, a.get(i).getSource_doc(), a.get(i).getSuspicious_doc(), stemmer));
         }
-        List<Features> features = new ArrayList<>();
-        for (CandidateSentences candidatesentences : candidateSentences) {
-            BLEU bl = new BLEU(candidatesentences.getSource(), candidatesentences.getSuspicious(), 1);
-            Pair<Double, Double> bluepair = bl.bleuMeasure();
-            LCSwords lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious());
-            SkipGram skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4);
-            SkipGram skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4);
-            features.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2.skipGramFeature(), skipGram3.skipGramFeature(), lCSwords.lcsFeature(), candidatesentences.isIsPlagirised()));
-        }
+        System.out.println("-----------------");
+        candidateSentences = Helpers.cleanCandidateList(candidateSentences);
+        System.out.println("-----------------");
+
+        Helpers.saveCandidateListToFile(candidateSentences);
+        System.out.println("--------------ssssss---");
+//        List<Features> features = new ArrayList<>();
+//        for (CandidateSentences candidatesentences : candidateSentences) {
+//            BLEU bl = new BLEU(candidatesentences.getSource(), candidatesentences.getSuspicious(), 1);
+//            Pair<Double, Double> bluepair = bl.bleuMeasure();
+//            double lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious()).lcsFeature();
+//            double skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4).skipGramFeature();
+//            double skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4).skipGramFeature();
+//            features.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, candidatesentences.isIsPlagirised()));
+//        }
 
 //        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSource(annotationService, 312, 176), stemmer)  ));
 //        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSuspicous(annotationService, 312, 176), stemmer) ));
