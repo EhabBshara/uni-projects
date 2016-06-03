@@ -38,7 +38,7 @@ public class ArabicStemmerDefault{
 
     private static void initComponents()
     {
-        pathToStemmerFiles = new StringBuffer(System.getProperty("user.dir") + System.getProperty("file.separator") + "StemmerFiles" + System.getProperty("file.separator")).toString();
+        pathToStemmerFiles = new StringBuffer(System.getProperty("user.dir") + System.getProperty("file.separator") + "\\src\\assets\\StemmerFiles" + System.getProperty("file.separator")).toString();
         rootFound = false;
         stopwordFound = false;
         fromSuffixes = false;
@@ -58,7 +58,6 @@ public class ArabicStemmerDefault{
         // check and remove any prefixes
     private static String checkForPrefixes ( String word )
     {
-        System.out.println("Enter checkForPrefix");
         staticFiles = new Vector ( );
         if ( addVectorFromFile ( new StringBuffer ( pathToStemmerFiles + "definite_article.txt" ).toString ( ) ) )
         if ( addVectorFromFile ( new StringBuffer ( pathToStemmerFiles + "duplicate.txt" ).toString ( ) ) )

@@ -5,6 +5,8 @@
  */
 package plagiarism.util.pojos;
 
+import Utils.Helpers;
+import arabicTools.ArabicStemmer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +19,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
+import arabicTools.*;
+import java.util.Arrays;
 
 /**
  *
@@ -41,18 +45,48 @@ public class test {
                 = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
         IGenericService<Assoc> assocService
                 = new GenericServiceImpl<>(Assoc.class, HibernateUtil.getSessionFactory());
-        IGenericService<Source_doc> sourceDocService = 
-                new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
-        IGenericService<Suspicious_doc> suspiciousDocService = 
-                new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
-       IGenericService<Annotation> annotationService = 
-                new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
-       
-       Map<String, Object> params = new HashMap<String, Object>();
-                        params.put("ANNOTATION_ID", 3450);
-       Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
-        System.out.println(annotation.getSource_doc().getSource_doc_text().substring((int)annotation.getSource_offset(),(int)annotation.getSource_offset()+(int) annotation.getSource_length()));
-         System.out.println(annotation.getSuspicious_doc().getSuspicious_doc_text().substring((int)annotation.getSuspicious_offset(),(int)annotation.getSuspicious_offset()+(int) annotation.getSuspicious_length()));
+        IGenericService<Source_doc> sourceDocService
+                = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
+        IGenericService<Suspicious_doc> suspiciousDocService
+                = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
+        IGenericService<Annotation> annotationService
+                = new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("source_doc_id", 291);
+       //Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
+//       List<Source_doc> s=sourceDocService.getAll();
+//        List<Suspicious_doc> sus=suspiciousDocService.getAll();
+
+        ArabicStemmerDefault stemmer=new ArabicStemmerDefault();
+        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSource(annotationService, 312, 176), stemmer)  ));
+        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSuspicous(annotationService, 312, 176), stemmer) ));
+
+        System.out.println(Arrays.asList(Helpers.getNonPlagiraisedSentecesFromSource(annotationService, 312, 176)));
+        System.out.println(Arrays.asList(Helpers.getNonPlagiraisedSentecesFromSuspicous(annotationService, 312, 176)));
+
+//        System.out.println(s.get(5).getSource_doc_text());
+//        ArabicStemmerDefault stemmer=new ArabicStemmerDefault();
+//        String[] sentences=Helpers.CleanFileContent(s.get(5).getSource_doc_text());
+//        for(String sentence:sentences)
+//        {
+//            System.out.println(sentence);
+//            String[]words=sentence.split(" ");
+//            for(String word:words)
+//            {
+//                try{
+//                System.out.println(word);
+//                System.out.println(stemmer.stemWord(word));
+//                }catch(Exception e)
+//                {
+//                    System.out.println(word);
+//                    e.printStackTrace();
+//                }
+//            }
+//            
+//        }
+        //System.out.println(annotation.getSource_doc().getSource_doc_text().substring((int)annotation.getSource_offset(),(int)annotation.getSource_offset()+(int) annotation.getSource_length()));
+        // System.out.println(annotation.getSuspicious_doc().getSuspicious_doc_text().substring((int)annotation.getSuspicious_offset(),(int)annotation.getSuspicious_offset()+(int) annotation.getSuspicious_length()));
     }
 
 }

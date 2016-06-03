@@ -76,7 +76,7 @@ public class ArabicStemmer implements ActionListener, DocumentListener
     //--------------------------------------------------------------------------
 
     // constructor
-    ArabicStemmer ( )
+    public ArabicStemmer ( )
     {
         // create the gui
         arabicStemmerGUI = new ArabicStemmerGUI ( this );
