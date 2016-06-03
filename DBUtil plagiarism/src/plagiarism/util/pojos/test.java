@@ -68,29 +68,47 @@ public class test {
 //        Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
-
-        List<Annotation> a = annotationService.getAll();
-        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
         List<CandidateSentences> candidateSentences = new ArrayList<>();
-        for (int i = 0; i < 2; i++) {
-            candidateSentences.addAll(PhaseI.getCandidateSentences(annotationService, a.get(i).getSource_doc(), a.get(i).getSuspicious_doc(), stemmer));
-        }
-        System.out.println("-----------------");
-        candidateSentences = Helpers.cleanCandidateList(candidateSentences);
-        System.out.println("-----------------");
-
-        Helpers.saveCandidateListToFile(candidateSentences);
-        System.out.println("--------------ssssss---");
-//        List<Features> features = new ArrayList<>();
-//        for (CandidateSentences candidatesentences : candidateSentences) {
-//            BLEU bl = new BLEU(candidatesentences.getSource(), candidatesentences.getSuspicious(), 1);
-//            Pair<Double, Double> bluepair = bl.bleuMeasure();
-//            double lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious()).lcsFeature();
-//            double skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4).skipGramFeature();
-//            double skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4).skipGramFeature();
-//            features.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, candidatesentences.isIsPlagirised()));
+        
+        
+        
+//        List<Annotation> a = annotationService.getAll();
+//        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
+//
+//        for (int i = 0; i < 20; i++) {
+//            candidateSentences.addAll(PhaseI.getCandidateSentences(annotationService, a.get(i).getSource_doc(), a.get(i).getSuspicious_doc(), stemmer));
 //        }
+//        System.out.println("-----------------");
+//        candidateSentences = Helpers.cleanCandidateList(candidateSentences);
+//        System.out.println("-----------------");
+//
+//        
+//        Helpers.saveCandidateListToFile(candidateSentences);
+        
+        candidateSentences=Helpers.loadCandidateSentencesFromFile();
+        System.out.println("-----------------");
+        List<Features> features = new ArrayList<>();
+        for (CandidateSentences candidatesentences : candidateSentences) {
+            if(candidatesentences.getSource().isEmpty()||candidatesentences.getSuspicious().isEmpty())
+                continue;
+            try{
+            BLEU bl = new BLEU(candidatesentences.getSource(), candidatesentences.getSuspicious(), 1);
+            Pair<Double, Double> bluepair = bl.bleuMeasure();
+            double lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious()).lcsFeature();
+            double skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4).skipGramFeature();
+            double skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4).skipGramFeature();
+            features.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, candidatesentences.isIsPlagirised()));
+            }catch(Exception e)
+            {
+                System.out.println(candidatesentences);
+                e.printStackTrace();
+                double lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious()).lcsFeature();
 
+            }
+        }
+        PhaseI.writeARFFfile(features, "d:\\testData.arff");
+
+        System.out.println("--------------ssssss---");
 //        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSource(annotationService, 312, 176), stemmer)  ));
 //        System.out.println(Arrays.asList(Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSuspicous(annotationService, 312, 176), stemmer) ));
 //

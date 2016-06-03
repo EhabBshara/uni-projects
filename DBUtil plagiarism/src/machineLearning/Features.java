@@ -10,6 +10,7 @@ package machineLearning;
  * @author dali
  */
 public class Features {
+
     double bleuPrec;
     double bleuRec;
     double skipgram2;
@@ -81,8 +82,22 @@ public class Features {
     public String toString() {
         return "Features{" + "bleuPrec=" + bleuPrec + ", bleuRec=" + bleuRec + ", skipgram2=" + skipgram2 + ", skipgram3=" + skipgram3 + ", lcs=" + lcs + ", isPlagirised=" + isPlagirised + '}';
     }
-    
-     
-    
-    
+
+    public String toMLString() {
+        return bleuPrec + "," + bleuRec + "," + skipgram2 + "," + skipgram3 + "," + lcs + "," + (isPlagirised?"yes":"no");
+    }
+    public static String getMLHeaders()
+    {
+        String result="";
+        result+="@relation 'Plagiarism data set'\n";
+        result+="@attribute bleuPrec numeric\n";
+        result+="@attribute bleuRec numeric\n";
+        result+="@attribute skipgram2 numeric\n";
+        result+="@attribute skipgram3 numeric\n";
+        result+="@attribute lcs numeric\n";
+        result+="@attribute isPlagirised {yes,no}\n";
+        result+="@data\n";
+        return result;
+    }
+
 }

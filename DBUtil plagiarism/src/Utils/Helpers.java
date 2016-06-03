@@ -75,6 +75,12 @@ public class Helpers {
         return sss.toArray(results);
     }
 
+    public static String[] getPlagiraisedSentecesFromSource(Annotation annotation) {
+
+        String ptext = annotation.getSource_doc().getSource_doc_text().substring((int) annotation.getSource_offset(), (int) (annotation.getSource_offset() + annotation.getSource_length()));
+        return CleanFileContent(ptext);
+    }
+
     public static String[] getNonPlagiraisedSentecesFromSource(IGenericService<Annotation> annotationService, long sourceId, long susId) {
 
         List<String> sss = new ArrayList<>();
@@ -102,6 +108,27 @@ public class Helpers {
         return sss.toArray(results);
     }
 
+    public static String[] getNonPlagiraisedSentecesFromSource(Annotation a) {
+
+        List<String> sss = new ArrayList<>();
+
+        try {
+            String ptext = a.getSource_doc().getSource_doc_text().substring(0, (int) a.getSource_offset());
+            sss.addAll(Arrays.asList(CleanFileContent(ptext)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            String ptext = a.getSource_doc().getSource_doc_text().substring((int) (a.getSource_offset() + a.getSource_length()));
+            sss.addAll(Arrays.asList(CleanFileContent(ptext)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        String[] results = new String[sss.size()];
+        return sss.toArray(results);
+    }
+
     public static String[] getPlagiraisedSentecesFromSuspicous(IGenericService<Annotation> annotationService, long sourceId, long susId) {
         List<String> sss = new ArrayList<>();
         Map<String, Object> params = new HashMap<String, Object>();
@@ -116,6 +143,12 @@ public class Helpers {
 
         String[] results = new String[sss.size()];
         return sss.toArray(results);
+    }
+
+    public static String[] getPlagiraisedSentecesFromSuspicous(Annotation a, long sourceId, long susId) {
+
+        String ptext = a.getSuspicious_doc().getSuspicious_doc_text().substring((int) a.getSuspicious_offset(), (int) (a.getSuspicious_offset() + a.getSuspicious_length()));
+        return CleanFileContent(ptext);
     }
 
     public static String[] getNonPlagiraisedSentecesFromSuspicous(IGenericService<Annotation> annotationService, long sourceId, long susId) {
@@ -139,6 +172,26 @@ public class Helpers {
                 e.printStackTrace();
             }
 
+        }
+
+        String[] results = new String[sss.size()];
+        return sss.toArray(results);
+    }
+
+    public static String[] getNonPlagiraisedSentecesFromSuspicous(Annotation a, long sourceId, long susId) {
+        List<String> sss = new ArrayList<>();
+
+        try {
+            String ptext = a.getSuspicious_doc().getSuspicious_doc_text().substring(0, (int) a.getSuspicious_offset());
+            sss.addAll(Arrays.asList(CleanFileContent(ptext)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            String ptext = a.getSuspicious_doc().getSuspicious_doc_text().substring((int) a.getSuspicious_offset(), (int) (a.getSuspicious_offset() + a.getSuspicious_length()));
+            sss.addAll(Arrays.asList(CleanFileContent(ptext)));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         String[] results = new String[sss.size()];
