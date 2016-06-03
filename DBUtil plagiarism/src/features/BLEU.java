@@ -6,6 +6,7 @@
 package features;
 
 import java.util.List;
+import javafx.util.Pair;
 
 /**
  *
@@ -24,26 +25,33 @@ public class BLEU {
         this.sentence2 = sen2 ;
         this.grams = grams ;
     }
-    public double bleuMeasure()
+    public Pair<Double,Double> bleuMeasure()
     {
-        double result = 0.0 ; 
+        double precision = 0.0 ;
+        double recall  = 0.0 ;
         double firstpart = Math.exp((1.0/grams));
-        for(int i = 1 ; i<= grams ; i++)
-            result+= Math.log10(c(grams));
-        return firstpart*result;
+        for(int i = 1 ; i<= grams ; i++){
+            Pair<Double,Double> res = c(grams);
+            precision+= Math.log10(res.getKey());
+            recall += Math.log10(res.getValue());
+        }
+        return new Pair<>(firstpart*precision,firstpart*recall);
     }
-    private double c(int n )
+    private Pair<Double,Double> c(int n )
     {
-        double result = 0.0 ;
+        double precision = 0.0 ;
+        double recall = 0.0 ;
         for(int i = 1 ;i<= n ;i++)
         {
             sen1Ngram = new NGram(sentence1, n);
             sen2Ngram = new NGram(sentence2, n);
-            result +=count();
+            Pair<Double,Double> res = count();
+            precision+= res.getKey();
+            recall += res.getValue();
         }
-        return result ; 
+        return new Pair<>(precision,recall) ; 
     }
-    private double count()
+    private Pair<Double,Double> count()
     {  
         double result = 0.0 ;
         List<String> sen1Ngrams = sen1Ngram.list();
@@ -55,14 +63,18 @@ public class BLEU {
                    result+= 1.0;
             }
        // return result/sen1Ngram .list().size() ;
-        int countg = sen1Ngrams.size();
-        double re = result/countg;
-        return re ;
+        int countSentence1 = sen1Ngrams.size();
+        int countSentence2 = sen2Ngrams.size();
+        double precsion = result/countSentence1;
+        double recall = result/countSentence2;
+        return (new Pair<>(precsion,recall));
     }
     public static void main(String[] args)
     {
-       BLEU b = new BLEU("this is my car","this is not your car",1);
-       double d = b.bleuMeasure();
-       System.out.println(d);
+      
+       BLEU precision  = new BLEU("this is my car","this is not your car",1);
+       BLEU recall = new BLEU("this is not your car","this is my car",1);
+       
+       System.out.println(precision.bleuMeasure());
     }
 }
