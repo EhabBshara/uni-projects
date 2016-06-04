@@ -237,7 +237,7 @@ public class Helpers {
     }
     
     
-    public static float getOverlabValue(String sentence1, String sentence2) {
+    public static float getOverlapValue(String sentence1, String sentence2) {
         float result = 0;
         String[] wordsOfs1 = sentence1.split(" ");
         String[] wordsOfs2 = sentence2.split(" ");

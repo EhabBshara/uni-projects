@@ -37,6 +37,7 @@ import machineLearning.CandidateSentences;
 import machineLearning.CandidateSentencesWithOriginal;
 import machineLearning.Features;
 import machineLearning.PhaseI;
+import machineLearning.SVMTrainer;
 import weka.classifiers.Classifier;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -82,57 +83,22 @@ public class test {
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
             List<CandidateSentencesWithOriginal> candidateSentences = new ArrayList<>();
             ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
-
-            ConverterUtils.DataSource source = new ConverterUtils.DataSource("D:\\testData3.arff");
-            Instances data = source.getDataSet();
-             data.setClassIndex(data.numAttributes() - 1);
-             
-            LibSVM svm=new LibSVM();
-            svm.buildClassifier(data);
-            
-//            LibSVM cls = (LibSVM) weka.core.SerializationHelper.read("D:\\libsvmModel.model");
-
-            ConverterUtils.DataSource source2 = new ConverterUtils.DataSource("D:\\testunitdata.arff");
-            
             List<Annotation> a = annotationService.getAll();
 
-            candidateSentences.addAll(PhaseI.getCandidateSentencesWithOriginal(a.get(62), stemmer));
+//            for (int i = 20; i < 40; i++) {
+//                candidateSentences.addAll(PhaseI.getCandidateSentences(a.get(i), stemmer));
+//            }
+//            System.out.println("-----------------");
+//            Helpers.saveObjectToFile(candidateSentences, "D:\\candidateSentences20_40.out");
+//            System.out.println("-----------------");
+//            
+//            List<Features>features=PhaseI.extractFeatures(candidateSentences);
+//            System.out.println("-----------------");
+//            PhaseI.writeARFFfile(features, "d:\\testUnit.arff");
+//            System.out.println("-----------------");
+            LibSVM svm= SVMTrainer.trainSVM("d:\\train3.arff");
+            SVMTrainer.printOutput(svm, candidateSentences, "d:\\testunitdata.arff");
 
-            for (int i = 0; i < candidateSentences.size(); i++) {
-                candidateSentences.get(i).setFeatures(PhaseI.extractFeature(candidateSentences.get(i).getSource(), candidateSentences.get(i).getSuspicious()));
-            }
-
- 
-            
-            for (CandidateSentencesWithOriginal candidate : candidateSentences) {
-                Instances data2 = source2.getDataSet();
-                data.setClassIndex(data.numAttributes() - 1);
-                double[] attValues = new double[data.numAttributes()];
-
-                double bleuPrec = candidate.getFeatures().getBleuPrec();
-                double bleuRec = candidate.getFeatures().getBleuRec();
-                double skipgram2 = candidate.getFeatures().getSkipgram2();
-                double skipgram3 = candidate.getFeatures().getSkipgram3();
-                double lcs = candidate.getFeatures().getLcs();
-
-                attValues[0] = bleuPrec;
-                attValues[1] = bleuRec;
-                attValues[2] = skipgram2;
-                attValues[3] = skipgram3;
-                attValues[4] = lcs;
-
-                Instance instance = new Instance(1.0, attValues);
-                data.add(instance);
-//                Object predictedClassValue = svm.classifyInstance(data2.lastInstance());
-//            Object realClassValue = inst.classValue();
-                double value = svm.classifyInstance(data.lastInstance());
-                String prediction = data.classAttribute().value((int) value);
-                if(prediction.equals("yes"))
-                    System.out.println(candidate.getOriginalSource()+"\n"+candidate.getOriginalSuspicious());
-                System.out.println("The predicted value of instance "
-                        + ": " + prediction);
-
-            }
 //        List<Annotation> a = annotationService.getAll();
 //        for (int i = 1470; i < 1490; i++) {
 //            candidateSentences.addAll(PhaseI.getCandidateSentences( a.get(i), stemmer));

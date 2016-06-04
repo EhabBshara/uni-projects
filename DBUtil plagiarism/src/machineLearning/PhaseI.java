@@ -40,7 +40,7 @@ public class PhaseI {
             float maxValue = 0;
             String susp = "";
             for (String su : plagsus) {
-                float overlap = Helpers.getOverlabValue(sour, su);
+                float overlap = Helpers.getOverlapValue(sour, su);
                 if (overlap > maxValue) {
                     maxValue = overlap;
                     susp = su;
@@ -55,7 +55,7 @@ public class PhaseI {
             float maxValue = 0;
             String susp = "";
             for (String su : nonPlagsus) {
-                float overlap = Helpers.getOverlabValue(sour, su);
+                float overlap = Helpers.getOverlapValue(sour, su);
                 if (overlap > maxValue) {
                     maxValue = overlap;
                     susp = su;
@@ -80,7 +80,7 @@ public class PhaseI {
             float maxValue = 0;
             String susp = "";
             for (String su : plagsus) {
-                float overlap = Helpers.getOverlabValue(sour, su);
+                float overlap = Helpers.getOverlapValue(sour, su);
                 if (overlap > maxValue) {
                     maxValue = overlap;
                     susp = su;
@@ -95,7 +95,7 @@ public class PhaseI {
             float maxValue = 0;
             String susp = "";
             for (String su : nonPlagsus) {
-                float overlap = Helpers.getOverlabValue(sour, su);
+                float overlap = Helpers.getOverlapValue(sour, su);
                 if (overlap > maxValue) {
                     maxValue = overlap;
                     susp = su;
@@ -127,7 +127,7 @@ public class PhaseI {
             float maxValue = 0;
             Pair<String, String> susp = null;
             for (Pair<String, String> su : suspiciouslist) {
-                float overlap = Helpers.getOverlabValue(sour.getValue(), su.getValue());
+                float overlap = Helpers.getOverlapValue(sour.getValue(), su.getValue());
                 if (overlap > maxValue) {
                     maxValue = overlap;
                     susp = su;
