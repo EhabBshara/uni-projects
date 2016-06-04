@@ -58,6 +58,8 @@ public class Helpers {
         return sentences;
     }
 
+    
+    
     public static String[] getPlagiraisedSentecesFromSource(IGenericService<Annotation> annotationService, long sourceId, long susId) {
 
         List<String> sss = new ArrayList<>();
@@ -145,7 +147,7 @@ public class Helpers {
         return sss.toArray(results);
     }
 
-    public static String[] getPlagiraisedSentecesFromSuspicous(Annotation a, long sourceId, long susId) {
+    public static String[] getPlagiraisedSentecesFromSuspicous(Annotation a) {
 
         String ptext = a.getSuspicious_doc().getSuspicious_doc_text().substring((int) a.getSuspicious_offset(), (int) (a.getSuspicious_offset() + a.getSuspicious_length()));
         return CleanFileContent(ptext);
@@ -178,7 +180,7 @@ public class Helpers {
         return sss.toArray(results);
     }
 
-    public static String[] getNonPlagiraisedSentecesFromSuspicous(Annotation a, long sourceId, long susId) {
+    public static String[] getNonPlagiraisedSentecesFromSuspicous(Annotation a) {
         List<String> sss = new ArrayList<>();
 
         try {
@@ -217,6 +219,24 @@ public class Helpers {
         return resultSentences;
     }
 
+       public static String stemCleanedSentence(String sentence, ArabicStemmerDefault stemmer) {
+        String resultSentence = "";
+            String[] words = sentence.split(" ");
+            String resSentence = "";
+            for (String word : words) {
+                try {
+                    resSentence += stemmer.stemWord(word) + " ";
+                } catch (Exception e) {
+//                    System.out.println(word);
+//                    e.printStackTrace();
+                    resSentence += word + " ";
+                }
+            }
+            resultSentence = resSentence.substring(0, resSentence.length() - 1);
+        return resultSentence;
+    }
+    
+    
     public static float getOverlabValue(String sentence1, String sentence2) {
         float result = 0;
         String[] wordsOfs1 = sentence1.split(" ");
@@ -248,27 +268,34 @@ public class Helpers {
         return candidateSentenceses;
     }
 
-    public static void saveCandidateListToFile(List<CandidateSentences> candidateSentenceses) {
+    public static void saveObjectToFile(Object object,String filePath) {
         try {
-            FileOutputStream out = new FileOutputStream("D://candidateSentences.out");
+            FileOutputStream out = new FileOutputStream(filePath);
             ObjectOutputStream oos = new ObjectOutputStream(out);
-            oos.writeObject(candidateSentenceses);
+            oos.writeObject(object);
             oos.flush();
         } catch (Exception e) {
             System.out.println("Problem serializing: " + e);
         }
     }
 
-    public static List<CandidateSentences> loadCandidateSentencesFromFile() {
-        List<CandidateSentences> candidateSentenceses = new ArrayList<>();
+    public static Object loadObjectFromFile(String filePath) {
+        Object o=new Object();
         try {
             FileInputStream in = new FileInputStream("D://candidateSentences.out");
             ObjectInputStream ois = new ObjectInputStream(in);
-            candidateSentenceses = (List<CandidateSentences>) (ois.readObject());
+           o=(ois.readObject());
         } catch (Exception e) {
             System.out.println("Problem serializing: " + e);
         }
-        return candidateSentenceses;
+        return o;
     }
+    
+    public static List<CandidateSentences> loadCandidateSentencesFromFile(String filepath)
+    {
+        return (List<CandidateSentences>)loadObjectFromFile(filepath);
+    }
+    
+ 
 
 }
