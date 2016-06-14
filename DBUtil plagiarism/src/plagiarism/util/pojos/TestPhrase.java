@@ -42,6 +42,19 @@ public class TestPhrase implements Serializable {
     
     @Column(name = "PHRASE")
     private String phrase;
+    
+    @Column(name = "CLEANED")
+    private String cleaned;
+    
+    @Column(name = "STEMMED")
+    private String stemmed;
+    
+    @Column(name = "OFFSET")
+    private int offset;
+    
+    @Column(name = "LENGHT")
+    private int length;
+    
 
     @OneToMany(mappedBy = "testphrase")
     private Set<Assoc> associations = new HashSet<Assoc>(0);
@@ -91,6 +104,20 @@ public class TestPhrase implements Serializable {
         this.phrase = phrase;
         this.suspicious_doc = suspicious_doc;
     }
+
+    public TestPhrase(int id, String pathname, String filename, String phrase, String cleaned, String stemmed, int offset, int length, Suspicious_doc suspicious_doc) {
+        this.id = id;
+        this.pathname = pathname;
+        this.filename = filename;
+        this.phrase = phrase;
+        this.cleaned = cleaned;
+        this.stemmed = stemmed;
+        this.offset = offset;
+        this.length = length;
+        this.suspicious_doc = suspicious_doc;
+    }
+    
+    
 
     /**
      * Getter of the <b>id</b> parameter
@@ -204,6 +231,39 @@ public class TestPhrase implements Serializable {
     public void setSuspicious_doc(Suspicious_doc suspicious_doc) {
         this.suspicious_doc = suspicious_doc;
     }
+
+    public String getCleaned() {
+        return cleaned;
+    }
+
+    public void setCleaned(String cleaned) {
+        this.cleaned = cleaned;
+    }
+
+    public String getStemmed() {
+        return stemmed;
+    }
+
+    public void setStemmed(String stemmed) {
+        this.stemmed = stemmed;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+    
     
     
 
