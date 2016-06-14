@@ -51,6 +51,18 @@ public class Phrase implements Serializable {
     
     @Column(name = "TOKENS")
     private String tokens;
+    
+    @Column(name = "CLEANED")
+    private String cleaned;
+    
+    @Column(name = "STEMMED")
+    private String stemmed;
+    
+    @Column(name = "OFFSET")
+    private String offset;
+    
+    @Column(name = "LENGTH")
+    private String length;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phrase")
     private Set<Assoc> associations = new HashSet<Assoc>(0);
@@ -105,6 +117,19 @@ public class Phrase implements Serializable {
         this.tokens = tokens; 
         this.source_doc = source_doc;
         
+    }
+
+    public Phrase(int id, String pathname, String filename, String original, String tokens, String cleaned, String stemmed, String offset, String length, Source_doc source_doc) {
+        this.id = id;
+        this.pathname = pathname;
+        this.filename = filename;
+        this.original = original;
+        this.tokens = tokens;
+        this.cleaned = cleaned;
+        this.stemmed = stemmed;
+        this.offset = offset;
+        this.length = length;
+        this.source_doc = source_doc;
     }
 
     /**
@@ -232,6 +257,39 @@ public class Phrase implements Serializable {
     public void setSource_doc(Source_doc source_doc) {
         this.source_doc = source_doc;
     }
+
+    public String getCleaned() {
+        return cleaned;
+    }
+
+    public void setCleaned(String cleaned) {
+        this.cleaned = cleaned;
+    }
+
+    public String getStemmed() {
+        return stemmed;
+    }
+
+    public void setStemmed(String stemmed) {
+        this.stemmed = stemmed;
+    }
+
+    public String getOffset() {
+        return offset;
+    }
+
+    public void setOffset(String offset) {
+        this.offset = offset;
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length;
+    }
+    
     
     
 
