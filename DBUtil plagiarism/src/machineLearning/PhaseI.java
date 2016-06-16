@@ -7,6 +7,7 @@ package machineLearning;
 
 import Utils.Helpers;
 import arabicTools.ArabicStemmerDefault;
+import arabicTools.Stem;
 import features.BLEU;
 import features.LCSwords;
 import features.SkipGram;
@@ -28,7 +29,7 @@ import plagiarism.util.pojos.Suspicious_doc;
  */
 public class PhaseI {
 
-    public static List<CandidateSentences> getCandidateSentences(IGenericService<Annotation> annotationSvs, Source_doc source_doc, Suspicious_doc suspicious_doc, ArabicStemmerDefault stemmer) {
+    public static List<CandidateSentences> getCandidateSentences(IGenericService<Annotation> annotationSvs, Source_doc source_doc, Suspicious_doc suspicious_doc, Stem stemmer) {
         List<CandidateSentences> result = new ArrayList<>();
         String[] plagsource = Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSource(annotationSvs, source_doc.getSource_doc_id(), suspicious_doc.getSuspicious_doc_id()), stemmer);
         String[] plagsus = Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSuspicous(annotationSvs, source_doc.getSource_doc_id(), suspicious_doc.getSuspicious_doc_id()), stemmer);
@@ -69,7 +70,7 @@ public class PhaseI {
         return result;
     }
 
-    public static List<CandidateSentences> getCandidateSentences(Annotation a, ArabicStemmerDefault stemmer) {
+    public static List<CandidateSentences> getCandidateSentences(Annotation a, Stem stemmer) {
         List<CandidateSentences> result = new ArrayList<>();
         String[] plagsource = Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSource(a), stemmer);
         String[] plagsus = Helpers.stemCleanedSentences(Helpers.getPlagiraisedSentecesFromSuspicous(a), stemmer);
@@ -109,7 +110,7 @@ public class PhaseI {
         return result;
     }
 
-    public static List<CandidateSentencesWithOriginal> getCandidateSentencesWithOriginal(Annotation a, ArabicStemmerDefault stemmer) {
+    public static List<CandidateSentencesWithOriginal> getCandidateSentencesWithOriginal(Annotation a, Stem stemmer) {
         List<CandidateSentencesWithOriginal> result = new ArrayList<>();
         List<Pair<String, String>> sourcelist = new ArrayList<>();
         String[] sourceSentences = Helpers.CleanFileContent(a.getSource_doc().getSource_doc_text());

@@ -6,6 +6,7 @@
 package Utils;
 
 import arabicTools.ArabicStemmerDefault;
+import arabicTools.Stem;
 import features.NGram;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -57,7 +58,17 @@ public class Helpers {
         }
         return sentences;
     }
-
+    public static String cleanSentence(String sentence)
+    {
+         String cleandSentence = sentence.replaceAll("[^\\d&&[\\P{InArabic}\\p{P}]]+", " ");
+           if (sentence.startsWith(" ")) {
+                cleandSentence = cleandSentence.substring(1, cleandSentence.length());
+            }
+            if (cleandSentence.endsWith(" ")) {
+                cleandSentence = cleandSentence.substring(0, cleandSentence.length() - 1);
+            }
+            return cleandSentence;
+    }
     
     
     public static String[] getPlagiraisedSentecesFromSource(IGenericService<Annotation> annotationService, long sourceId, long susId) {
@@ -200,14 +211,14 @@ public class Helpers {
         return sss.toArray(results);
     }
 
-    public static String[] stemCleanedSentences(String[] sentences, ArabicStemmerDefault stemmer) {
+    public static String[] stemCleanedSentences(String[] sentences, Stem stemmer) {
         String[] resultSentences = new String[sentences.length];
         for (int i = 0; i < sentences.length; i++) {
             String[] words = sentences[i].split(" ");
             String resSentence = "";
             for (String word : words) {
                 try {
-                    resSentence += stemmer.stemWord(word) + " ";
+                    resSentence += stemmer.StemWord(word) + " ";
                 } catch (Exception e) {
 //                    System.out.println(word);
 //                    e.printStackTrace();
@@ -219,13 +230,13 @@ public class Helpers {
         return resultSentences;
     }
 
-       public static String stemCleanedSentence(String sentence, ArabicStemmerDefault stemmer) {
+       public static String stemCleanedSentence(String sentence, Stem stemmer) {
         String resultSentence = "";
             String[] words = sentence.split(" ");
             String resSentence = "";
             for (String word : words) {
                 try {
-                    resSentence += stemmer.stemWord(word) + " ";
+                    resSentence += stemmer.StemWord(word) + " ";
                 } catch (Exception e) {
 //                    System.out.println(word);
 //                    e.printStackTrace();

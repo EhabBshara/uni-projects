@@ -1,6 +1,8 @@
 
 package filesUtils;
 
+import Utils.Helpers;
+import arabicTools.Stem;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.util.Pair;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
 import org.apache.lucene.analysis.ar.ArabicStemFilter;
@@ -27,7 +30,7 @@ import plagiarism.util.pojos.Source_doc;
  */
 public class PhraseImporter implements Importer {
     
-    Map <String,String>file = null ;
+    Map <String,Object>file = null ;
     //String path = null ;
     Source_doc source = null ;
 
@@ -46,7 +49,7 @@ public class PhraseImporter implements Importer {
      */
     public PhraseImporter(Source_doc source)
     {
-        file = new HashMap<String, String>();
+        file = new HashMap<String, Object>();
         phraseService = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
         setSource_doc(source);
     }
@@ -55,7 +58,7 @@ public class PhraseImporter implements Importer {
      * 
      * @return  List of HashMaps containing files from the specified directory.
      */
-    public Map<String, String> getFiles() {
+    public Map<String, Object> getFiles() {
         return file;
     }
 
@@ -63,7 +66,7 @@ public class PhraseImporter implements Importer {
      *
      * @param files List of HashMaps containing files from the specified directory.
      */
-    public void setFiles(Map<String, String> file) {
+    public void setFiles(Map<String, Object> file) {
         this.file = file;
     }
 
@@ -83,53 +86,50 @@ public class PhraseImporter implements Importer {
         this.source = source;
     }
     
-    
+ 
     @Override
     public void import_()
     {
+        String content = source.getSource_doc_text();
         file.put("filename", source.getSource_doc_name());
-        file.put("content", source.getSource_doc_text());
+        file.put("content",content );
         file.put("pathname", null); //TODO delete pathname from table phrase
-        /*
-        String text = null;
-        Map<String, String> file = new HashMap<>();
-        File folder = new File(path);
-        for (File f : folder.listFiles()) {
-            try {
-                FileInputStream fin = new FileInputStream(f);
-                byte[] fileBytes = new byte[(int) f.length()];
-                fin.read(fileBytes);
-                text = new String(fileBytes);
-                file.put("filename", f.getName());
-                file.put("pathname", path);
-                file.put("content", text);
-                files.add(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            
-        }
-                */
+      
     }
     @Override
     public void save()
     {
-        Phrase p = null;
-        String tokens;
-
-        String[] phrases = splitter((String) file.get("content"));
-
-        for (String phrase : phrases) {
-            tokens = getTokens(phrase);
-            p = new Phrase(file.get("pathname"), file.get("filename"),phrase, source ,tokens);
-            phraseService.save(p);
-           // String tokens = null; 
-            //TODO Tokens = tokensize every phrase 
-            //TODO tokens now are not objects
-//            List<String> tokens = getTokens(phrase);
-//            p = new Phrase(path,(String)file.get("filename"),phrase,null);
-//            phraseService.save(p);           
+//        Phrase p = null;
+//        String tokens;
+//
+//        String[] phrases = splitter((String) file.get("content"));
+//
+//        for (String phrase : phrases) {
+//            tokens = getTokens(phrase);
+//            p = new Phrase(file.get("pathname"), file.get("filename"),phrase, source ,tokens);
+//            phraseService.save(p);
+//    }
+          int offset = 0 , length ;
+        String[] sentences = splitter((String) file.get("content"));
+        Stem stem = new Stem();
+        for (int i = 0; i < sentences.length; i++) {
+            if (i == 0) {
+                offset = 0;
+            } else {
+                offset += sentences[i - 1].length() + 2;
+            }
+            length = sentences[i].length() + 1;
+            if (length > 1) {
+                String cleanedSentence = Helpers.cleanSentence(sentences[i]);
+                String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
+                Phrase p = new Phrase((String) file.get("pathname"), (String) file.get("filename"),
+                        sentences[i], source, null, cleanedSentence, stemmedSentence, offset, length);
+                phraseService.save(p);
+            }
         }
+        
+      
+        
 
     }
     @Override

@@ -59,10 +59,10 @@ public class Phrase implements Serializable {
     private String stemmed;
     
     @Column(name = "OFFSET")
-    private String offset;
+    private int offset;
     
     @Column(name = "LENGTH")
-    private String length;
+    private int length;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "phrase")
     private Set<Assoc> associations = new HashSet<Assoc>(0);
@@ -91,12 +91,17 @@ public class Phrase implements Serializable {
      * @param original the phrase as it was extracted from the file.
      * @param tokens the tokens contained in the phrase.
      */
-    public Phrase(String pathname, String filename, String original, Source_doc source_doc,String tokens) {
+    public Phrase(String pathname, String filename, String original, Source_doc source_doc,String tokens, String cleaned, String stemmed, int offset, int length) {
 
         this.pathname = pathname;
         this.filename = filename;
         this.original = original;
         this.tokens = tokens;
+        this.source_doc = source_doc;
+        this.cleaned = cleaned;
+        this.stemmed = stemmed;
+        this.offset = offset;
+        this.length = length;
         this.source_doc = source_doc;
     }
 
@@ -119,7 +124,7 @@ public class Phrase implements Serializable {
         
     }
 
-    public Phrase(int id, String pathname, String filename, String original, String tokens, String cleaned, String stemmed, String offset, String length, Source_doc source_doc) {
+    public Phrase(int id, String pathname, String filename, String original, String tokens, String cleaned, String stemmed, int offset, int length, Source_doc source_doc) {
         this.id = id;
         this.pathname = pathname;
         this.filename = filename;
@@ -274,19 +279,19 @@ public class Phrase implements Serializable {
         this.stemmed = stemmed;
     }
 
-    public String getOffset() {
+    public int getOffset() {
         return offset;
     }
 
-    public void setOffset(String offset) {
+    public void setOffset(int offset) {
         this.offset = offset;
     }
 
-    public String getLength() {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(int length) {
         this.length = length;
     }
     

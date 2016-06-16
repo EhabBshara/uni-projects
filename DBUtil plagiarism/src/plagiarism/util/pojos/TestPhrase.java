@@ -52,7 +52,7 @@ public class TestPhrase implements Serializable {
     @Column(name = "OFFSET")
     private int offset;
     
-    @Column(name = "LENGHT")
+    @Column(name = "LENGTH")
     private int length;
     
 
@@ -79,12 +79,16 @@ public class TestPhrase implements Serializable {
      * @param phrase the phrase as it was extracted from the file.
      * @param suspicious_doc
      */
-    public TestPhrase(String pathname, String filename, String phrase, Suspicious_doc suspicious_doc) {
+    public TestPhrase(String pathname, String filename, String phrase, Suspicious_doc suspicious_doc, String cleaned, String stemmed, int offset, int length) {
 
         this.pathname = pathname;
         this.filename = filename;
         this.phrase = phrase;
         this.suspicious_doc = suspicious_doc;
+        this.cleaned = cleaned;
+        this.stemmed = stemmed;
+        this.offset = offset;
+        this.length = length;
     }
 
     

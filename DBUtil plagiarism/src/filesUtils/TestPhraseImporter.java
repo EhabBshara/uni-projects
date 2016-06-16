@@ -1,5 +1,7 @@
 package filesUtils;
 
+import Utils.Helpers;
+import arabicTools.Stem;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.HibernateUtil;
+import plagiarism.util.pojos.Phrase;
 import plagiarism.util.pojos.Suspicious_doc;
 import plagiarism.util.pojos.TestPhrase;
 
@@ -99,15 +102,34 @@ public class TestPhraseImporter implements Importer {
 
     @Override
     public void save() {
-         String tokens;
+//         String tokens;
+//        TestPhrase tp = null;
+//        String[] phrases = splitter((String) file.get("content"));
+//        for (String phrase : phrases) {
+//           tokens = getTokens(phrase);
+//           calculateTF(phrase);
+//           tp = new TestPhrase((String)file.get("pathname"), (String)file.get("filename"), phrase, suspicious);
+//           testphraseService.save(tp);
+
+//        }
         TestPhrase tp = null;
-        String[] phrases = splitter((String) file.get("content"));
-        for (String phrase : phrases) {
-           tokens = getTokens(phrase);
-           calculateTF(phrase);
-           tp = new TestPhrase((String)file.get("pathname"), (String)file.get("filename"), phrase, suspicious);
-           testphraseService.save(tp);
-           
+        int offset = 0, length;
+        String[] sentences = splitter((String) file.get("content"));
+        Stem stem = new Stem();
+        for (int i = 0; i < sentences.length; i++) {
+            if (i == 0) {
+                offset = 0;
+            } else {
+                offset += sentences[i - 1].length() + 2;
+            }
+            length = sentences[i].length() + 1;
+            if (length > 1) {
+                String cleanedSentence = Helpers.cleanSentence(sentences[i]);
+                String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
+                tp = new TestPhrase((String) file.get("pathname"), (String) file.get("filename"),
+                        sentences[i], suspicious, cleanedSentence, stemmedSentence, offset, length);
+                testphraseService.save(tp);
+            }
         }
     }
     private void calculateTF(String phrase)

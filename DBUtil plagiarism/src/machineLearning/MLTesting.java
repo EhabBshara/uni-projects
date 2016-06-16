@@ -6,6 +6,7 @@
 package machineLearning;
 
 import arabicTools.ArabicStemmerDefault;
+import arabicTools.Stem;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -203,7 +204,7 @@ public class MLTesting extends javax.swing.JFrame {
                 
                 int index = Integer.parseInt(txt_annotationId.getText().toString());
                 List<CandidateSentencesWithOriginal> candidateSentences = new ArrayList<>();
-                ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
+                Stem stemmer = new Stem();
                 lbl_status.setText("Preprocessing files");
                 candidateSentences.addAll(PhaseI.getCandidateSentencesWithOriginal(a.get(index), stemmer));
                 lbl_status.setText("extracting features");
