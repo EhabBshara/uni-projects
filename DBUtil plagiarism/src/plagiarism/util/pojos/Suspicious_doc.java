@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,7 @@ public class Suspicious_doc implements Serializable {
     @Column(name = "SUSPICIOUS_DOC_NAME")
     private String suspicious_doc_name;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
     private Set<TestPhrase> testPhrases = new HashSet<TestPhrase>(0);
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspicious_doc")

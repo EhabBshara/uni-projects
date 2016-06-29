@@ -120,14 +120,17 @@ public class TestPhraseImporter implements Importer {
             if (i == 0) {
                 offset = 0;
             } else {
-                offset += sentences[i - 1].length() + 2;
+                offset += sentences[i - 1].length() + 1;
             }
-            length = sentences[i].length() + 1;
+            length = sentences[i].length() ;
             if (length > 1) {
+                int add=0;
+                if(sentences[i].startsWith("\\n")||sentences[i].startsWith(" "))
+                    add=1;
                 String cleanedSentence = Helpers.cleanSentence(sentences[i]);
                 String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
                 tp = new TestPhrase((String) file.get("pathname"), (String) file.get("filename"),
-                        sentences[i], suspicious, cleanedSentence, stemmedSentence, offset, length);
+                        sentences[i], suspicious, cleanedSentence, stemmedSentence, offset+add, length);
                 testphraseService.save(tp);
             }
         }

@@ -32,6 +32,8 @@ public class test {
                         = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
          IGenericService<Suspicious_doc> SuspiciousService
                         = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
+         IGenericService<Annotation> AnnotationService
+                        = new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
         List<Source_doc> sources =  sourceService.getAll();
         List<Suspicious_doc> suspiciouses = SuspiciousService.getAll();
         for(Source_doc source : sources)
@@ -46,8 +48,15 @@ public class test {
             testPhrase.import_();
             testPhrase.save();
         }
-        
-        
+//        List<Annotation> annotations = AnnotationService.getAll();
+//        Annotation a=annotations.get(13);
+//        System.out.println(a.getSource_offset()+" \\ "+ a.getSource_length()+" \\ "+a.getSource_doc().getSource_doc_text().substring((int)a.getSource_offset(), (int)a.getSource_offset()+(int)a.getSource_length()));
+//        System.out.println(a.getSuspicious_offset()+" \\ "+ a.getSuspicious_length()+" \\ "+a.getSuspicious_doc().getSuspicious_doc_text().substring((int)a.getSuspicious_offset(), (int)a.getSuspicious_offset()+(int)a.getSuspicious_length()));
+//        
+//        TestPhraseImporter testPhraseImporter=new TestPhraseImporter(a.getSuspicious_doc());
+//        testPhraseImporter.import_();
+//        testPhraseImporter.save();
+        System.out.println("done");
 
     }
     

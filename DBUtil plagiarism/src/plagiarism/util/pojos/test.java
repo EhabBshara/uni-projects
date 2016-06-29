@@ -77,14 +77,18 @@ public class test {
                     = new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
 
             Map<String, Object> params = new HashMap<String, Object>();
-            params.put("source_doc_id", 291);
-//        Annotation annotation=annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
+            params.put("ANNOTATION_ID", 1705);
+            Annotation a = annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
+
+            System.out.println(a.getSource_doc().getSource_doc_text().substring((int) a.getSource_offset(), (int) a.getSource_offset() + (int) a.getSource_length()));
+            System.out.println("");
+            System.out.println(a.getSuspicious_doc().getSuspicious_doc_text().substring((int) a.getSuspicious_offset(), (int) a.getSuspicious_offset() + (int) a.getSuspicious_length()));
+
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
-            List<CandidateSentencesWithOriginal> candidateSentences = new ArrayList<>();
-            ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
-            List<Annotation> a = annotationService.getAll();
-
+//            List<CandidateSentencesWithOriginal> candidateSentences = new ArrayList<>();
+//            ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
+//            List<Annotation> a = annotationService.getAll();
 //            for (int i = 20; i < 40; i++) {
 //                candidateSentences.addAll(PhaseI.getCandidateSentences(a.get(i), stemmer));
 //            }
@@ -96,9 +100,8 @@ public class test {
 //            System.out.println("-----------------");
 //            PhaseI.writeARFFfile(features, "d:\\testUnit.arff");
 //            System.out.println("-----------------");
-            LibSVM svm= SVMTrainer.trainSVM("d:\\train3.arff");
-            SVMTrainer.printOutput(svm, candidateSentences, "d:\\testunitdata.arff");
-
+//            LibSVM svm= SVMTrainer.trainSVM("d:\\train3.arff");
+//            SVMTrainer.printOutput(svm, candidateSentences, "d:\\testunitdata.arff");
 //        List<Annotation> a = annotationService.getAll();
 //        for (int i = 1470; i < 1490; i++) {
 //            candidateSentences.addAll(PhaseI.getCandidateSentences( a.get(i), stemmer));

@@ -105,6 +105,7 @@ public class AWN {
             Statement stmt = conn.createStatement();
             //If the input word is a root
             if (isRoot) {
+                //Find the words in form table
                 ResultSet rs = stmt.executeQuery("SELECT Distinct f1.value "
                         + "FROM forms f1 "
                         + "WHERE f1.wordid IN "
@@ -122,8 +123,9 @@ public class AWN {
                 }
                 rs.close();
             }
-
+            //  If there are no result
             if (synonyms.isEmpty()) {
+                // Find the words in words table
                 ResultSet rs = stmt.executeQuery("SELECT Distinct f1.value "
                         + "FROM forms f1 "
                         + "WHERE f1.wordid IN "
@@ -137,7 +139,9 @@ public class AWN {
                 }
                 rs.close();
             }
+            //  If there are no result
             if (synonyms.isEmpty()) {
+                // Find the words in items table
                 ResultSet rs = stmt.executeQuery("SELECT Distinct f1.value "
                         + "FROM forms f1 "
                         + "WHERE f1.wordid IN "
@@ -160,7 +164,7 @@ public class AWN {
 
     public static void main(String[] args) {
         AWN awn = new AWN();
-        System.out.println(awn.getSynonyms("ذهب", false));
+        System.out.println(awn.getSynonyms("خرج", false));
         System.out.println(awn.getSynonymsAsRoot("ذهب", false));
     }
 }

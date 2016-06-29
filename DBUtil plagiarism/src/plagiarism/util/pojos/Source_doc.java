@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +43,7 @@ public class Source_doc implements Serializable{
     @Column(name = "source_doc_name")
     private String source_doc_name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
+    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "source_doc")
     private Set<Phrase> phrases = new HashSet<Phrase>(0);
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
