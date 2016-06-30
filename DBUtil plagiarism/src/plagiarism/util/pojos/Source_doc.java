@@ -49,6 +49,17 @@ public class Source_doc implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
     private Set<Annotation> annotations = new HashSet<Annotation>(0);
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
+    private Set<CandidateDocs> candidateDocs = new HashSet<>(0);
+
+    public Set<CandidateDocs> getCandidateDocs() {
+        return candidateDocs;
+    }
+
+    public void setCandidateDocs(Set<CandidateDocs> candidateDocs) {
+        this.candidateDocs = candidateDocs;
+    }
+    
     public Source_doc() {
     }
 

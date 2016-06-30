@@ -39,11 +39,23 @@ public class Suspicious_doc implements Serializable {
     private String suspicious_doc_name;
     
     @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
-    private Set<TestPhrase> testPhrases = new HashSet<TestPhrase>(0);
+    private Set<TestPhrase> testPhrases = new HashSet<>(0);
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
-    private Set<Annotation> annotations = new HashSet<Annotation>(0);
+    private Set<Annotation> annotations = new HashSet<>(0);
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
+    private Set<CandidateDocs> candidateDocs = new HashSet<>(0);
+
+    public Set<CandidateDocs> getCandidateDocs() {
+        return candidateDocs;
+    }
+
+    public void setCandidateDocs(Set<CandidateDocs> candidateDocs) {
+        this.candidateDocs = candidateDocs;
+    }
+    
+ 
     public Suspicious_doc() {
     }
 

@@ -15,6 +15,7 @@
     <mapping class="plagiarism.util.pojos.Source_doc"/>
     <mapping class="plagiarism.util.pojos.Annotation"/>
     <mapping class="plagiarism.util.pojos.Suspicious_doc"/>
+    <mapping class="plagiarism.util.pojos.CandidateDocs"/>
   <!--  <mapping class="plagiarism.util.pojos.Token" />-->
   </session-factory>
 </hibernate-configuration>

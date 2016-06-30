@@ -5,6 +5,7 @@
  */
 package Utils;
 
+import plagiarism.util.pojos.CandidateDocs;
 import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.Arrays;
