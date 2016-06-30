@@ -1142,7 +1142,7 @@ public class Stem {
 
     //--------------------------------------------------------------------------
     // check that the word is a stopword
-    private boolean checkStopwords(String currentWord) {
+    public boolean checkStopwords(String currentWord) {
         Vector v = (Vector) staticFiles.elementAt(13);
 
         if (stopwordFound = v.contains(currentWord)) {

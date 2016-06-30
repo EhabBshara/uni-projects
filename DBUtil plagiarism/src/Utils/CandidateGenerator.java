@@ -9,9 +9,11 @@ import plagiarism.util.pojos.CandidateDocs;
 import com.google.common.collect.Sets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
@@ -28,13 +30,22 @@ import plagiarism.util.pojos.TestPhrase;
  */
 public class CandidateGenerator {
 
+    IGenericService<Phrase> phraseService
+            = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
+    IGenericService<TestPhrase> testphraseService
+            = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
+
     public CandidateGenerator() {
 
     }
 
-    public boolean isSimilar(Source_doc source_doc, Suspicious_doc suspicious_doc) {
+    public float getSimilarityCoef(Source_doc source_doc, Suspicious_doc suspicious_doc) {
         HashSet<String> sourceHashSet = new HashSet<>();
         HashSet<String> susHashSet = new HashSet<>();
+
+//        Map<String, Object> params = new HashMap<String, Object>();
+//        params.put("SOURCE_DOC_ID", source_doc.getSource_doc_id());
+//        List<Phrase> phrases = phraseService.getByWhere("where SOURCE_DOC_ID = :SOURCE_DOC_ID", params);
 
         Iterator<Phrase> pIterator = source_doc.getPhrases().iterator();
         while (pIterator.hasNext()) {
@@ -42,43 +53,49 @@ public class CandidateGenerator {
             String[] words = p.getStemmed().split(" ");
             sourceHashSet.addAll(Arrays.asList(words));
         }
-        Set<TestPhrase> testphrases = suspicious_doc.getTestPhrases();
-        Iterator<TestPhrase> tpIterator = testphrases.iterator();
+
+//        Map<String, Object> params2 = new HashMap<>();
+//        params2.put("SUSPICIOUS_DOC_ID", suspicious_doc.getSuspicious_doc_id());
+//        List<TestPhrase> testphrases = testphraseService.getByWhere("where SUSPICIOUS_DOC_ID = :SUSPICIOUS_DOC_ID", params2);
+
+        Iterator<TestPhrase> tpIterator = suspicious_doc.getTestPhrases().iterator();
         while (tpIterator.hasNext()) {
             TestPhrase tp = tpIterator.next();
             String[] words = tp.getStemmed().split(" ");
             susHashSet.addAll(Arrays.asList(words));
         }
-        return Constants.DOCUMENT_SIMILARITY_COEF < ((float) Sets.intersection(sourceHashSet, susHashSet).size() / (float) Math.min(sourceHashSet.size(), susHashSet.size()));
+        return (float) Sets.intersection(sourceHashSet, susHashSet).size() / (float) Math.min(sourceHashSet.size(), susHashSet.size());
     }
 
-    public List<CandidateDocs> generateCandidates(List<Source_doc> sources, List<Suspicious_doc> suspiciouses) {
+    public void generateCandidates(List<Source_doc> sources, List<Suspicious_doc> suspiciouses) {
+        System.out.println("started time:" + System.currentTimeMillis());
+        IGenericService<CandidateDocs> candidateService
+                = new GenericServiceImpl<>(CandidateDocs.class, HibernateUtil.getSessionFactory());
         List<CandidateDocs> candidateDocses = new ArrayList<>();
-        for (Suspicious_doc sus : suspiciouses) {
+        for (int i = 200; i < suspiciouses.size(); i++) {
+            Suspicious_doc sus = suspiciouses.get(i);
+            System.out.println("new sus at time:" + System.currentTimeMillis());
             for (Source_doc source : sources) {
-                if (isSimilar(source, sus)) {
-                    candidateDocses.add(new CandidateDocs(source, sus));
-                }
+                float t = getSimilarityCoef(source, sus);
+                candidateDocses.add(new CandidateDocs(source, sus, t));
+//               candidateService.save(new CandidateDocs(source,sus,t));
             }
         }
-
-        return candidateDocses;
+        System.out.println("saving to DB start time:" + System.currentTimeMillis());
+        candidateService.bulkSave(candidateDocses);
+        System.out.println("saving to DB end time:" + System.currentTimeMillis());
+        System.out.println("-------------");
     }
 
     public static void main(String[] args) {
-
-        IGenericService<Source_doc> sourceService
+        IGenericService<Source_doc> sourceDocService
                 = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
-        IGenericService<Suspicious_doc> SuspiciousService
+        IGenericService<Suspicious_doc> suspiciousDocService
                 = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
-        IGenericService<Annotation> AnnotationService
-                = new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
-        List<Source_doc> sources = sourceService.getAll();
-        List<Suspicious_doc> suspiciouses = SuspiciousService.getAll();
-        List<Annotation> annotations = AnnotationService.getAll();
-        CandidateGenerator candidateGenerator = new CandidateGenerator();
-        
-        List<CandidateDocs> candidateDocses=candidateGenerator.generateCandidates(sources, suspiciouses);
+
+        List<Source_doc> sources = sourceDocService.getAll();
+        List<Suspicious_doc> Suspiciouses = suspiciousDocService.getAll();
+        new CandidateGenerator().generateCandidates(sources, Suspiciouses);
         System.out.println("done");
 
     }

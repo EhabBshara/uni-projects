@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import plagiarism.IDAO.IGenericDAO;
 
 /**
@@ -63,6 +64,25 @@ public class GenericDAOImpl<T> implements IGenericDAO<T> {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
         session.save(object);
+        session.getTransaction().commit();
+        LOGGER.info("FINISHED - save");
+        return object;
+    }
+
+    @Override
+    public List<T> bulkSave(List<T> object) {
+        LOGGER.info("STARTED - save");
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+        for (int i = 0; i < object.size(); i++) {
+            session.save(object.get(i));
+            if (i % 20 == 0) { //20, same as the JDBC batch size
+                //flush a batch of inserts and release memory:
+                session.flush();
+                session.clear();
+            }
+        }
+
         session.getTransaction().commit();
         LOGGER.info("FINISHED - save");
         return object;

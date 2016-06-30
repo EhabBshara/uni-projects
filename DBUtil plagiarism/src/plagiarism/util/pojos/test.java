@@ -75,15 +75,17 @@ public class test {
                     = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
             IGenericService<Annotation> annotationService
                     = new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
+            IGenericService<CandidateDocs> candidateService
+                    = new GenericServiceImpl<>(CandidateDocs.class, HibernateUtil.getSessionFactory());
 
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("ANNOTATION_ID", 1705);
-            Annotation a = annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
-
-            System.out.println(a.getSource_doc().getSource_doc_text().substring((int) a.getSource_offset(), (int) a.getSource_offset() + (int) a.getSource_length()));
-            System.out.println("");
-            System.out.println(a.getSuspicious_doc().getSuspicious_doc_text().substring((int) a.getSuspicious_offset(), (int) a.getSuspicious_offset() + (int) a.getSuspicious_length()));
-
+//            Map<String, Object> params = new HashMap<String, Object>();
+//            params.put("ANNOTATION_ID", 1705);
+//            Annotation a = annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
+//
+//            System.out.println(a.getSource_doc().getSource_doc_text().substring((int) a.getSource_offset(), (int) a.getSource_offset() + (int) a.getSource_length()));
+//            System.out.println("");
+//            System.out.println(a.getSuspicious_doc().getSuspicious_doc_text().substring((int) a.getSuspicious_offset(), (int) a.getSuspicious_offset() + (int) a.getSuspicious_length()));
+//            
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
 //            List<CandidateSentencesWithOriginal> candidateSentences = new ArrayList<>();
@@ -109,12 +111,13 @@ public class test {
 //        candidateSentences=Helpers.cleanCandidateList(candidateSentences);
 //        Helpers.saveObjectToFile(candidateSentences, "D:\\candidateSentences1470_1490.out");
 //        System.out.println("-----------------");
-//        candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences.out"));
-//        candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences690_710.out"));
-//        candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences1470_1490.out"));
+            List<CandidateSentences> candidateSentences = Helpers.loadCandidateSentencesFromFile("candidateSentences20_40.out");
+            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences.out"));
+            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences690_710.out"));
+            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences1470_1490.out"));
 //        
-//        List<Features> features = PhaseI.extractFeatures(candidateSentences);
-//        PhaseI.writeARFFfile(features, "d:\\testData3.arff");
+        List<Features> features = PhaseI.extractFeatures(candidateSentences);
+        PhaseI.writeARFFfile(features, "d:\\testData5.arff");
             System.out.println("-----------------");
         } catch (Exception ex) {
             Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);

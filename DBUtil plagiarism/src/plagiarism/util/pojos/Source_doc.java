@@ -43,7 +43,7 @@ public class Source_doc implements Serializable{
     @Column(name = "source_doc_name")
     private String source_doc_name;
 
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "source_doc")
+    @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "source_doc")
     private Set<Phrase> phrases = new HashSet<Phrase>(0);
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")

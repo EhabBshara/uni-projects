@@ -16,16 +16,21 @@ public class Features {
     double skipgram2;
     double skipgram3;
     double lcs;
+    double fuzzySim;
     boolean isPlagirised;
 
-    public Features(double bleuPrec, double bleuRec, double skipgram2, double skipgram3, double lcs, boolean isPlagirised) {
+    public Features(double bleuPrec, double bleuRec, double skipgram2, double skipgram3, double lcs, double fuzzySim, boolean isPlagirised) {
         this.bleuPrec = bleuPrec;
         this.bleuRec = bleuRec;
         this.skipgram2 = skipgram2;
         this.skipgram3 = skipgram3;
         this.lcs = lcs;
+        this.fuzzySim = fuzzySim;
         this.isPlagirised = isPlagirised;
     }
+    
+
+
 
     public Features() {
     }
@@ -83,8 +88,17 @@ public class Features {
         return "Features{" + "bleuPrec=" + bleuPrec + ", bleuRec=" + bleuRec + ", skipgram2=" + skipgram2 + ", skipgram3=" + skipgram3 + ", lcs=" + lcs + ", isPlagirised=" + isPlagirised + '}';
     }
 
+    public double getFuzzySim() {
+        return fuzzySim;
+    }
+
+    public void setFuzzySim(double fuzzySim) {
+        this.fuzzySim = fuzzySim;
+    }
+
+    
     public String toMLString() {
-        return bleuPrec + "," + bleuRec + "," + skipgram2 + "," + skipgram3 + "," + lcs + "," + (isPlagirised?"yes":"no");
+        return bleuPrec + "," + bleuRec + "," + skipgram2 + "," + skipgram3 + "," + lcs + "," +fuzzySim + "," + (isPlagirised?"yes":"no");
     }
     public static String getMLHeaders()
     {
@@ -95,6 +109,7 @@ public class Features {
         result+="@attribute skipgram2 numeric\n";
         result+="@attribute skipgram3 numeric\n";
         result+="@attribute lcs numeric\n";
+        result+="@attribute fuzzy numeric\n";
         result+="@attribute isPlagirised {yes,no}\n";
         result+="@data\n";
         return result;

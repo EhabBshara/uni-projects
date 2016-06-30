@@ -43,6 +43,8 @@ public interface IGenericDAO<T> {
      * @return The persisted object.
      */
     public T save(T object);
+    
+    public List<T> bulkSave(List<T> object);
 
     /**
      * Incapsulate the <i>UPDATE</i> operation.

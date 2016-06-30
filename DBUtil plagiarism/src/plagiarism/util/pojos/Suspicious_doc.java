@@ -38,7 +38,7 @@ public class Suspicious_doc implements Serializable {
     @Column(name = "SUSPICIOUS_DOC_NAME")
     private String suspicious_doc_name;
     
-    @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "suspicious_doc")
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "suspicious_doc")
     private Set<TestPhrase> testPhrases = new HashSet<>(0);
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "suspicious_doc")

@@ -38,6 +38,12 @@ public class GenericServiceImpl<T> implements IGenericService<T> {
     public T save(T object) {
         return (T) dao.save(object);
     }
+    
+    @Override
+    public List<T> bulkSave(List<T> object)
+    {
+        return (List<T>)dao.bulkSave(object);
+    }
 
     @Override
     public void update(T object) {
