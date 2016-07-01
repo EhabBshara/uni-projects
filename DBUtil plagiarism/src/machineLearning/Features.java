@@ -17,16 +17,26 @@ public class Features {
     double skipgram3;
     double lcs;
     double fuzzySim;
+    double intersection;
     boolean isPlagirised;
 
-    public Features(double bleuPrec, double bleuRec, double skipgram2, double skipgram3, double lcs, double fuzzySim, boolean isPlagirised) {
+    public Features(double bleuPrec, double bleuRec, double skipgram2, double skipgram3, double lcs, double fuzzySim,double intersection, boolean isPlagirised) {
         this.bleuPrec = bleuPrec;
         this.bleuRec = bleuRec;
         this.skipgram2 = skipgram2;
         this.skipgram3 = skipgram3;
         this.lcs = lcs;
         this.fuzzySim = fuzzySim;
+        this.intersection = intersection;
         this.isPlagirised = isPlagirised;
+    }
+
+    public double getIntersection() {
+        return intersection;
+    }
+
+    public void setIntersection(double intersection) {
+        this.intersection = intersection;
     }
     
 
@@ -98,7 +108,7 @@ public class Features {
 
     
     public String toMLString() {
-        return bleuPrec + "," + bleuRec + "," + skipgram2 + "," + skipgram3 + "," + lcs + "," +fuzzySim + "," + (isPlagirised?"yes":"no");
+        return bleuPrec + "," + bleuRec + "," + skipgram2 + "," + skipgram3 + "," + lcs + "," +fuzzySim + ","+intersection+"," + (isPlagirised?"yes":"no");
     }
     public static String getMLHeaders()
     {
@@ -110,6 +120,7 @@ public class Features {
         result+="@attribute skipgram3 numeric\n";
         result+="@attribute lcs numeric\n";
         result+="@attribute fuzzy numeric\n";
+        result+="@attribute intersection\n";
         result+="@attribute isPlagirised {yes,no}\n";
         result+="@data\n";
         return result;

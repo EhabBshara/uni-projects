@@ -12,6 +12,7 @@ import arabicTools.Stem;
 import features.BLEU;
 import features.FuzzySimilarity;
 import features.FuzzySimilarity1;
+import features.Intersection;
 import features.LCSwords;
 import features.SkipGram;
 import java.io.BufferedWriter;
@@ -159,7 +160,8 @@ public class PhaseI {
                 double skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4).skipGramFeature();
                 double skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4).skipGramFeature();
                 double fuzz = new FuzzySimilarity1(candidatesentences.getSource(), candidatesentences.getSuspicious(), awn).getSimilarityOfSentences();
-                result.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, fuzz, candidatesentences.isIsPlagirised()));
+                double intersection = new Intersection(candidatesentences.getSource(),candidatesentences.getSuspicious()).IntersectionScore();
+                result.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, fuzz,intersection, candidatesentences.isIsPlagirised()));
             } catch (Exception e) {
                 System.out.println(candidatesentences);
                 e.printStackTrace();
@@ -181,7 +183,8 @@ public class PhaseI {
             double skipGram2 = new SkipGram(source, suspicious, 2, 4).skipGramFeature();
             double skipGram3 = new SkipGram(source, suspicious, 3, 4).skipGramFeature();
             double fuzz = new FuzzySimilarity1(source, suspicious, awn).getSimilarityOfSentences();
-            result = new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, fuzz, true);
+             double intersection = new Intersection(source,suspicious).IntersectionScore();
+            result = new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords,intersection, fuzz, true);
         } catch (Exception e) {
             System.out.println(source + " " + suspicious);
             e.printStackTrace();

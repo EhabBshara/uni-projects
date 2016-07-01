@@ -20,11 +20,16 @@ import org.hibernate.Transaction;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import arabicTools.*;
+import com.google.common.collect.Sets;
 import features.BLEU;
+import features.Intersection;
 import features.LCSwords;
+import features.NGram;
 import features.SkipGram;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
@@ -78,13 +83,33 @@ public class test {
             IGenericService<CandidateDocs> candidateService
                     = new GenericServiceImpl<>(CandidateDocs.class, HibernateUtil.getSessionFactory());
 
-//            Map<String, Object> params = new HashMap<String, Object>();
-//            params.put("ANNOTATION_ID", 1705);
-//            Annotation a = annotationService.getByWhere("where annotation_id = :ANNOTATION_ID", params).get(0);
-//
-//            System.out.println(a.getSource_doc().getSource_doc_text().substring((int) a.getSource_offset(), (int) a.getSource_offset() + (int) a.getSource_length()));
-//            System.out.println("");
-//            System.out.println(a.getSuspicious_doc().getSuspicious_doc_text().substring((int) a.getSuspicious_offset(), (int) a.getSuspicious_offset() + (int) a.getSuspicious_length()));
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("OBFUSCATION", "word shuffling");
+            List<Annotation> a = annotationService.getByWhere("where obfuscation = :OBFUSCATION", params);
+            Stem stemmer = new Stem();
+            String sourceSentence;
+            String suspiciousSentence;
+            String sourceStemmed ;
+            String suspiciousStemmed ;
+            List<Double> result = new ArrayList<>();
+            Intersection s = null ;
+            for(Annotation an :a)
+            {
+                
+                sourceSentence = an.getSource_doc().getSource_doc_text().substring((int) an.getSource_offset(), (int) an.getSource_offset() + (int) an.getSource_length());
+                suspiciousSentence = an.getSuspicious_doc().getSuspicious_doc_text().substring((int) an.getSuspicious_offset(), (int) an.getSuspicious_offset() + (int) an.getSuspicious_length());
+                s = new Intersection( sourceSentence,suspiciousSentence);
+                result.add(s.IntersectionScore());
+                
+            }
+            FileWriter file = new FileWriter(new File("D://res.txt"));
+         
+            for(double res : result)
+            {
+                file.write(res+"\n");
+            }
+            file.close();
+            System.out.println("done");
 //            
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
@@ -111,14 +136,14 @@ public class test {
 //        candidateSentences=Helpers.cleanCandidateList(candidateSentences);
 //        Helpers.saveObjectToFile(candidateSentences, "D:\\candidateSentences1470_1490.out");
 //        System.out.println("-----------------");
-            List<CandidateSentences> candidateSentences = Helpers.loadCandidateSentencesFromFile("candidateSentences20_40.out");
-            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences.out"));
-            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences690_710.out"));
-            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences1470_1490.out"));
-//        
-        List<Features> features = PhaseI.extractFeatures(candidateSentences);
-        PhaseI.writeARFFfile(features, "d:\\testData5.arff");
-            System.out.println("-----------------");
+//            List<CandidateSentences> candidateSentences = Helpers.loadCandidateSentencesFromFile("candidateSentences20_40.out");
+//            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences.out"));
+//            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences690_710.out"));
+//            candidateSentences.addAll(Helpers.loadCandidateSentencesFromFile("d:\\candidateSentences1470_1490.out"));
+////        
+//        List<Features> features = PhaseI.extractFeatures(candidateSentences);
+//        PhaseI.writeARFFfile(features, "d:\\testData5.arff");
+//            System.out.println("-----------------");
         } catch (Exception ex) {
             Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
         }
