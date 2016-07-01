@@ -5,6 +5,7 @@
  */
 package plagiarism.util.pojos;
 
+import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,11 +21,11 @@ import javax.persistence.Table;
  * @author dali
  */
 @Entity
-@Table(name = "candidate")
-public class CandidateDocs {
+@Table(name = "CANDIDATE")
+public class CandidateDocs  implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", nullable = false, unique = true)
+    @Column(name = "candidate_id", nullable = false, unique = true)
     int id;
     
     @ManyToOne(cascade = CascadeType.ALL)

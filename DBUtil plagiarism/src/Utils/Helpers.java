@@ -7,6 +7,7 @@ package Utils;
 
 import arabicTools.ArabicStemmerDefault;
 import arabicTools.Stem;
+import com.google.common.collect.Sets;
 import features.NGram;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import machineLearning.CandidateSentences;
@@ -58,19 +60,18 @@ public class Helpers {
         }
         return sentences;
     }
-    public static String cleanSentence(String sentence)
-    {
-         String cleandSentence = sentence.replaceAll("[^\\d&&[\\P{InArabic}\\p{P}]]+", " ");
-           if (sentence.startsWith(" ")) {
-                cleandSentence = cleandSentence.substring(1, cleandSentence.length());
-            }
-            if (cleandSentence.endsWith(" ")) {
-                cleandSentence = cleandSentence.substring(0, cleandSentence.length() - 1);
-            }
-            return cleandSentence;
+
+    public static String cleanSentence(String sentence) {
+        String cleandSentence = sentence.replaceAll("[^\\d&&[\\P{InArabic}\\p{P}]]+", " ");
+        if (sentence.startsWith(" ")) {
+            cleandSentence = cleandSentence.substring(1, cleandSentence.length());
+        }
+        if (cleandSentence.endsWith(" ")) {
+            cleandSentence = cleandSentence.substring(0, cleandSentence.length() - 1);
+        }
+        return cleandSentence;
     }
-    
-    
+
     public static String[] getPlagiraisedSentecesFromSource(IGenericService<Annotation> annotationService, long sourceId, long susId) {
 
         List<String> sss = new ArrayList<>();
@@ -230,36 +231,32 @@ public class Helpers {
         return resultSentences;
     }
 
-       public static String stemCleanedSentence(String sentence, Stem stemmer) {
+    public static String stemCleanedSentence(String sentence, Stem stemmer) {
         String resultSentence = "";
-            String[] words = sentence.split(" ");
-            String resSentence = "";
-            for (String word : words) {
-                try {
-                    resSentence += stemmer.StemWord(word) + " ";
-                } catch (Exception e) {
+        String[] words = sentence.split(" ");
+        String resSentence = "";
+        for (String word : words) {
+            try {
+                resSentence += stemmer.StemWord(word) + " ";
+            } catch (Exception e) {
 //                    System.out.println(word);
 //                    e.printStackTrace();
-                    resSentence += word + " ";
-                }
+                resSentence += word + " ";
             }
-            resultSentence = resSentence.substring(0, resSentence.length() - 1);
+        }
+        resultSentence = resSentence.substring(0, resSentence.length() - 1);
         return resultSentence;
     }
-    
-    
+
     public static float getOverlapValue(String sentence1, String sentence2) {
         float result = 0;
         String[] wordsOfs1 = sentence1.split(" ");
         String[] wordsOfs2 = sentence2.split(" ");
-        for (int i = 0; i < wordsOfs1.length; i++) {
-            for (int j = 0; j < wordsOfs2.length; j++) {
-                if (wordsOfs1[i].equals(wordsOfs2[j])) {
-                    result++;
-                }
-            }
-        }
-        return result;
+        HashSet<String> sourceHashSet = new HashSet<>();
+        HashSet<String> susHashSet = new HashSet<>();
+        sourceHashSet.addAll(Arrays.asList(wordsOfs1));
+        susHashSet.addAll(Arrays.asList(wordsOfs2));
+        return Sets.intersection(sourceHashSet, susHashSet).size();
     }
 
     public static List<CandidateSentences> cleanCandidateList(List<CandidateSentences> candidateSentenceses) {
@@ -279,7 +276,7 @@ public class Helpers {
         return candidateSentenceses;
     }
 
-    public static void saveObjectToFile(Object object,String filePath) {
+    public static void saveObjectToFile(Object object, String filePath) {
         try {
             FileOutputStream out = new FileOutputStream(filePath);
             ObjectOutputStream oos = new ObjectOutputStream(out);
@@ -291,22 +288,19 @@ public class Helpers {
     }
 
     public static Object loadObjectFromFile(String filePath) {
-        Object o=new Object();
+        Object o = new Object();
         try {
             FileInputStream in = new FileInputStream("D://candidateSentences.out");
             ObjectInputStream ois = new ObjectInputStream(in);
-           o=(ois.readObject());
+            o = (ois.readObject());
         } catch (Exception e) {
             System.out.println("Problem serializing: " + e);
         }
         return o;
     }
-    
-    public static List<CandidateSentences> loadCandidateSentencesFromFile(String filepath)
-    {
-        return (List<CandidateSentences>)loadObjectFromFile(filepath);
+
+    public static List<CandidateSentences> loadCandidateSentencesFromFile(String filepath) {
+        return (List<CandidateSentences>) loadObjectFromFile(filepath);
     }
-    
- 
 
 }

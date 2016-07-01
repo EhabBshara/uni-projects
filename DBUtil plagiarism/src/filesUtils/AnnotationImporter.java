@@ -55,9 +55,10 @@ public class AnnotationImporter implements Importer {
         File folder = new File(path);
         String text = null;
         for (File f : folder.listFiles()) {
-            if(f.isFile())
+            if (f.isFile()) {
                 AnnotationFiles.addAll(readXML(f));
-           
+            }
+
         }
     }
 
@@ -67,8 +68,9 @@ public class AnnotationImporter implements Importer {
 
     @Override
     public void save() {
-        for(Annotation annotation:AnnotationFiles)
-                annotationService.save(annotation);
+        for (Annotation a : AnnotationFiles) {
+            annotationService.save(a);
+        }
 
     }
 
@@ -149,7 +151,7 @@ public class AnnotationImporter implements Importer {
                         Map<String, Object> params = new HashMap<String, Object>();
                         params.put("SOURCE_DOC_NAME", SourceDocName);
                         List<Source_doc> source_docs = sourceDocService.getByWhere("where source_doc_name=:SOURCE_DOC_NAME", params);
-                        Source_doc source_doc=null;
+                        Source_doc source_doc = null;
                         if (!source_docs.equals(null)) {
                             source_doc = source_docs.get(0);
                         } else {
