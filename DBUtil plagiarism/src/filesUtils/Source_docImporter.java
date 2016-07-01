@@ -23,22 +23,23 @@ import plagiarism.util.pojos.Source_doc;
  */
 public class Source_docImporter implements Importer {
 
-    String path ;
-    IGenericService<Source_doc> source_docService ;
-    List<Map<String,String>> files = null ;
-    public Source_docImporter(String path)
-    {
-        this.path = path ;
+    String path;
+    IGenericService<Source_doc> source_docService;
+    List<Map<String, String>> files = null;
+
+    public Source_docImporter(String path) {
+        this.path = path;
         source_docService = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
-        files = new ArrayList<Map<String,String>>();
+        files = new ArrayList<Map<String, String>>();
     }
-    public String getPath ()
-    {
-        return path ;
+
+    public String getPath() {
+        return path;
     }
+
     @Override
     public void import_() {
-        
+
         File folder = new File(path);
         String text = null;
         for (File f : folder.listFiles()) {
@@ -51,7 +52,7 @@ public class Source_docImporter implements Importer {
                 file.put("filename", f.getName());
                 file.put("content", text);
                 files.add(file);
-                
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -61,20 +62,16 @@ public class Source_docImporter implements Importer {
     @Override
     public void save() {
         PhraseImporter p = null;
-        for(Map file :files)
-        {
-            Source_doc s = new Source_doc((String)file.get("content"),(String)file.get("filename")) ;
-            source_docService.save(s);
-//            p = new PhraseImporter(s);
-//            p.import_();
-//            p.save();
+        List<Source_doc> sources = new ArrayList<>();
+        for (Map file : files) {
+            sources.add(new Source_doc((String) file.get("content"), (String) file.get("filename")));
         }
+        source_docService.bulkSave(sources);
     }
 
     @Override
     public String[] splitter(String content) {
         return content.split(" ");
     }
-    
-    
+
 }

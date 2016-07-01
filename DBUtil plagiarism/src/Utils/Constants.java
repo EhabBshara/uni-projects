@@ -12,8 +12,8 @@ package Utils;
 public final class Constants {
 
     public static final float DOCUMENT_SIMILARITY_COEF = 0.15f;
-    public static final float LCS_COEF = 0.15f;
-    public static final float SKIP_GRAM2_COEF = 0.15f;
-    public static final float SKIP_GRAM3_COEF = 0.15f;
+    public static final float LCS_COEF = 0.75f;
+    public static final float SKIP_GRAM2_COEF = 0.25f;
+    public static final float SKIP_GRAM3_COEF = 0.29f;
 
 }

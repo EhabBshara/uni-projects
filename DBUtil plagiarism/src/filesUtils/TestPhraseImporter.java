@@ -6,9 +6,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
@@ -31,7 +33,7 @@ public class TestPhraseImporter implements Importer {
 
     Map<String, String> file = null;
     HashMap tdocFreq = null;
-    Suspicious_doc suspicious = null ;
+    Suspicious_doc suspicious = null;
 
     public HashMap getTdocFreq() {
         return tdocFreq;
@@ -64,7 +66,7 @@ public class TestPhraseImporter implements Importer {
      *
      * @return List of HashMaps containing files from the specified directory.
      */
-    public Map<String, String>getFiles() {
+    public Map<String, String> getFiles() {
         return file;
     }
 
@@ -73,7 +75,7 @@ public class TestPhraseImporter implements Importer {
      * @param files List of HashMaps containing files from the specified
      * directory.
      */
-    public void setFiles(Map<String, String>file) {
+    public void setFiles(Map<String, String> file) {
         this.file = file;
     }
 
@@ -95,7 +97,7 @@ public class TestPhraseImporter implements Importer {
 
     @Override
     public void import_() {
-       file.put("filename", suspicious.getSuspicious_doc_name());
+        file.put("filename", suspicious.getSuspicious_doc_name());
         file.put("content", suspicious.getSuspicious_doc_text());
         file.put("pathname", null); //TODO delete pathname from table phrase
     }
@@ -112,43 +114,62 @@ public class TestPhraseImporter implements Importer {
 //           testphraseService.save(tp);
 
 //        }
-        TestPhrase tp = null;
-        int offset = 0, length;
-        String[] sentences = splitter((String) file.get("content"));
+        List<TestPhrase> tpList = new ArrayList<>();
+//        int offset = 0, length;
+//        String[] sentences = splitter((String) file.get("content"));
+//        Stem stem = new Stem();
+//        for (int i = 0; i < sentences.length; i++) {
+//            if (i == 0) {
+//                offset = 0;
+//            } else {
+//                offset += sentences[i - 1].length() + 1;
+//            }
+//            length = sentences[i].length() ;
+//            if (length > 1) {
+//                int add=0;
+//                if(sentences[i].startsWith("\\n")||sentences[i].startsWith(" "))
+//                    add=1;
+//                String cleanedSentence = Helpers.cleanSentence(sentences[i]);
+//                String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
+//                tp = new TestPhrase((String) file.get("pathname"), (String) file.get("filename"),
+//                        sentences[i], suspicious, cleanedSentence, stemmedSentence, offset+add, length);
+//                testphraseService.save(tp);
+//            }
+//        }
         Stem stem = new Stem();
-        for (int i = 0; i < sentences.length; i++) {
-            if (i == 0) {
-                offset = 0;
-            } else {
-                offset += sentences[i - 1].length() + 1;
+        BreakIterator iterator = BreakIterator.getSentenceInstance(new Locale("ar"));
+        String source = (String) file.get("content");
+        iterator.setText(source);
+        int start = iterator.first();
+        for (int end = iterator.next();
+                end != BreakIterator.DONE;
+                start = end, end = iterator.next()) {
+            if (end - start < 4) {
+                continue;
             }
-            length = sentences[i].length() ;
-            if (length > 1) {
-                int add=0;
-                if(sentences[i].startsWith("\\n")||sentences[i].startsWith(" "))
-                    add=1;
-                String cleanedSentence = Helpers.cleanSentence(sentences[i]);
-                String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
-                tp = new TestPhrase((String) file.get("pathname"), (String) file.get("filename"),
-                        sentences[i], suspicious, cleanedSentence, stemmedSentence, offset+add, length);
-                testphraseService.save(tp);
+            String sentence = source.substring(start, end);
+            String cleanedSentence = Helpers.cleanSentence(sentence);
+            String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
+            tpList.add(new TestPhrase((String) file.get("pathname"), (String) file.get("filename"),
+                    sentence, suspicious, cleanedSentence, stemmedSentence, start, end - start));
+        }
+        testphraseService.bulkSave(tpList);
+
+    }
+
+    private void calculateTF(String phrase) {
+        String[] tokens = splitter(getTokens(phrase));
+        for (String token : tokens) {
+            if (tdocFreq.containsKey(token)) {
+                int freq = ((Integer) tdocFreq.get(token)) + 1;
+                tdocFreq.put(token, freq);
+            } else {
+                tdocFreq.put(token, 1);
             }
         }
+
     }
-    private void calculateTF(String phrase)
-    {
-         String[] tokens = splitter(getTokens(phrase));
-         for (String token : tokens) {
-                if (tdocFreq.containsKey(token)) {
-                    int freq = ((Integer) tdocFreq.get(token)) + 1;
-                    tdocFreq.put(token, freq);
-                } else {
-                    tdocFreq.put(token, 1);
-                }
-            }
-        
-    }
-    
+
     @Override
     public String[] splitter(String content) {
         //TODO do your magic dali 
@@ -163,7 +184,7 @@ public class TestPhraseImporter implements Importer {
         try {
             stream.reset();
             while (stream.incrementToken()) {
-                tokenizedTerms +=stream.getAttribute(CharTermAttribute.class).toString()+" ";
+                tokenizedTerms += stream.getAttribute(CharTermAttribute.class).toString() + " ";
             }
         } catch (Exception e) {
             e.printStackTrace();
