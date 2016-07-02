@@ -17,13 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Store;
-
-
 
 /**
  * <h2>Source Document POJO</h2>
@@ -36,7 +29,6 @@ import org.hibernate.search.annotations.Store;
  * @since 2016-04-10
  */
 @Entity
-@Indexed
 @Table(name = "source_doc")
 public class Source_doc implements Serializable{
     
@@ -46,7 +38,6 @@ public class Source_doc implements Serializable{
     private int source_doc_id;
 
     @Column(name = "source_doc_text")
-    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String source_doc_text;
 
     @Column(name = "source_doc_name")

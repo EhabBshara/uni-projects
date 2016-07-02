@@ -17,18 +17,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.hibernate.search.annotations.Analyze;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Index;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
 
 /**
  *
  * @author AliWAA
  */
 @Entity
-@Indexed
 @Table(name = "SUSPICIOUS_DOC")
 public class Suspicious_doc implements Serializable {
 
@@ -39,11 +33,9 @@ public class Suspicious_doc implements Serializable {
     private int suspicious_doc_id;
     
     @Column(name = "SUSPICIOUS_DOC_TEXT")
-    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String suspicious_doc_text;
     
     @Column(name = "SUSPICIOUS_DOC_NAME")
-    @Field(index=Index.YES, analyze=Analyze.YES, store=Store.NO)
     private String suspicious_doc_name;
     
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "suspicious_doc")
