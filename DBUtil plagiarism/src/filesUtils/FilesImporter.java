@@ -50,4 +50,15 @@ public class FilesImporter {
 
     }
 
+    public void importAnnotationsTestData() {
+        String basePath = "\\plagiarism-annotation\\";
+        File baseFolder = new File(path + basePath);
+        if (baseFolder.isDirectory()) {
+            AnnotationImporter annotationImporter = new AnnotationImporter(baseFolder.getAbsolutePath() + "\\");
+            annotationImporter.import_();
+            annotationImporter.save();
+        }
+
+    }
+
 }

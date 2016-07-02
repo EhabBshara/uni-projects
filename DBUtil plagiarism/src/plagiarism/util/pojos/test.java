@@ -89,24 +89,28 @@ public class test {
             Stem stemmer = new Stem();
             String sourceSentence;
             String suspiciousSentence;
-            String sourceStemmed ;
-            String suspiciousStemmed ;
+            String sourceStemmed;
+            String suspiciousStemmed;
             List<Double> result = new ArrayList<>();
-            Intersection s = null ;
-            for(Annotation an :a)
-            {
-                
+            Intersection s = null;
+            for (Annotation an : a) {
+
                 sourceSentence = an.getSource_doc().getSource_doc_text().substring((int) an.getSource_offset(), (int) an.getSource_offset() + (int) an.getSource_length());
                 suspiciousSentence = an.getSuspicious_doc().getSuspicious_doc_text().substring((int) an.getSuspicious_offset(), (int) an.getSuspicious_offset() + (int) an.getSuspicious_length());
-                s = new Intersection( sourceSentence,suspiciousSentence);
+                sourceStemmed = Helpers.stemCleanedSentence(Helpers.cleanSentence(sourceSentence), stemmer);
+                suspiciousStemmed = Helpers.stemCleanedSentence(Helpers.cleanSentence(suspiciousSentence), stemmer);
+
+                s = new Intersection(sourceStemmed, suspiciousStemmed);
                 result.add(s.IntersectionScore());
-                
+
             }
             FileWriter file = new FileWriter(new File("D://res.txt"));
-         
-            for(double res : result)
-            {
-                file.write(res+"\n");
+
+            for (double res : result) {
+                file.write(res + "\n");
+                if (res < 0.7) {
+                    System.out.println(res);
+                }
             }
             file.close();
             System.out.println("done");

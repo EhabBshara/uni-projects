@@ -51,7 +51,7 @@ public class Main {
 //        List<CandidatePair> sentencesPairsList = t.getCandidatePair(candidates.getSource_doc(), candidates.getSuspicious_doc());
             List<CandidatePair> sentencesPairsList = t.assosiatePairs(candidate.getSource_doc(), candidate.getSuspicious_doc());
             for (CandidatePair pair : sentencesPairsList) {
-                if (evaluater.evaluate(pair.getPhrase(), pair.getTestPhrase())) {
+                if (evaluater.evaluate(pair.getPhrase(), pair.getTestPhrase(),false,false)) {
                     assocs.add(new Assoc(pair.getPhrase(), pair.getTestPhrase(), 0.0));
                 }
             }

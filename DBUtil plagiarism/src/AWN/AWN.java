@@ -29,7 +29,7 @@ public class AWN {
      * is not a root
      * @return list of synonyms of input word
      */
-    public List<String> getSynonyms(String word, boolean isRoot) {
+    public static List<String> getSynonyms(String word, boolean isRoot) {
         List<String> synonyms = new ArrayList<>();
         try {
             //get connection to database
@@ -95,7 +95,7 @@ public class AWN {
      * is not a root
      * @return array of synonyms root words
      */
-    public List<String> getSynonymsAsRoot(String word, boolean isRoot) {
+    public static List<String> getSynonymsAsRoot(String word, boolean isRoot) {
         List<String> synonyms = new ArrayList<>();
         try {
             //get connection to database

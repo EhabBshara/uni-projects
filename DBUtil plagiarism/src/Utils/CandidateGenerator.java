@@ -72,7 +72,7 @@ public class CandidateGenerator {
         IGenericService<CandidateDocs> candidateService
                 = new GenericServiceImpl<>(CandidateDocs.class, HibernateUtil.getSessionFactory());
         List<CandidateDocs> candidateDocses = new ArrayList<>();
-        for (int i = 200; i < suspiciouses.size(); i++) {
+        for (int i = 0; i < suspiciouses.size(); i++) {
             Suspicious_doc sus = suspiciouses.get(i);
             System.out.println("new sus at time:" + System.currentTimeMillis());
             for (Source_doc source : sources) {

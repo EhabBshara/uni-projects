@@ -5,7 +5,7 @@
  */
 package plagiarism.util.pojos;
 
-import org.hibernate.cfg.AnnotationConfiguration;
+import java.util.Properties;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -27,6 +27,7 @@ public class HibernateUtil {
             // config file.
             //sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
             Configuration config = new Configuration().configure("hibernate.cfg.xml");
+            Properties properties = config.getProperties();
             config.addAnnotatedClass(Assoc.class);
             config.addAnnotatedClass(TestPhrase.class);
             config.addAnnotatedClass(Phrase.class);
@@ -34,9 +35,9 @@ public class HibernateUtil {
             config.addAnnotatedClass(Source_doc.class);
             config.addAnnotatedClass(Suspicious_doc.class);
             config.addAnnotatedClass(Annotation.class);
-            ServiceRegistry registry = new StandardServiceRegistryBuilder()
-                    .applySettings(config.getProperties())
-                    .build();
+            config.addAnnotatedClass(CandidateDocs.class);
+            StandardServiceRegistryBuilder registryBuilder = new StandardServiceRegistryBuilder().applySettings(properties);
+            ServiceRegistry registry = registryBuilder.build();
             sessionFactory = config.buildSessionFactory(registry);
         } catch (Throwable ex) {
             // Log the exception. 
@@ -47,6 +48,7 @@ public class HibernateUtil {
 
     /**
      * Gets a <b>SessionFactory</b>
+     *
      * @return sessionFactory instance.
      */
     public static SessionFactory getSessionFactory() {

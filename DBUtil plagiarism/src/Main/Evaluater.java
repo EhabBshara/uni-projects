@@ -5,7 +5,10 @@
  */
 package Main;
 
+import AWN.AWN;
 import Utils.Constants;
+import features.FuzzySimilarity1;
+import features.Intersection;
 import features.LCSwords;
 import features.SkipGram;
 import plagiarism.util.pojos.Phrase;
@@ -17,7 +20,7 @@ import plagiarism.util.pojos.TestPhrase;
  */
 public class Evaluater {
 
-    public boolean evaluate(Phrase phrase, TestPhrase testphrase) {
+    public boolean evaluate(Phrase phrase, TestPhrase testphrase, boolean withWordShuffling, boolean withSymantic) {
         double lCSwords = new LCSwords(phrase.getStemmed(), testphrase.getStemmed()).lcsFeature();
         if (lCSwords > Constants.LCS_COEF) {
             return true;
@@ -29,6 +32,19 @@ public class Evaluater {
         double skipGram3 = new SkipGram(phrase.getStemmed(), testphrase.getStemmed(), 3, 4).skipGramFeature();
         if (skipGram3 > Constants.SKIP_GRAM3_COEF) {
             return true;
+        }
+
+        if (withWordShuffling) {
+            double intersect = new Intersection(phrase.getStemmed(), testphrase.getStemmed()).IntersectionScore();
+            if (intersect > Constants.INTERSECTION_COEF) {
+                return true;
+            }
+        }
+        if (withSymantic) {
+            double sim = new FuzzySimilarity1(phrase.getStemmed(), testphrase.getStemmed()).getSimilarityOfSentences();
+            if (sim > Constants.SYMANTIC_COEF) {
+                return true;
+            }
         }
         return false;
     }

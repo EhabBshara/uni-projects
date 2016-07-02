@@ -18,18 +18,16 @@ public class FuzzySimilarity1 {
 
     private String phrase;
     private String testphrase;
-    private AWN wordnet;
 
-    public FuzzySimilarity1(String phrase, String testphrase, AWN wordnet) {
+    public FuzzySimilarity1(String phrase, String testphrase) {
         this.phrase = phrase;
         this.testphrase = testphrase;
-        this.wordnet = wordnet;
     }
 
     private double computeFuzzySimilarity(String term1, String term2) {
 
-        List<String> synonemosTerm1 = wordnet.getSynonyms(term1, false);
-        synonemosTerm1.addAll(wordnet.getSynonymsAsRoot(term1, false));
+        List<String> synonemosTerm1 = AWN.getSynonyms(term1, false);
+        synonemosTerm1.addAll(AWN.getSynonymsAsRoot(term1, false));
         if (synonemosTerm1.contains(term2)) {
             return 0.5;
         }

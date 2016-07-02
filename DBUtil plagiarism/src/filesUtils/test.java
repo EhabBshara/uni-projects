@@ -23,11 +23,13 @@ public class test {
 
     public static void main(String[] args) {
         
-        FilesImporter filesImporter=new FilesImporter("D:\\plagiarism data\\Ara\\ExAraPlagDet-10-08-2015\\ExAraPlagDet-10-08-2015");
+        FilesImporter filesImporter=new FilesImporter("C:\\Users\\dali\\Desktop\\grad proj\\data\\Ara\\ExAraPlagDet-21-09-2015-with-ground-truth\\ExAraPlagDet-21-09-2015");
 //        
-//        filesImporter.importSources();
-//        filesImporter.importSuspicious();
+        filesImporter.importSources();
+        filesImporter.importSuspicious();
 //        filesImporter.importAnnotations();
+        filesImporter.importAnnotationsTestData();
+        
          IGenericService<Source_doc> sourceService
                         = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
          IGenericService<Suspicious_doc> SuspiciousService

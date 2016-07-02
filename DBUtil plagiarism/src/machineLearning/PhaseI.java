@@ -147,7 +147,6 @@ public class PhaseI {
     }
 
     public static List<Features> extractFeatures(List<CandidateSentences> candidateSentenceses) {
-        AWN awn = new AWN();
         List<Features> result = new ArrayList<>();
         for (CandidateSentences candidatesentences : candidateSentenceses) {
             if (candidatesentences.getSource().isEmpty() || candidatesentences.getSuspicious().isEmpty()) {
@@ -159,9 +158,9 @@ public class PhaseI {
                 double lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious()).lcsFeature();
                 double skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4).skipGramFeature();
                 double skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4).skipGramFeature();
-                double fuzz = new FuzzySimilarity1(candidatesentences.getSource(), candidatesentences.getSuspicious(), awn).getSimilarityOfSentences();
-                double intersection = new Intersection(candidatesentences.getSource(),candidatesentences.getSuspicious()).IntersectionScore();
-                result.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, fuzz,intersection, candidatesentences.isIsPlagirised()));
+                double fuzz = new FuzzySimilarity1(candidatesentences.getSource(), candidatesentences.getSuspicious()).getSimilarityOfSentences();
+                double intersection = new Intersection(candidatesentences.getSource(), candidatesentences.getSuspicious()).IntersectionScore();
+                result.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, fuzz, intersection, candidatesentences.isIsPlagirised()));
             } catch (Exception e) {
                 System.out.println(candidatesentences);
                 e.printStackTrace();
@@ -171,7 +170,6 @@ public class PhaseI {
     }
 
     public static Features extractFeature(String source, String suspicious) {
-        AWN awn = new AWN();
         Features result = new Features();
         if (source.isEmpty() || suspicious.isEmpty()) {
             return result;
@@ -182,9 +180,9 @@ public class PhaseI {
             double lCSwords = new LCSwords(source, suspicious).lcsFeature();
             double skipGram2 = new SkipGram(source, suspicious, 2, 4).skipGramFeature();
             double skipGram3 = new SkipGram(source, suspicious, 3, 4).skipGramFeature();
-            double fuzz = new FuzzySimilarity1(source, suspicious, awn).getSimilarityOfSentences();
-             double intersection = new Intersection(source,suspicious).IntersectionScore();
-            result = new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords,intersection, fuzz, true);
+            double fuzz = new FuzzySimilarity1(source, suspicious).getSimilarityOfSentences();
+            double intersection = new Intersection(source, suspicious).IntersectionScore();
+            result = new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, intersection, fuzz, true);
         } catch (Exception e) {
             System.out.println(source + " " + suspicious);
             e.printStackTrace();
