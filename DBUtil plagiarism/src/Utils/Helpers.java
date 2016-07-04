@@ -41,11 +41,12 @@ public class Helpers {
 //        String cleandText=fileText.replaceAll("[^\\p{L}\\w\\s\\.\\!\\?]", " ");
 
         String cleandText = fileText.replaceAll("[^.\\?!\\d&&[\\P{InArabic}\\p{P}]]+", " ");
+        cleandText = cleandText.replaceAll("\\Ù€+", " ");
         cleandText = cleandText.replaceAll("\\s+", " ");
-        cleandText = cleandText.replaceAll("\\.+", ".");
         cleandText = cleandText.replaceAll("\\?+", ".");
         cleandText = cleandText.replaceAll("!+", ".");
         cleandText = cleandText.replaceAll("\\n+", ".");
+        cleandText = cleandText.replaceAll("\\.+", ".");
         if (cleandText.endsWith("\\n")) {
             cleandText = cleandText.substring(0, cleandText.length() - 1);
         }
@@ -59,6 +60,21 @@ public class Helpers {
             }
         }
         return sentences;
+    }
+    
+    public static String CleanFileContent2(String fileText) {
+//        String cleandText=fileText.replaceAll("[^\\p{L}\\w\\s\\.\\!\\?]", " ");
+
+        String cleandText = fileText.replaceAll("[^.\\?!\\d&&[\\P{InArabic}\\p{P}]]+", " ");
+        cleandText = cleandText.replaceAll("\\Ù€+", " ");
+        cleandText = cleandText.replaceAll("\\s+", " ");
+        cleandText = cleandText.replaceAll("\\?+", ".");
+        cleandText = cleandText.replaceAll("!+", ".");
+        cleandText = cleandText.replaceAll("\\n+", ".");
+        cleandText = cleandText.replaceAll("\\.+", ".");
+        
+       
+        return cleandText;
     }
 
     public static String cleanSentence(String sentence) {
