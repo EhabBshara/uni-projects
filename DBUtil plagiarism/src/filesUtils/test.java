@@ -5,7 +5,9 @@
  */
 package filesUtils;
 
+import IR.Lucene;
 import java.util.List;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import plagiarism.util.pojos.Annotation;
@@ -26,30 +28,33 @@ public class test {
         FilesImporter filesImporter=new FilesImporter("C:\\Users\\dali\\Desktop\\grad proj\\data\\Ara\\ExAraPlagDet-21-09-2015-with-ground-truth\\ExAraPlagDet-21-09-2015");
 //        
         filesImporter.importSources();
-        filesImporter.importSuspicious();
+//        filesImporter.importSuspicious();.
 //        filesImporter.importAnnotations();
-        filesImporter.importAnnotationsTestData();
+//        filesImporter.importAnnotationsTestData();
         
          IGenericService<Source_doc> sourceService
                         = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
-         IGenericService<Suspicious_doc> SuspiciousService
-                        = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
-         IGenericService<Annotation> AnnotationService
-                        = new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
+//         IGenericService<Suspicious_doc> SuspiciousService
+//                        = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
+//         IGenericService<Annotation> AnnotationService
+//                        = new GenericServiceImpl<>(Annotation.class, HibernateUtil.getSessionFactory());
         List<Source_doc> sources =  sourceService.getAll();
-        List<Suspicious_doc> suspiciouses = SuspiciousService.getAll();
+//        List<Suspicious_doc> suspiciouses = SuspiciousService.getAll();
         for(Source_doc source : sources)
         {
             PhraseImporter phrase = new PhraseImporter(source);
             phrase.import_();
             phrase.save();
         }
-        for(Suspicious_doc suspicious : suspiciouses)
-        {
-            TestPhraseImporter testPhrase = new TestPhraseImporter(suspicious);
-            testPhrase.import_();
-            testPhrase.save();
-        }
+                StandardAnalyzer analyzer = new StandardAnalyzer();
+        Lucene index = new Lucene(analyzer);
+        index.indexer();
+//        for(Suspicious_doc suspicious : suspiciouses)
+//        {
+//            TestPhraseImporter testPhrase = new TestPhraseImporter(suspicious);
+//            testPhrase.import_();
+//            testPhrase.save();
+//        }
 //        List<Annotation> annotations = AnnotationService.getAll();
 //        Annotation a=annotations.get(13);
 //        System.out.println(a.getSource_offset()+" \\ "+ a.getSource_length()+" \\ "+a.getSource_doc().getSource_doc_text().substring((int)a.getSource_offset(), (int)a.getSource_offset()+(int)a.getSource_length()));

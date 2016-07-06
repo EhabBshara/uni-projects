@@ -83,6 +83,15 @@ public class test {
             IGenericService<CandidateDocs> candidateService
                     = new GenericServiceImpl<>(CandidateDocs.class, HibernateUtil.getSessionFactory());
 
+            
+            String hsql = "from Annotation a order by a.annotation_id DESC ";
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        List<Annotation> tuples = (List<Annotation>) session.createQuery(hsql).setMaxResults(1).list();
+        session.getTransaction().commit();
+            
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("OBFUSCATION", "word shuffling");
             List<Annotation> a = annotationService.getByWhere("where obfuscation = :OBFUSCATION", params);

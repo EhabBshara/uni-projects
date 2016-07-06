@@ -55,7 +55,6 @@ public class Suspicious_docImporter implements Importer {
 
     @Override
     public void save() {
-        TestPhraseImporter t = null;
         Suspicious_doc suspicious = new Suspicious_doc((String)file.get("content"), (String)file.get("filename"));
         suspicious_docService.save(suspicious);
 //            t = new TestPhraseImporter(suspicious);
