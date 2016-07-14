@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.util.Pair;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
@@ -49,7 +50,9 @@ public class Google {
     List<String> resultUrls = new ArrayList<>();
     static Set<Document> results = new HashSet<>();
 
-    public void getDatafromUrl() {
+    
+    public List<Pair<String,String>> getDatafromUrl() {
+        List<Pair<String,String>> urls=new ArrayList();
         //   for (String s : resultUrls) {
 //            FileOutputStream out;
 ////            String[] regex = s.split("&sa=");
@@ -79,9 +82,11 @@ public class Google {
                 HtmlParser htmlparser = new HtmlParser();
                 htmlparser.parse(stream, contenthandler, metadata, new ParseContext());
                 //pdfparser.parse(in, contenthandler, metadata, new ParseContext());
-                file = new FileWriter(new File("D://files//" + i++ + ".txt"));
+                String filename=System.currentTimeMillis()+"";
+                file = new FileWriter(new File("D://googlefiles//" + filename + ".txt"));
                 file.write(contenthandler.toString());
                 file.close();
+                urls.add(new Pair<>(s,filename+ ".txt"));
                 //System.out.println(contenthandler.toString());
             } catch (IOException e) {
                 System.out.println("file in " + s + "is not found");
@@ -94,6 +99,7 @@ public class Google {
                 System.out.println("file in " + s + "is not found");
             }
         }
+        return urls;
     }
 
     public static void main(String[] args) throws IOException {

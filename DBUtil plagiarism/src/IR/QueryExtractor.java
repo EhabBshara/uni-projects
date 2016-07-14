@@ -72,7 +72,7 @@ public class QueryExtractor {
             result.add(newsentence);
 
         }
-        
+
         for (String sentence : result) {
             String[] nonStopwords = sentence.split(" ");
             if (nonStopwords.length == 0) {
@@ -89,15 +89,19 @@ public class QueryExtractor {
         sorted = QueryExtractor.entriesSortedByValues(sentenceWeight);
     }
 
-    public List<String> extractAllSentence()
-    {
+    public List<String> extractAllSentence() {
         extract();
         List<String> queries = new ArrayList<>();
         queries.add(sorted.get(0).getKey());
-        queries.add(sorted.get(1).getKey());
-        queries.add(sorted.get(2).getKey());
+        if (queries.size() > 1) {
+            queries.add(sorted.get(1).getKey());
+        }
+        if (queries.size() > 2) {
+            queries.add(sorted.get(2).getKey());
+        }
         return queries;
     }
+
     public List<String> extractBygrams(int n) {
         extract();
         List<String> queries = new ArrayList<>();
@@ -112,6 +116,7 @@ public class QueryExtractor {
         queries.addAll(thirdQuery.list());
         return queries;
     }
+
     private static <K, V extends Comparable<? super V>>
             List<Entry<K, V>> entriesSortedByValues(Map<K, V> map) {
 
@@ -128,13 +133,14 @@ public class QueryExtractor {
 
         return sortedEntries;
     }
-             public static void main(String[] args) {
-                IGenericService<Suspicious_doc> suspiciousDocService
-                    = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
-                Suspicious_doc sus = suspiciousDocService.getAll().get(0);
-                QueryExtractor q = new QueryExtractor(sus);
+
+    public static void main(String[] args) {
+        IGenericService<Suspicious_doc> suspiciousDocService
+                = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
+        Suspicious_doc sus = suspiciousDocService.getAll().get(0);
+        QueryExtractor q = new QueryExtractor(sus);
               //  List<String> result = q.extract();
-                // System.out.println(result);
+        // System.out.println(result);
 
     }
 }

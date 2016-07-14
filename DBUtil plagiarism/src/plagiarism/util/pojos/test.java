@@ -75,47 +75,56 @@ public class test {
             IGenericService<CandidateDocs> candidateService
                     = new GenericServiceImpl<>(CandidateDocs.class, HibernateUtil.getSessionFactory());
 
+             String hsql = "from Source_doc sources order by source_doc_id  DESC";
+                    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+                    Session session = sessionFactory.getCurrentSession();
+                    session.beginTransaction();
+                  List<Source_doc>  sources = (List<Source_doc>) session.createQuery(hsql).setMaxResults(10).list();;
+                    session.getTransaction().commit();
             
-            String hsql = "from Annotation a order by a.annotation_id DESC ";
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
-        session.beginTransaction();
-
-        List<Annotation> tuples = (List<Annotation>) session.createQuery(hsql).setMaxResults(1).list();
-        session.getTransaction().commit();
             
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("OBFUSCATION", "word shuffling");
-            List<Annotation> a = annotationService.getByWhere("where obfuscation = :OBFUSCATION", params);
-            Stem stemmer = new Stem();
-            String sourceSentence;
-            String suspiciousSentence;
-            String sourceStemmed;
-            String suspiciousStemmed;
-            List<Double> result = new ArrayList<>();
-            Intersection s = null;
-            for (Annotation an : a) {
-
-                sourceSentence = an.getSource_doc().getSource_doc_text().substring((int) an.getSource_offset(), (int) an.getSource_offset() + (int) an.getSource_length());
-                suspiciousSentence = an.getSuspicious_doc().getSuspicious_doc_text().substring((int) an.getSuspicious_offset(), (int) an.getSuspicious_offset() + (int) an.getSuspicious_length());
-                sourceStemmed = Helpers.stemCleanedSentence(Helpers.cleanSentence(sourceSentence), stemmer);
-                suspiciousStemmed = Helpers.stemCleanedSentence(Helpers.cleanSentence(suspiciousSentence), stemmer);
-
-                s = new Intersection(sourceStemmed, suspiciousStemmed);
-                result.add(s.IntersectionScore());
-
-            }
-            FileWriter file = new FileWriter(new File("D://res.txt"));
-
-            for (double res : result) {
-                file.write(res + "\n");
-                if (res < 0.7) {
-                    System.out.println(res);
-                }
-            }
-            file.close();
-            System.out.println("done");
+//           List<Source_doc> soirc= sourceDocService.query("from Source_doc order by source_doc_id  DESC ", null, null);
+            
+//            String hsql = "from Annotation a order by a.annotation_id DESC ";
+//        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//        Session session = sessionFactory.getCurrentSession();
+//        session.beginTransaction();
+//
+//        List<Annotation> tuples = (List<Annotation>) session.createQuery(hsql).setMaxResults(1).list();
+//        session.getTransaction().commit();
 //            
+//            Map<String, Object> params = new HashMap<String, Object>();
+//            params.put("OBFUSCATION", "word shuffling");
+//            List<Annotation> a = annotationService.getByWhere("where obfuscation = :OBFUSCATION", params);
+//            Stem stemmer = new Stem();
+//            String sourceSentence;
+//            String suspiciousSentence;
+//            String sourceStemmed;
+//            String suspiciousStemmed;
+//            List<Double> result = new ArrayList<>();
+//            Intersection s = null;
+//            for (Annotation an : a) {
+//
+//                sourceSentence = an.getSource_doc().getSource_doc_text().substring((int) an.getSource_offset(), (int) an.getSource_offset() + (int) an.getSource_length());
+//                suspiciousSentence = an.getSuspicious_doc().getSuspicious_doc_text().substring((int) an.getSuspicious_offset(), (int) an.getSuspicious_offset() + (int) an.getSuspicious_length());
+//                sourceStemmed = Helpers.stemCleanedSentence(Helpers.cleanSentence(sourceSentence), stemmer);
+//                suspiciousStemmed = Helpers.stemCleanedSentence(Helpers.cleanSentence(suspiciousSentence), stemmer);
+//
+//                s = new Intersection(sourceStemmed, suspiciousStemmed);
+//                result.add(s.IntersectionScore());
+//
+//            }
+//            FileWriter file = new FileWriter(new File("D://res.txt"));
+//
+//            for (double res : result) {
+//                file.write(res + "\n");
+//                if (res < 0.7) {
+//                    System.out.println(res);
+//                }
+//            }
+//            file.close();
+//            System.out.println("done");
+////            
 //       List<Source_doc> s=sourceDocService.getAll();
 //        List<Suspicious_doc> sus=suspiciousDocService.getAll();
 //            List<CandidateSentencesWithOriginal> candidateSentences = new ArrayList<>();
@@ -148,7 +157,7 @@ public class test {
 ////        
 //        List<Features> features = PhaseI.extractFeatures(candidateSentences);
 //        PhaseI.writeARFFfile(features, "d:\\testData5.arff");
-//            System.out.println("-----------------");
+            System.out.println("-----------------");
         } catch (Exception ex) {
             Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
         }
