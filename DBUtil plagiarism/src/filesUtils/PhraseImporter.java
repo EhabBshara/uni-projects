@@ -144,6 +144,12 @@ public class PhraseImporter implements Importer {
             }
             String sentence = sourceText.substring(start, end);
             String cleanedSentence = Helpers.cleanSentence(sentence);
+            if (cleanedSentence.length() < 10) {
+                continue;
+            }
+            if (cleanedSentence.split(" ").length < 2) {
+                continue;
+            }
             String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
             pList.add(new Phrase((String) file.get("pathname"), (String) file.get("filename"),
                     sentence, source, null, cleanedSentence, stemmedSentence, start, end - start));

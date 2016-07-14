@@ -6,25 +6,17 @@
 package plagiarism.util.pojos;
 
 import Utils.Helpers;
-import arabicTools.ArabicStemmer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import plagiarism.DAOImpl.GenericServiceImpl;
 import plagiarism.IDAO.IGenericService;
 import arabicTools.*;
-import com.google.common.collect.Sets;
 import features.BLEU;
 import features.Intersection;
-import features.LCSwords;
-import features.NGram;
 import features.SkipGram;
 import java.io.File;
 import java.io.FileInputStream;

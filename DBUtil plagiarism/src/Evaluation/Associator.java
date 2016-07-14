@@ -22,7 +22,7 @@ import plagiarism.util.pojos.TestPhrase;
  *
  * @author dali
  */
-public class test {
+public class Associator {
 
     public List<CandidatePair> getCandidatePair(Source_doc source, Suspicious_doc suspicious) {
         List<CandidatePair> res = new ArrayList<>();
@@ -65,17 +65,5 @@ public class test {
         return res;
     }
 
-    public List<CandidatePair> calculateFeatures(List<CandidatePair> input) {
-        for (int i = 0; i < input.size(); i++) {
-            CandidatePair c = input.get(i);
-            double lCSwords = new LCSwords(c.getPhrase().getStemmed(), c.getTestPhrase().getStemmed()).lcsFeature();
-            double skipGram2 = new SkipGram(c.getPhrase().getStemmed(), c.getTestPhrase().getStemmed(), 2, 4).skipGramFeature();
-            double skipGram3 = new SkipGram(c.getPhrase().getStemmed(), c.getTestPhrase().getStemmed(), 3, 4).skipGramFeature();
-            input.get(i).setLSC(lCSwords);
-            input.get(i).setSkipgram2(skipGram2);
-            input.get(i).setSkipgram3(skipGram3);
-        }
 
-        return input;
-    }
 }

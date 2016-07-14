@@ -7,11 +7,9 @@ package machineLearning;
 
 import AWN.AWN;
 import Utils.Helpers;
-import arabicTools.ArabicStemmerDefault;
 import arabicTools.Stem;
 import features.BLEU;
 import features.FuzzySimilarity;
-import features.FuzzySimilarity1;
 import features.Intersection;
 import features.LCSwords;
 import features.SkipGram;
@@ -158,7 +156,7 @@ public class PhaseI {
                 double lCSwords = new LCSwords(candidatesentences.getSource(), candidatesentences.getSuspicious()).lcsFeature();
                 double skipGram2 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 2, 4).skipGramFeature();
                 double skipGram3 = new SkipGram(candidatesentences.getSource(), candidatesentences.getSuspicious(), 3, 4).skipGramFeature();
-                double fuzz = new FuzzySimilarity1(candidatesentences.getSource(), candidatesentences.getSuspicious()).getSimilarityOfSentences();
+                double fuzz = new FuzzySimilarity(candidatesentences.getSource(), candidatesentences.getSuspicious()).getSimilarityOfSentences();
                 double intersection = new Intersection(candidatesentences.getSource(), candidatesentences.getSuspicious()).IntersectionScore();
                 result.add(new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, fuzz, intersection, candidatesentences.isIsPlagirised()));
             } catch (Exception e) {
@@ -180,7 +178,7 @@ public class PhaseI {
             double lCSwords = new LCSwords(source, suspicious).lcsFeature();
             double skipGram2 = new SkipGram(source, suspicious, 2, 4).skipGramFeature();
             double skipGram3 = new SkipGram(source, suspicious, 3, 4).skipGramFeature();
-            double fuzz = new FuzzySimilarity1(source, suspicious).getSimilarityOfSentences();
+            double fuzz = new FuzzySimilarity(source, suspicious).getSimilarityOfSentences();
             double intersection = new Intersection(source, suspicious).IntersectionScore();
             result = new Features(bluepair.getKey(), bluepair.getValue(), skipGram2, skipGram3, lCSwords, intersection, fuzz, true);
         } catch (Exception e) {

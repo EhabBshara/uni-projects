@@ -18,7 +18,6 @@ public class StemmerTester {
         Scanner scanner = new Scanner(System.in, "UTF-8");
         String word = "نعيش";
         Stem stem = new Stem();
-        ArabicStemmerDefault stemmer = new ArabicStemmerDefault();
         while (!(word = scanner.nextLine()).equals("\\n")) {
             
             String[] ss=word.split("\\.");

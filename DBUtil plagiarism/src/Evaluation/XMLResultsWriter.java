@@ -35,7 +35,7 @@ public class XMLResultsWriter {
 
         for (int i = 0; i < susps.size(); i++) {
             Suspicious_doc suspicious_doc = susps.get(i);
-            String hsql = "SELECT sus.suspicious_doc_name , t.offset , t.length , s.source_doc_name , p.offset , p.length "
+            String hsql = "SELECT sus.suspicious_doc_name , t.offset , t.length , s.source_doc_name , p.offset , p.length ,t.phrase ,p.original ,t.stemmed , p.stemmed "
                     + "FROM  Assoc AS assoc "
                     + "INNER JOIN  assoc.phrase as p  "
                     + "INNER JOIN p.source_doc as s "
@@ -53,7 +53,7 @@ public class XMLResultsWriter {
             String outputXML = "";
             if (results.size() == 0) {
                 outputXML = XMLwriter.justFirstRow(suspicious_doc.getSuspicious_doc_name()) + "\n";
-                XMLwriter.writeXMLFile(outputXML, "D:\\results\\" + suspicious_doc.getSuspicious_doc_name().substring(0, suspicious_doc.getSuspicious_doc_name().length() - 4) + ".xml");
+                XMLwriter.writeXMLFile(outputXML, "D:\\results2\\" + suspicious_doc.getSuspicious_doc_name().substring(0, suspicious_doc.getSuspicious_doc_name().length() - 4) + ".xml");
                 continue;
             }
             String XML_name = (String) results.get(0)[0];
@@ -65,11 +65,49 @@ public class XMLResultsWriter {
                 String sourcename = (String) results.get(j)[3];
                 int sourceoffset = (int) results.get(j)[4];
                 int sourcelength = (int) results.get(j)[5];
+                String susp=(String)results.get(j)[6];
+                String sour=(String)results.get(j)[7];
+                String susStemmed=(String)results.get(j)[8];
+                String sourStemmed=(String)results.get(j)[9];
+                
+                if(susStemmed.split(" ").length<3||sourStemmed.split(" ").length<3)
+                    continue;
+                do{
+                    if(!susp.startsWith(" "))
+                        break;
+                    susp=susp.substring(1, susp.length());
+                    susoffset++;
+                }while(true);
+                do{
+                    if(!susp.endsWith(" ") &&!susp.endsWith("\n") &&!susp.endsWith(".") &&!susp.endsWith("?") &&!susp.endsWith("!"))
+                        break;
+                    susp=susp.substring(0, susp.length()-1);
+                    suslength--;
+                }while(true);
+                
+                
+                do{
+                    if(!sour.startsWith(" "))
+                        break;
+                    sour=sour.substring(1, sour.length());
+                    sourceoffset++;
+                }while(true);
+                 do{
+                    if(!sour.endsWith(" ") &&!sour.endsWith("\n") &&!sour.endsWith(".") &&!sour.endsWith("?") &&!sour.endsWith("!"))
+                        break;
+                    sour=sour.substring(0, sour.length()-1);
+                    sourcelength--;
+                }while(true);
+                
+               
+                
+                
+                
                 outputXML += XMLwriter.featureExtracter(susoffset, suslength, sourcename, sourceoffset, sourcelength);
             }
 
             outputXML += "</document> ";
-            XMLwriter.writeXMLFile(outputXML, "D:\\results\\" + XML_name.substring(0, XML_name.length() - 4) + ".xml");
+            XMLwriter.writeXMLFile(outputXML, "D:\\results2\\" + XML_name.substring(0, XML_name.length() - 4) + ".xml");
         }
         System.out.println("done");
     }
@@ -105,4 +143,5 @@ public class XMLResultsWriter {
             }
         }
     }
+    
 }

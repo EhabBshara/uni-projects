@@ -55,14 +55,14 @@ public class Main {
 //        }
 
         Evaluater evaluater = new Evaluater();
-        test t = new test();
+        Associator t = new Associator();
         List<Assoc> assocs = new ArrayList<>();
         for (int a = 0; a < tuples.size(); a++) {
             Source_doc source_doc = (Source_doc) tuples.get(a)[1];
             Suspicious_doc suspicious_doc = (Suspicious_doc) tuples.get(a)[0];
             List<CandidatePair> candidateSentences = t.assosiatePairs(source_doc, suspicious_doc);
             for (CandidatePair pair : candidateSentences) {
-                if (evaluater.evaluate(pair.getPhrase(), pair.getTestPhrase(), true, false)) {
+                if (evaluater.evaluate(pair.getPhrase(), pair.getTestPhrase(), true,true, false)) {
                     assocs.add(new Assoc(pair.getPhrase(), pair.getTestPhrase(), 0.0));
                 }
             }

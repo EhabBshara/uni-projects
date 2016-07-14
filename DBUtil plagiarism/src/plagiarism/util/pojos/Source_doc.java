@@ -44,10 +44,10 @@ public class Source_doc implements Serializable{
     private String source_doc_name;
 
     @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "source_doc")
-    private Set<Phrase> phrases = new HashSet<Phrase>(0);
+    private Set<Phrase> phrases = new HashSet<>(0);
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
-    private Set<Annotation> annotations = new HashSet<Annotation>(0);
+    private Set<Annotation> annotations = new HashSet<>(0);
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
     private Set<CandidateDocs> candidateDocs = new HashSet<>(0);

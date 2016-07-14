@@ -5,7 +5,6 @@
  */
 package Utils;
 
-import arabicTools.ArabicStemmerDefault;
 import arabicTools.Stem;
 import com.google.common.collect.Sets;
 import features.NGram;

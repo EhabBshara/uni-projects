@@ -6,9 +6,9 @@
 package features;
 
 import AWN.AWN;
+import arabicTools.Stem;
+import java.util.ArrayList;
 import java.util.List;
-import plagiarism.util.pojos.Phrase;
-import plagiarism.util.pojos.TestPhrase;
 
 /**
  *
@@ -16,37 +16,26 @@ import plagiarism.util.pojos.TestPhrase;
  */
 public class FuzzySimilarity {
 
-    private Phrase phrase;
-    private TestPhrase testphrase;
-    private String CleanedPhrase;
-    private String CleanedTestphrase;
-    private AWN wordnet;
+    private String phrase;
+    private String testphrase;
 
-    public FuzzySimilarity(Phrase phrase, TestPhrase testphrase, AWN wordnet) {
+    public FuzzySimilarity(String phrase, String testphrase) {
         this.phrase = phrase;
         this.testphrase = testphrase;
-        this.wordnet = wordnet;
-        this.CleanedPhrase = phrase.getStemmed();
-        this.CleanedTestphrase = phrase.getStemmed();
     }
 
     private double computeFuzzySimilarity(String term1, String term2) {
 
-        List<String> synonemosTerm1 = wordnet.getSynonyms(term1, true);
-        List<String> synonemosTerm2 = wordnet.getSynonyms(term2, true);
-        if (synonemosTerm1.contains(term2) || synonemosTerm2.contains(term1)) {
-            return 0.5;
-        }
-        List<String> synonemosTerm1Asroot = wordnet.getSynonymsAsRoot(term1, true);
-        List<String> synonemosTerm2Asroot = wordnet.getSynonymsAsRoot(term2, true);
-        if (synonemosTerm1Asroot.contains(term2) || synonemosTerm2Asroot.contains(term1)) {
+        List<String> synonemosTerm1 = AWN.getSynonyms(term1, false);
+        synonemosTerm1.addAll(AWN.getSynonymsAsRoot(term1, false));
+        if (synonemosTerm1.contains(term2)) {
             return 0.5;
         }
         return 0;
 
     }
 
-    private double computeMeu(String term, String[] sentence) {
+    private double computeMeu(String term, List<String> sentence) {
         float mult = 1;
         for (String wk : sentence) {
             if (term.equals(wk)) {
@@ -58,41 +47,55 @@ public class FuzzySimilarity {
         return 1 - mult;
     }
 
-    private double sentnceSimilarity(String[] sentece1, String[] sentece2) {
+    private double sentnceSimilarity(List<String> sentece1, List<String> sentece2) {
         float summation = 0;
         for (String word : sentece1) {
             summation += computeMeu(word, sentece2);
 
         }
-        return summation / sentece1.length;
+        return summation / sentece1.size();
     }
 
     public double getSimilarityOfSentences() {
-        String[] s1 = splitter(CleanedPhrase);
-        String[] s2 = splitter(CleanedTestphrase);
-        if (s1.length != s2.length) {
-            return Math.min(sentnceSimilarity(s1, s2), sentnceSimilarity(s2, s1));
+        Stem s = new Stem();
+        String[] s1 = splitter(phrase);
+        String[] s2 = splitter(testphrase);
+        List<String> list1 = new ArrayList<>();
+        for (String word : s1) {
+            if (!s.checkStopwords(word)) {
+                list1.add(word);
+            }
         }
-        return sentnceSimilarity(s1, s2);
+        List<String> list2 = new ArrayList<>();
+
+        for (String word : s2) {
+            if (!s.checkStopwords(word)) {
+                list2.add(word);
+            }
+        }
+        if (s1.length != s2.length) {
+            return Math.min(sentnceSimilarity(list1, list2), sentnceSimilarity(list2, list1));
+        }
+        return sentnceSimilarity(list1, list2);
     }
 
     private String[] splitter(String sentence) {
         return sentence.split(" ");
     }
 
-    public Phrase getPhrase() {
+    public String getPhrase() {
         return phrase;
     }
 
-    public void setPhrase(Phrase phrase) {
+    public void setPhrase(String phrase) {
         this.phrase = phrase;
     }
 
-    public TestPhrase getTestphrase() {
+    public String getTestphrase() {
         return testphrase;
     }
 
-    public void setTestphrase(TestPhrase testphrase) {
+    public void setTestphrase(String testphrase) {
         this.testphrase = testphrase;
     }
 

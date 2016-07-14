@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,7 +100,7 @@ public class Lucene {
                 content = p.getCleaned();
                 sourceFileId = p.getSource_doc().getSource_doc_id();
                 document.add(new Field("id", String.valueOf(id), Field.Store.YES, Field.Index.NO));
-                document.add(new Field("source_id",String.valueOf(sourceFileId),Field.Store.YES,Field.Index.NO));
+                document.add(new Field("source_id", String.valueOf(sourceFileId), Field.Store.YES, Field.Index.NO));
                 document.add(new Field("filename", filename, Field.Store.YES, Field.Index.NO));
                 document.add(new Field("content", content, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.WITH_POSITIONS_OFFSETS));
                 iwriter.addDocument(document);
@@ -110,14 +111,14 @@ public class Lucene {
         }
 
     }
-     
-    public void searcher(Directory dir,StandardAnalyzer analyzer,String term )
-    {
+
+    public List<Integer> searcher(Directory dir, StandardAnalyzer analyzer, String term) {
+        List<Integer> results = new ArrayList<>();
         DirectoryReader ireader;
         try {
             ireader = DirectoryReader.open(dir);
             IndexSearcher isearcher = new IndexSearcher(ireader);
-             PhraseQuery.Builder query = new PhraseQuery.Builder();
+            PhraseQuery.Builder query = new PhraseQuery.Builder();
             String[] words = term.split(" ");
             for (String word : words) {
                 query.add(new Term("content", word));
@@ -125,42 +126,41 @@ public class Lucene {
             query.setSlop(10);
             PhraseQuery pq = query.build();
             ScoreDoc[] hits = isearcher.search(pq, null, 1000).scoreDocs;
-            for(ScoreDoc hit :hits)
-            {
-                   Document hitDoc = isearcher.doc(hit.doc);
-                   System.out.println(hitDoc.get("filename")+"  "+hitDoc.get("source_id")+" "+hitDoc.get("id")+" "+"\n");
+            for (ScoreDoc hit : hits) {
+
+                Document hitDoc = isearcher.doc(hit.doc);
+                results.add(Integer.parseInt(hitDoc.get("source_id")));
+                System.out.println(hitDoc.get("filename") + "  " + hitDoc.get("source_id") + " " + hitDoc.get("id") + " " + "\n");
             }
-               ireader.close();
-            
+            ireader.close();
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        
-          
+        return results;
+
     }
-    public static void main(String[] args)
-    {
+
+    public static void main(String[] args) {
         StandardAnalyzer analyzer = new StandardAnalyzer();
         Lucene index = new Lucene(analyzer);
-    //    index.indexer();
-          IGenericService<Suspicious_doc> suspiciousDocService
-                    = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
-              Map<String, Object> params = new HashMap<String, Object>();
-            params.put("SUSPICIOUS_DOC_ID",598);
-            List<Suspicious_doc> a = suspiciousDocService.getByWhere("where suspicious_doc_id = :SUSPICIOUS_DOC_ID", params);
-                QueryExtractor q = new QueryExtractor(a.get(0));
-                List<String> queries = q.extractAllSentence();
-                Google go = new Google();
-              
-                for(String query :queries)
-                {
-                     index.searcher(index.getDir(),analyzer,query);
-                     go.getDataFromGoogle(query);
-                     go.getDatafromUrl();
-                }
-                System.out.println("done");
-       
-        
+        //    index.indexer();
+        IGenericService<Suspicious_doc> suspiciousDocService
+                = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("SUSPICIOUS_DOC_ID", 598);
+        List<Suspicious_doc> a = suspiciousDocService.getByWhere("where suspicious_doc_id = :SUSPICIOUS_DOC_ID", params);
+        QueryExtractor q = new QueryExtractor(a.get(0));
+        List<String> queries = q.extractAllSentence();
+        Google go = new Google();
+
+        for (String query : queries) {
+            index.searcher(index.getDir(), analyzer, query);
+            go.getDataFromGoogle(query);
+            go.getDatafromUrl();
+        }
+        System.out.println("done");
+
     }
 
 }

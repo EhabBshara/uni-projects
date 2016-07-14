@@ -149,6 +149,11 @@ public class TestPhraseImporter implements Importer {
             }
             String sentence = source.substring(start, end);
             String cleanedSentence = Helpers.cleanSentence(sentence);
+            if (cleanedSentence.length() < 10) {
+                continue;
+            }
+            if(cleanedSentence.split(" ").length<2)
+                continue;
             String stemmedSentence = Helpers.stemCleanedSentence(cleanedSentence, stem);
             tpList.add(new TestPhrase((String) file.get("pathname"), (String) file.get("filename"),
                     sentence, suspicious, cleanedSentence, stemmedSentence, start, end - start));

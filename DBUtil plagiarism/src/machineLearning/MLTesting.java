@@ -5,7 +5,6 @@
  */
 package machineLearning;
 
-import arabicTools.ArabicStemmerDefault;
 import arabicTools.Stem;
 import java.io.File;
 import java.util.ArrayList;
