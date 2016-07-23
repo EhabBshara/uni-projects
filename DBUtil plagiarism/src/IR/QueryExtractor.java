@@ -93,10 +93,10 @@ public class QueryExtractor {
         extract();
         List<String> queries = new ArrayList<>();
         queries.add(sorted.get(0).getKey());
-        if (queries.size() > 1) {
+        if (sorted.size() > 1) {
             queries.add(sorted.get(1).getKey());
         }
-        if (queries.size() > 2) {
+        if (sorted.size() > 2) {
             queries.add(sorted.get(2).getKey());
         }
         return queries;

@@ -43,6 +43,7 @@ public class Source_docImporter implements Importer {
         File folder = new File(path);
         String text = null;
         for (File f : folder.listFiles()) {
+            if(f.length()<500*1024)
             try {
                 Map<String, String> file = new HashMap<>();
                 FileInputStream fin = new FileInputStream(f);

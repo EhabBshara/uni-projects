@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * <h2>TestPhrase POJO</h2>
@@ -33,33 +35,33 @@ public class TestPhrase implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false, unique = true)
     private int id;
-    
+
     @Column(name = "PATHNAME")
     private String pathname;
-    
+
     @Column(name = "FILENAME")
     private String filename;
-    
+
     @Column(name = "PHRASE")
     private String phrase;
-    
+
     @Column(name = "CLEANED")
     private String cleaned;
-    
+
     @Column(name = "STEMMED")
     private String stemmed;
-    
+
     @Column(name = "OFFSET")
     private int offset;
-    
+
     @Column(name = "LENGTH")
     private int length;
-    
 
-    @OneToMany(mappedBy = "testphrase")
-    private Set<Assoc> associations = new HashSet<Assoc>(0);
-    
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "testphrase")
+//    private Set<Assoc> associations = new HashSet(0);
+
+    @ManyToOne(cascade =  {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "SUSPICIOUS_DOC_ID")
     private Suspicious_doc suspicious_doc;
 
@@ -91,7 +93,6 @@ public class TestPhrase implements Serializable {
         this.length = length;
     }
 
-    
     /**
      * Overloaded constructor with parameters.
      *
@@ -101,7 +102,7 @@ public class TestPhrase implements Serializable {
      * @param phrase the phrase as it was extracted from the file.
      * @param suspicious_doc
      */
-    public TestPhrase(int id, String pathname, String filename, String phrase,  Suspicious_doc suspicious_doc) {
+    public TestPhrase(int id, String pathname, String filename, String phrase, Suspicious_doc suspicious_doc) {
         this.id = id;
         this.pathname = pathname;
         this.filename = filename;
@@ -120,15 +121,12 @@ public class TestPhrase implements Serializable {
         this.length = length;
         this.suspicious_doc = suspicious_doc;
     }
-    
-    
 
     /**
      * Getter of the <b>id</b> parameter
      *
      * @return int id
      */
-    
     public int getId() {
         return id;
     }
@@ -147,7 +145,6 @@ public class TestPhrase implements Serializable {
      *
      * @return String pathname.
      */
-    
     public String getPathname() {
         return pathname;
     }
@@ -157,9 +154,9 @@ public class TestPhrase implements Serializable {
      *
      * @param assoc instance of type Association
      */
-    public void addAssociation(Assoc assoc) {
-        this.associations.add(assoc);
-    }
+//    public void addAssociation(Assoc assoc) {
+//        this.associations.add(assoc);
+//    }
 
     /**
      * Setter for the <b>pathname</b> parameter.
@@ -175,7 +172,6 @@ public class TestPhrase implements Serializable {
      *
      * @return String filename.
      */
-    
     public String getFilename() {
         return filename;
     }
@@ -194,7 +190,6 @@ public class TestPhrase implements Serializable {
      *
      * @return String phrase
      */
-    
     public String getPhrase() {
         return phrase;
     }
@@ -213,10 +208,9 @@ public class TestPhrase implements Serializable {
      *
      * @return Set of Assoc associations
      */
-    
-    public Set<Assoc> getAssociations() {
-        return associations;
-    }
+//    public Set<Assoc> getAssociations() {
+//        return associations;
+//    }
 
     /**
      * Setter of the <b>associations</b> parameter which represent a set of
@@ -224,9 +218,9 @@ public class TestPhrase implements Serializable {
      *
      * @param associations
      */
-    public void setAssociations(Set<Assoc> associations) {
-        this.associations = associations;
-    }
+//    public void setAssociations(Set<Assoc> associations) {
+//        this.associations = associations;
+//    }
 
     public Suspicious_doc getSuspicious_doc() {
         return suspicious_doc;
@@ -267,8 +261,5 @@ public class TestPhrase implements Serializable {
     public void setLength(int length) {
         this.length = length;
     }
-    
-    
-    
 
 }

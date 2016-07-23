@@ -64,8 +64,8 @@ public class Phrase implements Serializable {
     @Column(name = "LENGTH")
     private int length;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phrase")
-    private Set<Assoc> associations = new HashSet<Assoc>(0);
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "phrase")
+//    private Set<Assoc> associations = new HashSet<Assoc>(0);
     
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "SOURCE_DOC_ID")
@@ -142,9 +142,9 @@ public class Phrase implements Serializable {
      *
      * @param assoc instance of type Association
      */
-    public void addAssociation(Assoc assoc) {
-        this.associations.add(assoc);
-    }
+//    public void addAssociation(Assoc assoc) {
+//        this.associations.add(assoc);
+//    }
 
     /**
      * Setter for the <b>id</b> parameter.
@@ -197,9 +197,9 @@ public class Phrase implements Serializable {
      *
      * @param associations
      */
-    public void setAssociations(Set<Assoc> associations) {
-        this.associations = associations;
-    }
+//    public void setAssociations(Set<Assoc> associations) {
+//        this.associations = associations;
+//    }
 
     /**
      * Getter of the <b>id</b> parameter
@@ -251,9 +251,9 @@ public class Phrase implements Serializable {
      *
      * @return Set of Assoc associations
      */
-    public Set<Assoc> getAssociations() {
-        return associations;
-    }
+//    public Set<Assoc> getAssociations() {
+//        return associations;
+//    }
 
     public Source_doc getSource_doc() {
         return source_doc;

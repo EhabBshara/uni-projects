@@ -50,9 +50,8 @@ public class Google {
     List<String> resultUrls = new ArrayList<>();
     static Set<Document> results = new HashSet<>();
 
-    
-    public List<Pair<String,String>> getDatafromUrl() {
-        List<Pair<String,String>> urls=new ArrayList();
+    public List<Pair<String, String>> getDatafromUrl(Set<String> listUrls) {
+        List<Pair<String, String>> urls = new ArrayList();
         //   for (String s : resultUrls) {
 //            FileOutputStream out;
 ////            String[] regex = s.split("&sa=");
@@ -71,22 +70,22 @@ public class Google {
 //      //  }
         FileWriter file;
         int i = 1;
-        for (String s : resultUrls) {
+        for (String s : listUrls) {
             try {
                 Document doc = Jsoup.connect(s).get();
                 Elements ps = doc.select("p");
-                
+
                 BodyContentHandler contenthandler = new BodyContentHandler(-1);
                 InputStream stream = new ByteArrayInputStream(ps.toString().getBytes(StandardCharsets.UTF_8));
                 Metadata metadata = new Metadata();
                 HtmlParser htmlparser = new HtmlParser();
                 htmlparser.parse(stream, contenthandler, metadata, new ParseContext());
                 //pdfparser.parse(in, contenthandler, metadata, new ParseContext());
-                String filename=System.currentTimeMillis()+"";
+                String filename = System.currentTimeMillis() + "";
                 file = new FileWriter(new File("D://googlefiles//" + filename + ".txt"));
                 file.write(contenthandler.toString());
                 file.close();
-                urls.add(new Pair<>(s,filename+ ".txt"));
+                urls.add(new Pair<>(s, filename + ".txt"));
                 //System.out.println(contenthandler.toString());
             } catch (IOException e) {
                 System.out.println("file in " + s + "is not found");
@@ -106,7 +105,7 @@ public class Google {
 
         Google obj = new Google();
         obj.getDataFromGoogle("Ø§Ù„Ø§Ø­ØªØ¨Ø§Ø³ Ø§Ù„Ø­Ø±Ø§Ø±ÙŠ");
-        obj.getDatafromUrl();
+//        obj.getDatafromUrl();
 
         System.out.println("done");
     }
@@ -122,8 +121,8 @@ public class Google {
 
     }
 
-    public void getDataFromGoogle(String query) {
-
+    public List<String> getDataFromGoogle(String query) {
+        List<String> urls = new ArrayList();
 //        request=request.replaceAll("\\s", "%20");
         try {
             String request = "https://www.google.com/search?q=" + URLEncoder.encode(query, "UTF-8") + "&num=9";
@@ -143,13 +142,14 @@ public class Google {
                 String url = link.absUrl("href");
                 url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
                 System.out.println(url);
-                resultUrls.add(url);
+                urls.add(url);
 
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return urls;
 
     }
 

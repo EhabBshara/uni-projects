@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * <h2>Annotation POJO</h2>
@@ -37,35 +39,37 @@ public class Annotation implements Serializable {
 
     @Column(name = "SOURCE_OFFSET")
     private long source_offset;
-    
+
     @Column(name = "SOURCE_LENGTH")
     private long source_length;
-    
+
     @Column(name = "SUSPICIOUS_OFFSET")
     private long suspicious_offset;
-    
+
     @Column(name = "SUSPICIOUS_LENGTH")
     private long suspicious_length;
-    
+
     @Column(name = "OBFUSCATION")
     private String obfuscation;
-    
+
     @Column(name = "TYPE")
     private String type;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "SOURCE_DOC_ID")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Source_doc source_doc;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "SUSPICIOUS_DOC_ID")
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     private Suspicious_doc suspicious_doc;
 
     public Annotation() {
     }
 
-    public Annotation(long source_offset, long source_length, 
-            long suspicious_offset, long suspicious_length, String obfuscation, 
+    public Annotation(long source_offset, long source_length,
+            long suspicious_offset, long suspicious_length, String obfuscation,
             String type, Source_doc source_doc, Suspicious_doc suspicious_doc) {
         this.source_offset = source_offset;
         this.source_length = source_length;
@@ -92,8 +96,6 @@ public class Annotation implements Serializable {
     public void setSource_offset(long source_offset) {
         this.source_offset = source_offset;
     }
-    
-    
 
     public long getSource_length() {
         return source_length;
@@ -155,9 +157,5 @@ public class Annotation implements Serializable {
     public String toString() {
         return "Annotation{" + "annotation_id=" + annotation_id + ", source_offset=" + source_offset + ", source_length=" + source_length + ", suspicious_offset=" + suspicious_offset + ", suspicious_length=" + suspicious_length + ", obfuscation=" + obfuscation + ", type=" + type + ", source_doc=" + source_doc + ", suspicious_doc=" + suspicious_doc + '}';
     }
-    
-    
-    
-    
 
 }

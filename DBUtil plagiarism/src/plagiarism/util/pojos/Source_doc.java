@@ -46,19 +46,19 @@ public class Source_doc implements Serializable{
     @OneToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, mappedBy = "source_doc")
     private Set<Phrase> phrases = new HashSet<>(0);
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
-    private Set<Annotation> annotations = new HashSet<>(0);
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
+//    private Set<Annotation> annotations = new HashSet<>(0);
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
-    private Set<CandidateDocs> candidateDocs = new HashSet<>(0);
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "source_doc")
+//    private Set<CandidateDocs> candidateDocs = new HashSet<>(0);
 
-    public Set<CandidateDocs> getCandidateDocs() {
-        return candidateDocs;
-    }
+//    public Set<CandidateDocs> getCandidateDocs() {
+//        return candidateDocs;
+//    }
 
-    public void setCandidateDocs(Set<CandidateDocs> candidateDocs) {
-        this.candidateDocs = candidateDocs;
-    }
+//    public void setCandidateDocs(Set<CandidateDocs> candidateDocs) {
+//        this.candidateDocs = candidateDocs;
+//    }
     
     public Source_doc() {
     }
@@ -100,13 +100,13 @@ public class Source_doc implements Serializable{
         this.phrases = phrases;
     }
 
-    public Set<Annotation> getAnnotations() {
-        return annotations;
-    }
+//    public Set<Annotation> getAnnotations() {
+//        return annotations;
+//    }
 
-    public void setAnnotations(Set<Annotation> annotations) {
-        this.annotations = annotations;
-    }
+//    public void setAnnotations(Set<Annotation> annotations) {
+//        this.annotations = annotations;
+//    }
 
     @Override
     public String toString() {

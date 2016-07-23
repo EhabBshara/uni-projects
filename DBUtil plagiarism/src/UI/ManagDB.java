@@ -5,6 +5,27 @@
  */
 package UI;
 
+import IR.Lucene;
+import filesUtils.PhraseImporter;
+import filesUtils.Source_docImporter;
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import plagiarism.DAOImpl.GenericServiceImpl;
+import plagiarism.IDAO.IGenericService;
+import plagiarism.util.pojos.HibernateUtil;
+import plagiarism.util.pojos.Phrase;
+import plagiarism.util.pojos.Source_doc;
+import plagiarism.util.pojos.Suspicious_doc;
+import plagiarism.util.pojos.TestPhrase;
+
 /**
  *
  * @author dali
@@ -32,11 +53,11 @@ public class ManagDB extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         webVerticalLabel2 = new com.alee.extended.label.WebVerticalLabel();
         webVerticalLabel3 = new com.alee.extended.label.WebVerticalLabel();
-        webButton1 = new com.alee.laf.button.WebButton();
+        btn_clrSrc = new com.alee.laf.button.WebButton();
         jSeparator2 = new javax.swing.JSeparator();
         lbl_status = new com.alee.laf.label.WebLabel();
-        webButton2 = new com.alee.laf.button.WebButton();
-        webButton3 = new com.alee.laf.button.WebButton();
+        btn_add = new com.alee.laf.button.WebButton();
+        btn_clrSus = new com.alee.laf.button.WebButton();
 
         webLabel1.setText("webLabel1");
 
@@ -44,19 +65,36 @@ public class ManagDB extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("APD Database Manager");
+        setLocationByPlatform(true);
+        setResizable(false);
 
         webVerticalLabel2.setText("Manage Sources in Database");
 
         webVerticalLabel3.setText("Manage Suspicouses in Database");
 
-        webButton1.setText("Clear all source files");
+        btn_clrSrc.setText("Clear all source files");
+        btn_clrSrc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_clrSrcActionPerformed(evt);
+            }
+        });
 
         lbl_status.setText("Status: Pending...");
         lbl_status.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        webButton2.setText("Add new files");
+        btn_add.setText("Add new files");
+        btn_add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_addActionPerformed(evt);
+            }
+        });
 
-        webButton3.setText("Clear all suspicious files");
+        btn_clrSus.setText("Clear all suspicious files");
+        btn_clrSus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_clrSusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,8 +108,8 @@ public class ManagDB extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(webVerticalLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(122, 122, 122)
-                                .addComponent(webButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 150, Short.MAX_VALUE))
+                                .addComponent(btn_clrSus, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 141, Short.MAX_VALUE))
                             .addComponent(jSeparator2)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
@@ -85,10 +123,10 @@ public class ManagDB extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(webVerticalLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(128, 128, 128)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(webButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(webButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btn_clrSrc, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                                    .addComponent(btn_add, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 139, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -101,9 +139,9 @@ public class ManagDB extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(webButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btn_clrSrc, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(webButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addComponent(webVerticalLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -115,12 +153,145 @@ public class ManagDB extends javax.swing.JFrame {
                         .addComponent(webVerticalLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
-                        .addComponent(webButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btn_clrSus, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_clrSrcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clrSrcActionPerformed
+        // TODO add your handling code here:
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to clear Source table?", "Warning", dialogButton);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    lbl_status.setText("Status: clearing sentence table");
+            IGenericService<Phrase> PhraseService
+                    = new GenericServiceImpl<>(Phrase.class, HibernateUtil.getSessionFactory());
+            PhraseService.deleteAll();
+            lbl_status.setText("Status: clearing Source table");
+
+            IGenericService<Source_doc> sourceService
+                    = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
+            sourceService.deleteAll();
+            lbl_status.setText("Status: finished");
+                    
+                }
+            }).start();
+            
+
+        } else {
+            lbl_status.setText("Status: pending");
+        }
+    }//GEN-LAST:event_btn_clrSrcActionPerformed
+
+    private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setDialogTitle("Choose folder");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        //
+        // disable the "All files" option.
+        //
+        chooser.setAcceptAllFileFilterUsed(false);
+        int result = chooser.showOpenDialog(new JFrame());
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = chooser.getSelectedFile();
+            String sourcePath = selectedFile.getAbsolutePath();
+            if (selectedFile.listFiles().length < 1) {
+                JOptionPane.showMessageDialog(null,
+                        "This folder doesn't have txt files in it!!",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
+            } else {
+                int dialogButton = JOptionPane.YES_NO_OPTION;
+                int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to add files of this directory?", "Warning", dialogButton);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    new Thread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            lbl_status.setText("Status: getting files from directory");
+
+                    Source_docImporter source_docImporter = new Source_docImporter(sourcePath);
+                    lbl_status.setText("Status: importing files..");
+                    source_docImporter.import_();
+
+                    lbl_status.setText("Status: saving files..");
+
+                    source_docImporter.save();
+                    lbl_status.setText("Status: processing files");
+
+                    IGenericService<Source_doc> sourceService
+                            = new GenericServiceImpl<>(Source_doc.class, HibernateUtil.getSessionFactory());
+                    List<Source_doc> sources = sourceService.getAll();
+                    lbl_status.setText("Status: saving files after processing");
+
+                    for (Source_doc source : sources) {
+                        PhraseImporter phrase = new PhraseImporter(source);
+                        phrase.import_();
+                        phrase.save();
+                    }
+                    lbl_status.setText("Status: indexing files");
+
+                    StandardAnalyzer analyzer = new StandardAnalyzer();
+                    Lucene index = new Lucene(analyzer);
+                    index.indexer();
+                    lbl_status.setText("Status: finished");
+                        }
+                    }).start();
+                    
+                    
+
+                } else {
+                    lbl_status.setText("pending");
+                }
+            }
+
+        }
+
+    }//GEN-LAST:event_btn_addActionPerformed
+
+    private void btn_clrSusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clrSusActionPerformed
+        // TODO add your handling code here:
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to clear Suspiciouse docs table?", "Warning", dialogButton);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+           
+//            String hsql = "delete from TestPhrase where id between 0 and 100000";
+//            SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//            Session session = sessionFactory.getCurrentSession();
+//            session.beginTransaction();
+//            session.createQuery(hsql).executeUpdate();
+//            session.getTransaction().commit();
+
+
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                     lbl_status.setText("Status: clearing TestSentence table");
+                    IGenericService<TestPhrase> testPhraseService
+                    = new GenericServiceImpl<>(TestPhrase.class, HibernateUtil.getSessionFactory());
+                    testPhraseService.deleteAll();
+                    lbl_status.setText("Status: clearing Suspicious docs table");
+                    IGenericService<Suspicious_doc> sourceService
+                    = new GenericServiceImpl<>(Suspicious_doc.class, HibernateUtil.getSessionFactory());
+                    sourceService.deleteAll();
+                    lbl_status.setText("Status: finished");
+                
+                }
+            }).start();
+            
+
+        } else {
+            lbl_status.setText("pending");
+        }
+    }//GEN-LAST:event_btn_clrSusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -158,12 +329,12 @@ public class ManagDB extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.alee.laf.button.WebButton btn_add;
+    private com.alee.laf.button.WebButton btn_clrSrc;
+    private com.alee.laf.button.WebButton btn_clrSus;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private com.alee.laf.label.WebLabel lbl_status;
-    private com.alee.laf.button.WebButton webButton1;
-    private com.alee.laf.button.WebButton webButton2;
-    private com.alee.laf.button.WebButton webButton3;
     private com.alee.laf.label.WebLabel webLabel1;
     private com.alee.extended.label.WebVerticalLabel webVerticalLabel1;
     private com.alee.extended.label.WebVerticalLabel webVerticalLabel2;

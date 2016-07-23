@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
@@ -80,22 +81,18 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         List_sources = new com.alee.laf.list.WebList();
         webLabel1 = new com.alee.laf.label.WebLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txt_susps = new com.alee.laf.text.WebTextArea();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txt_sources = new com.alee.laf.text.WebTextArea();
-        btn_run = new com.alee.laf.button.WebButton();
-        webLabel2 = new com.alee.laf.label.WebLabel();
-        webLabel3 = new com.alee.laf.label.WebLabel();
-        webLabel4 = new com.alee.laf.label.WebLabel();
-        lbl_status = new com.alee.laf.label.WebLabel();
-        webLabel5 = new com.alee.laf.label.WebLabel();
-        cb_queryLength = new javax.swing.JComboBox();
         ckbx_bag = new com.alee.laf.checkbox.WebCheckBox();
         ckbx_semantics = new com.alee.laf.checkbox.WebCheckBox();
         btn_run2 = new com.alee.laf.button.WebButton();
         ckbx_lex = new com.alee.laf.checkbox.WebCheckBox();
-        lbl_link = new com.alee.extended.label.WebLinkLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jPanel1 = new javax.swing.JPanel();
+        btn_run = new com.alee.laf.button.WebButton();
+        lbl_status = new com.alee.laf.label.WebLabel();
+        webLabel4 = new com.alee.laf.label.WebLabel();
+        webLabel5 = new com.alee.laf.label.WebLabel();
+        cb_queryLength = new javax.swing.JComboBox();
         webMenuBar1 = new com.alee.laf.menu.WebMenuBar();
         jMenu1 = new javax.swing.JMenu();
         webMenuItem2 = new com.alee.laf.menu.WebMenuItem();
@@ -111,6 +108,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Arabic Plagiarism Detector");
+        setLocationByPlatform(true);
         setResizable(false);
 
         jLabel1.setText("Suspicious file path:");
@@ -134,41 +132,11 @@ public class MainWindow extends javax.swing.JFrame {
 
         webLabel1.setText("Plagiarism Suspected from:");
 
-        txt_susps.setColumns(20);
-        txt_susps.setLineWrap(true);
-        txt_susps.setRows(5);
-        jScrollPane2.setViewportView(txt_susps);
-
-        txt_sources.setColumns(20);
-        txt_sources.setLineWrap(true);
-        txt_sources.setRows(5);
-        jScrollPane3.setViewportView(txt_sources);
-
-        btn_run.setText("Run");
-        btn_run.setEnabled(false);
-        btn_run.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_runActionPerformed(evt);
-            }
-        });
-
-        webLabel2.setText("Sentences of source");
-
-        webLabel3.setText("Sentences of suspicous");
-
-        webLabel4.setText("Status:");
-
-        webLabel5.setText("query length:");
-
-        cb_queryLength.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6" }));
-        cb_queryLength.setSelectedItem(2);
-        cb_queryLength.setToolTipText("");
-
         ckbx_bag.setText("bag of words");
 
         ckbx_semantics.setText("Sematics");
 
-        btn_run2.setText("Run");
+        btn_run2.setText("Run phaseII");
         btn_run2.setEnabled(false);
         btn_run2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -178,8 +146,56 @@ public class MainWindow extends javax.swing.JFrame {
 
         ckbx_lex.setText("Lexicals");
 
-        lbl_link.setText("open webPage");
-        lbl_link.setEnabled(false);
+        btn_run.setText("Run phaseI");
+        btn_run.setEnabled(false);
+        btn_run.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_runActionPerformed(evt);
+            }
+        });
+
+        webLabel4.setText("Status:");
+
+        webLabel5.setText("query length:");
+
+        cb_queryLength.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6" }));
+        cb_queryLength.setSelectedItem(2);
+        cb_queryLength.setToolTipText("");
+        cb_queryLength.setEnabled(false);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(2, 2, 2)
+                .addComponent(webLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cb_queryLength, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_run, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(webLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_status, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_run, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cb_queryLength, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_status, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(webLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(webLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
 
         jMenu1.setText("File");
 
@@ -223,56 +239,49 @@ public class MainWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addComponent(webLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(webLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(119, 119, 119))
-                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(webLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addComponent(webLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(cb_queryLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jScrollPane1))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(38, 38, 38)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jButton1)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(rb_web, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(43, 43, 43)
-                                    .addComponent(wb_local, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(lbl_suspath)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_run2, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton1)
                                 .addGap(18, 18, 18)
-                                .addComponent(ckbx_lex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(ckbx_bag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(ckbx_semantics, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(rb_web, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(43, 43, 43)
+                                .addComponent(wb_local, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_run, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(27, 27, 27)
-                                .addComponent(webLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lbl_suspath)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(69, 69, 69)
+                                .addComponent(jSeparator1))
+                            .addComponent(jSeparator2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(webLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(lbl_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lbl_link, javax.swing.GroupLayout.PREFERRED_SIZE, 680, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)))))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_run2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(ckbx_lex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(ckbx_bag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addComponent(ckbx_semantics, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,40 +295,29 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(lbl_suspath))
+                .addGap(3, 3, 3)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_run, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(webLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_status, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 14, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(webLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cb_queryLength, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)
-                        .addComponent(webLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(85, 85, 85)
+                        .addComponent(webLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_run2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_run2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ckbx_lex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ckbx_bag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ckbx_semantics, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_link, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(webLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(webLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -339,10 +337,12 @@ public class MainWindow extends javax.swing.JFrame {
         chooser.setAcceptAllFileFilterUsed(false);
         int result = chooser.showOpenDialog(new JFrame());
         if (result == JFileChooser.APPROVE_OPTION) {
+            clearAllFileds();
             new Thread(new Runnable() {
 
                 @Override
                 public void run() {
+
                     lbl_status.setText("Processing suspicious file");
                     File selectedFile = chooser.getSelectedFile();
                     suspath = selectedFile.getAbsolutePath();
@@ -367,13 +367,43 @@ public class MainWindow extends javax.swing.JFrame {
                     btn_run.setEnabled(true);
 
                     lbl_status.setText("Suspicious file processed");
+                    if (!rb_web.isSelected()) {
+                        cb_queryLength.setEnabled(true);
+                    }
                 }
             }).start();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void clearAllFileds() {
+        cb_queryLength.setSelectedIndex(0);
+        btn_run2.setEnabled(false);
+        ckbx_bag.setSelected(false);
+        ckbx_lex.setSelected(false);
+        ckbx_semantics.setSelected(false);
+        lbl_status.setText("pending");
+        lbl_suspath.setText("");
+        cb_queryLength.setEnabled(false);
+        List_sources.removeAll();
+        ListModel model = new AbstractListModel() {
+
+            @Override
+            public int getSize() {
+                return 0;
+            }
+
+            @Override
+            public Object getElementAt(int index) {
+                return 0;
+            }
+        };
+        List_sources.setModel(model);
+    }
     List<Pair<String, String>> urlFiles = null;
     List<Source_doc> sources = null;
     private void btn_runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_runActionPerformed
+        List_sources.removeAll();
+        btn_run2.setEnabled(false);
         int queryLength = Integer.parseInt(cb_queryLength.getSelectedItem().toString());
         new Thread(new Runnable() {
 
@@ -394,11 +424,14 @@ public class MainWindow extends javax.swing.JFrame {
                         List<String> quList = extractor.extractAllSentence();
                         lbl_status.setText("Getting Urls from google");
                         urlFiles = new ArrayList();
+                        Set<String> myUrls = new HashSet();
                         for (String q : quList) {
-                            g.getDataFromGoogle(q);
-                            lbl_status.setText("Extracting data from Urls");
-                            urlFiles.addAll(g.getDatafromUrl());
+                            myUrls.addAll(g.getDataFromGoogle(q));
+
                         }
+
+                        lbl_status.setText("Extracting data from Urls (this may take a while)");
+                        urlFiles.addAll(g.getDatafromUrl(myUrls));
                         lbl_status.setText("Processing Data from Urls");
                         int length = f.listFiles().length;
                         Source_docImporter importer = new Source_docImporter("D:\\googlefiles\\");
@@ -518,38 +551,45 @@ public class MainWindow extends javax.swing.JFrame {
                     lbl_status.setText("Evaluating palgiarism (this may taks a while)");
                     Evaluater evaluater = new Evaluater();
                     List<CandidatePair> candidatePairs = evaluater.getPlagirised(source, suspicious_doc, lexicals, bag, semantic);
-                    if (candidatePairs.size() == 0) {
+                    if (candidatePairs.isEmpty()) {
                         lbl_status.setText("No plagiarism found!!");
                         return;
                     }
                     lbl_status.setText("Viewing plagiarism sentences");
-                    String sources = "", susps = "";
+                    List<Pair<String, String>> results = new ArrayList();
                     for (CandidatePair candidatePair : candidatePairs) {
-                        sources += candidatePair.getPhrase().getOriginal() + "\n ----------------\n";
-                        susps += candidatePair.getTestPhrase().getPhrase() + "\n ----------------\n";
+                        results.add(new Pair(candidatePair.getPhrase().getOriginal(), candidatePair.getTestPhrase().getPhrase()));
+//                        sources += candidatePair.getPhrase().getOriginal() + "\n ----------------\n";
+//                        susps += candidatePair.getTestPhrase().getPhrase() + "\n ----------------\n";
                     }
-                    lbl_link.setEnabled(true);
-                    lbl_link.setLink(urlFiles.get(List_sources.getSelectedIndex()).getKey());
-                    txt_sources.setText(sources);
-                    txt_susps.setText(susps);
+                    ResultsForm res = new ResultsForm();
+
+                    res.setVisible(true);
+                    res.setUrlsite(urlFiles.get(List_sources.getSelectedIndex()).getKey());
+                    res.viewResults(results);
+
                     lbl_status.setText("done");
                 } else {
                     Source_doc source = sources.get(List_sources.getSelectedIndex());
                     lbl_status.setText("Evaluating palgiarism (this may taks a while)");
                     Evaluater evaluater = new Evaluater();
                     List<CandidatePair> candidatePairs = evaluater.getPlagirised(source, suspicious_doc, lexicals, bag, semantic);
-                    if (candidatePairs.size() == 0) {
+                    if (candidatePairs.isEmpty()) {
                         lbl_status.setText("No plagiarism found!!");
                         return;
                     }
                     lbl_status.setText("Viewing plagiarism sentences");
-                    String sources = "", susps = "";
+                    List<Pair<String, String>> results = new ArrayList();
                     for (CandidatePair candidatePair : candidatePairs) {
-                        sources += candidatePair.getPhrase().getOriginal() + "\n ----------------\n";
-                        susps += candidatePair.getTestPhrase().getPhrase() + "\n ----------------\n";
+                        results.add(new Pair(candidatePair.getPhrase().getOriginal(), candidatePair.getTestPhrase().getPhrase()));
+//                        sources += candidatePair.getPhrase().getOriginal() + "\n ----------------\n";
+//                        susps += candidatePair.getTestPhrase().getPhrase() + "\n ----------------\n";
                     }
-                    txt_sources.setText(sources);
-                    txt_susps.setText(susps);
+                    ResultsForm res = new ResultsForm();
+                    res.setVisible(true);
+                    res.viewResults(results);
+//                    txt_sources.setText(sources);
+//                    txt_susps.setText(susps);
                     lbl_status.setText("done");
                 }
             }
@@ -564,13 +604,13 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void webMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_webMenuItem2ActionPerformed
         // TODO add your handling code here:
-        ManagDB form=new ManagDB();
+        ManagDB form = new ManagDB();
         form.setVisible(true);
     }//GEN-LAST:event_webMenuItem2ActionPerformed
 
     private void webMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_webMenuItem3ActionPerformed
         // TODO add your handling code here:
-        AboutUsform form=new AboutUsform();
+        AboutusForm form = new AboutusForm();
         form.setVisible(true);
     }//GEN-LAST:event_webMenuItem3ActionPerformed
 
@@ -625,19 +665,15 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private com.alee.extended.label.WebLinkLabel lbl_link;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private com.alee.laf.label.WebLabel lbl_status;
     private javax.swing.JLabel lbl_suspath;
     private com.alee.laf.radiobutton.WebRadioButton rb_web;
-    private com.alee.laf.text.WebTextArea txt_sources;
-    private com.alee.laf.text.WebTextArea txt_susps;
     private com.alee.laf.radiobutton.WebRadioButton wb_local;
     private com.alee.laf.label.WebLabel webLabel1;
-    private com.alee.laf.label.WebLabel webLabel2;
-    private com.alee.laf.label.WebLabel webLabel3;
     private com.alee.laf.label.WebLabel webLabel4;
     private com.alee.laf.label.WebLabel webLabel5;
     private com.alee.laf.menu.WebMenu webMenu1;

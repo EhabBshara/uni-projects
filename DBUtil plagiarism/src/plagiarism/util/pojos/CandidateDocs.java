@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  *
@@ -28,12 +30,14 @@ public class CandidateDocs  implements Serializable{
     @Column(name = "candidate_id", nullable = false, unique = true)
     int id;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(name = "source_doc_id")
     Source_doc source_doc;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "suspicious_doc_id")
+    @ManyToOne( cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
+   @JoinColumn(name = "suspicious_doc_id")
     Suspicious_doc suspicious_doc;
     
     @Column(name = "correlation_value")

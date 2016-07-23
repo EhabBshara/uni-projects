@@ -157,7 +157,7 @@ public class Lucene {
         for (String query : queries) {
             index.searcher(index.getDir(), analyzer, query);
             go.getDataFromGoogle(query);
-            go.getDatafromUrl();
+//            go.getDatafromUrl();
         }
         System.out.println("done");
 
